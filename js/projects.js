@@ -8,7 +8,7 @@
     const list = P.slice(0, +grid.dataset.limit || P.length);
     grid.innerHTML = list.map(p => `<a class="card" href="project.html?p=${p.slug}">
       <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>
-      <h3>${p.title}</h3><p>${[...p.tags, p.year].join(", ")}</p></a>`).join("");
+      <h3>${p.title}</h3><p class="desc">${[...p.tags, p.year].join(", ")}</p></a>`).join("");
     grid.querySelectorAll(".thumb[data-vimeo]").forEach(t => window.vimeo.thumb(t.dataset.vimeo).then(u => {
       if (!u) return;
       const img = new Image(); img.alt = ""; img.src = u;
@@ -25,13 +25,13 @@
     if (i < 0) { root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
     const p = P[i], next = P[(i + 1) % P.length];
     document.title = `${p.title} · ${window.SITE.name}`;
-    root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede">${p.summary}</p></header>
+    root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${p.summary}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
       <div class="wrap detail">
         <dl><dt>Work</dt><dd>${p.tags.join(", ")}</dd><dt>Year</dt><dd>${p.year}</dd>
         ${p.tools.length ? `<dt>Tools</dt><dd>${p.tools.join(", ")}</dd>` : ""}
         ${p.credits.length ? `<dt>Credits</dt><dd>${p.credits.join("<br>")}</dd>` : ""}</dl>
-        <div class="prose">${p.body.map(t => `<p>${t}</p>`).join("")}</div></div>
+        <div class="prose">${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</div></div>
       <a class="next wrap" href="project.html?p=${next.slug}"><span>Next project</span><strong>${next.title}</strong></a>`;
   }
 })();

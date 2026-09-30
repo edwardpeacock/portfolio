@@ -25,8 +25,39 @@
 
   const g = document.getElementById("greeting");
   if (g) {
+    // Uses the visitor's own clock, so it follows their time zone.
     const h = new Date().getHours();
-    const text = h < 12 ? "Good morning." : h < 18 ? "Good afternoon." : "Good evening.";
-    g.innerHTML = text.split(" ").map((w,i) => `<span class="word"><span style="--i:${i}">${w}</span></span>`).join(" ");
+    const hello = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+    const lines = [[g, hello + ", welcome to my website!"],
+                   [document.getElementById("greeting-sub"), "Here you will find my most up to date work."]];
+    let n = 0;
+    const glitchEls = [];
+    lines.forEach(([el, text]) => {
+      if (!el) return;
+      el.setAttribute("aria-label", text);
+      el.textContent = "";
+      const wrap = document.createElement("span");
+      wrap.className = "glitch"; wrap.dataset.text = text; wrap.setAttribute("aria-hidden", "true");
+      text.split(" ").forEach((word, wi, arr) => {
+        const w = document.createElement("span"); w.className = "w";
+        [...word].forEach(c => {
+          const s = document.createElement("span"); s.className = "ch"; s.textContent = c;
+          s.style.setProperty("--d", Math.round(Math.random() * 900 + n * 18)); n++;
+          w.appendChild(s);
+        });
+        wrap.appendChild(w);
+        if (wi < arr.length - 1) wrap.appendChild(document.createTextNode(" "));
+      });
+      el.appendChild(wrap); glitchEls.push(wrap);
+    });
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const burst = el => { el.classList.add("burst"); setTimeout(() => el.classList.remove("burst"), 450); };
+      const loop = () => {
+        glitchEls.forEach((el, i) => setTimeout(() => burst(el), i * 120));
+        setTimeout(loop, 2800 + Math.random() * 3200);
+      };
+      setTimeout(loop, 2600);
+      glitchEls.forEach(el => el.addEventListener("mouseenter", () => burst(el)));
+    }
   }
 })();
