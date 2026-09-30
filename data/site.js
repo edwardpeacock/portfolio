@@ -4,7 +4,7 @@ window.SITE = {
   role: "VFX & Film Student",
   place: "United Kingdom",
   email: "hello@yourname.com",
-  showreel: "https://vimeo.com/76979871",   // any Vimeo link (private links with a hash work too)
+  showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
   socials: [
     { label: "Vimeo", url: "https://vimeo.com/" },
     { label: "LinkedIn", url: "https://linkedin.com/" },
@@ -18,15 +18,28 @@ window.SITE = {
 };
 
 window.PROJECTS = [
-  { slug: "project-one", title: "Project One", year: "2026", role: "Compositor", type: "Short film",
-    vimeo: "https://vimeo.com/76979871", image: "", // e.g. "assets/project-one.jpg"
-    summary: "One or two sentences that describe the project and what you did on it.",
-    body: ["A longer description of the brief, your process, and the problems you solved."],
-    tools: ["Nuke", "Blender"], credits: ["Director: Name", "Compositor: You"] },
-  { slug: "project-two", title: "Project Two", year: "2025", role: "FX Artist", type: "Personal project",
-    vimeo: "", image: "", summary: "A short summary for the project card.",
-    body: ["More detail about the project."], tools: ["Houdini"], credits: [] },
-  { slug: "project-three", title: "Project Three", year: "2025", role: "Cinematographer", type: "Group project",
-    vimeo: "", image: "", summary: "A short summary for the project card.",
-    body: ["More detail about the project."], tools: ["DaVinci Resolve"], credits: [] }
+  { slug: "gramophone-vfx-shot", title: "Gramophone VFX Shot", year: "2025",
+    tags: ["CG Integration", "Set Extension"],
+    vimeo: "https://vimeo.com/1228911972", image: "", // e.g. "assets/gramophone.jpg"
+    summary: "Add a one or two sentence summary of this shot.",
+    body: ["Add a longer description of your process and the problems you solved."],
+    tools: [], credits: [] },
+  { slug: "blazing-escape", title: "Blazing Escape", year: "2026",
+    tags: ["CG Environment"],
+    vimeo: "https://vimeo.com/1176311946", image: "",
+    summary: "Add a one or two sentence summary of this project.",
+    body: ["Add a longer description of your process and the problems you solved."],
+    tools: [], credits: [] },
+  { slug: "alien-cube", title: "Alien Cube", year: "2026",
+    tags: ["Personal project", "CG Integration"],
+    vimeo: "https://vimeo.com/1201158953", image: "",
+    summary: "Add a one or two sentence summary of this project.",
+    body: ["Add a longer description of your process and the problems you solved."],
+    tools: [], credits: [] },
+  { slug: "millenium-vfx-shot", title: "Millenium VFX Shot", year: "2025",
+    tags: ["Set Extension", "Cleanup", "CG Integration"],
+    vimeo: "https://vimeo.com/1176617846", image: "",
+    summary: "Add a one or two sentence summary of this shot.",
+    body: ["Add a longer description of your process and the problems you solved."],
+    tools: [], credits: [] }
 ];
