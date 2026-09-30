@@ -7,8 +7,13 @@
   if (grid) {
     const list = P.slice(0, +grid.dataset.limit || P.length);
     grid.innerHTML = list.map(p => `<a class="card" href="project.html?p=${p.slug}">
-      <div class="thumb">${media(p)}</div>
+      <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>
       <h3>${p.title}</h3><p>${[...p.tags, p.year].join(", ")}</p></a>`).join("");
+    grid.querySelectorAll(".thumb[data-vimeo]").forEach(t => window.vimeo.thumb(t.dataset.vimeo).then(u => {
+      if (!u) return;
+      const img = new Image(); img.alt = ""; img.src = u;
+      t.querySelector(".ph").replaceWith(img);
+    }));
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
     grid.querySelectorAll(".card").forEach(c => io.observe(c));
   }
