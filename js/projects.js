@@ -25,7 +25,7 @@
     if (i < 0) { root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
     const p = P[i], next = P[(i + 1) % P.length];
     document.title = `${p.title} · ${window.SITE.name}`;
-    root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${p.summary}</p></header>
+    root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${[...p.tags, p.year].join(", ")}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
       <div class="wrap detail">
         <dl><dt>Work</dt><dd>${p.tags.join(", ")}</dd><dt>Year</dt><dd>${p.year}</dd>

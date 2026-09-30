@@ -2,7 +2,6 @@
   --bg:#0f1114; --panel:#171a1f; --text:#eeece8; --muted:#9a9fa8; --line:#2a2e35; --line-hi:#454b55;
   --accent:#b8252f; --accent-hi:#d9414c; --radius:12px;
   --serif:"Instrument Serif",Georgia,serif; --sans:"Hanken Grotesk",system-ui,sans-serif;
-  --read:"Source Serif 4",Georgia,"Times New Roman",serif;
   --pad:clamp(1.25rem,4vw,3.5rem); --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box;margin:0}
@@ -34,15 +33,14 @@ nav a[aria-current]{text-decoration:underline;text-decoration-color:var(--line-h
 
 /* Type */
 h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.01em}
-h1{font-size:clamp(3rem,9vw,8rem)}
+h1{font-size:clamp(2.25rem,5vw,3.75rem)}
 h2{font-size:clamp(2rem,4.5vw,3.5rem)}
 h3{font-size:1.6rem;margin-top:.9rem}
 .lede{font-size:clamp(1.15rem,2vw,1.5rem);color:var(--muted);max-width:34em;margin:1.25rem auto 0;text-align:center}
 .hero.center{text-align:center}
-/* Descriptions: smaller, readable serif */
-.desc,.card p.desc,.lede.desc{font-family:var(--read);font-size:1rem;line-height:1.75;color:#bdbab4;font-weight:400;max-width:44em;letter-spacing:.005em}
+/* Descriptions: same font and colour as the footer, slightly larger */
+.desc,.card p.desc,.lede.desc{font-family:var(--sans);font-size:1.125rem;line-height:1.7;color:var(--muted);font-weight:400;max-width:44em}
 .lede.desc{margin:1.25rem auto 0;text-align:center}
-.prose p.desc{font-size:1rem}
 p{max-width:38em}
 main{padding-top:6.5rem}
 section{padding-block:clamp(3rem,8vw,7rem)}
@@ -54,7 +52,7 @@ section.hero{padding-block:clamp(2rem,6vw,5rem) clamp(2rem,4vw,3rem)}
 .home-hero{text-align:center}
 .home-hero .lede{margin-inline:auto;max-width:none}
 #greeting-sub{font-size:clamp(1.05rem,1.8vw,1.4rem);color:var(--muted);margin-top:1.1rem}
-.reel-title{padding-block:clamp(.5rem,2vw,1.5rem) 1.25rem;text-align:center}
+.reel-title{padding-block:clamp(3.5rem,9vw,8rem) 1.5rem;text-align:center}
 .reel-title h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.01em}
 
 /* Glitch text: letters flicker in, then RGB-split bursts run now and then */
@@ -117,13 +115,22 @@ dt{color:var(--muted)}
 .split .prose p{font-size:1.2rem}
 .skills{list-style:none;padding:0;margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem}
 .skills li{border:1px solid var(--line);padding:.3rem .9rem;border-radius:99px;color:var(--muted);font-size:.95rem}
-.mail{display:inline-block;font:400 clamp(1.8rem,6.5vw,6rem)/1.1 var(--serif);word-break:break-word;border-bottom:1px solid var(--line);transition:border-color .3s}
-.mail:hover{border-color:var(--muted)}
-.social{display:flex;flex-wrap:wrap;gap:2rem;margin-top:3rem;color:var(--muted)}
-.social a:hover{color:var(--text)}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:1rem}
+.btn{display:inline-flex;align-items:center;gap:.7rem;padding:.85rem 1.4rem;border:1px solid var(--line-hi);border-radius:99px;background:var(--panel);color:var(--text);font-size:1rem;line-height:1.2;word-break:break-word;transition:border-color .3s,background .3s,transform .4s var(--ease)}
+.btn svg{color:var(--accent-hi);flex:none}
+.btn:hover{border-color:var(--muted);background:#1d2026;transform:translateY(-2px)}
 @media(max-width:760px){.split{grid-template-columns:1fr}}
 
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
+
+.sound-btn{display:inline-flex;align-items:center;gap:.5rem;background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;transition:color .3s}
+.sound-btn svg{color:var(--accent-hi)}
+.sound-btn:hover{color:var(--text)}
+
+/* Page transitions: content fades up in, and fades out before leaving */
+main,#site-footer{animation:page-in .7s var(--ease) backwards}
+@keyframes page-in{from{opacity:0;transform:translateY(14px)}}
+body.leaving main,body.leaving #site-footer{opacity:0;transform:translateY(-8px);transition:opacity .32s ease,transform .32s ease}
 
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}

@@ -6,9 +6,8 @@ window.SITE = {
   email: "epeacockvfx@gmail.com",
   showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
   socials: [
-    { label: "Vimeo", url: "https://vimeo.com/" },
-    { label: "LinkedIn", url: "https://linkedin.com/" },
-    { label: "Instagram", url: "https://instagram.com/" }
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/edwardpeacock/" },
+    { label: "Instagram", url: "https://www.instagram.com/epeacock.vfx/" }
   ],
   about: [
     "I’m a VFX Artist studying The Art of Visual Effects at Escape Studios. I have dedicated the past 6 years to learning and understanding how to create high quality VFX.",
