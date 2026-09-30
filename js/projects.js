@@ -23,15 +23,12 @@
     const slug = new URLSearchParams(location.search).get("p");
     const i = P.findIndex(p => p.slug === slug);
     if (i < 0) { root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
-    const p = P[i], next = P[(i + 1) % P.length];
+    const p = P[i];
     document.title = `${p.title} · ${window.SITE.name}`;
+    const specs = [p.tools.length ? `<dt>Tools</dt><dd>${p.tools.join(", ")}</dd>` : "", p.credits.length ? `<dt>Credits</dt><dd>${p.credits.join("<br>")}</dd>` : ""].join("");
     root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${[...p.tags, p.year].join(", ")}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
-      <div class="wrap detail">
-        <dl><dt>Work</dt><dd>${p.tags.join(", ")}</dd><dt>Year</dt><dd>${p.year}</dd>
-        ${p.tools.length ? `<dt>Tools</dt><dd>${p.tools.join(", ")}</dd>` : ""}
-        ${p.credits.length ? `<dt>Credits</dt><dd>${p.credits.join("<br>")}</dd>` : ""}</dl>
-        <div class="prose">${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</div></div>
-      <a class="next wrap" href="project.html?p=${next.slug}"><span>Next project</span><strong>${next.title}</strong></a>`;
+      <section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>
+      ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}`;
   }
 })();

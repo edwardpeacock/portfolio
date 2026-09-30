@@ -38,6 +38,7 @@ h2{font-size:clamp(2rem,4.5vw,3.5rem)}
 h3{font-size:1.6rem;margin-top:.9rem}
 .lede{font-size:clamp(1.15rem,2vw,1.5rem);color:var(--muted);max-width:34em;margin:1.25rem auto 0;text-align:center}
 .hero.center{text-align:center}
+.lede.contact-lede{font-size:clamp(2rem,5.2vw,3.75rem);line-height:1.2;max-width:none;margin-top:0}
 /* Descriptions: same font and colour as the footer, slightly larger */
 .desc,.card p.desc,.lede.desc{font-family:var(--sans);font-size:1.125rem;line-height:1.7;color:var(--muted);font-weight:400;max-width:44em}
 .lede.desc{margin:1.25rem auto 0;text-align:center}
@@ -72,7 +73,7 @@ section.hero{padding-block:clamp(2rem,6vw,5rem) clamp(2rem,4vw,3rem)}
 
 /* Video */
 .video{position:relative;aspect-ratio:16/9;background:#000 center/cover no-repeat;overflow:hidden;border-radius:var(--radius)}
-@media(min-width:761px){.reel-home{width:80%;margin-inline:auto}}
+@media(min-width:761px){.wrap.wide>.video,.wrap.wide>#reel{width:80%;margin-inline:auto}}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .video .play{position:absolute;inset:0;width:100%;border:0;background:rgba(0,0,0,.25);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:background .4s}
 .video .play svg{width:84px;height:84px;padding:26px;background:var(--accent);color:#fff;border-radius:50%;box-shadow:0 10px 40px rgba(0,0,0,.55);transition:transform .5s var(--ease),background .3s}
@@ -98,15 +99,13 @@ section.hero{padding-block:clamp(2rem,6vw,5rem) clamp(2rem,4vw,3rem)}
 
 /* Project page */
 #project header{padding-block:2rem 3rem}
-.detail{display:grid;grid-template-columns:1fr 1.6fr;gap:var(--pad);padding-block:4rem}
-dl{display:grid;grid-template-columns:5rem 1fr;gap:.7rem 1rem}
-dt{color:var(--muted)}
-.prose p+p{margin-top:1.1em}
-.next{display:block;padding-block:4rem;border-top:1px solid var(--line)}
-.next span{color:var(--muted);display:block}
-.next strong{font:400 clamp(2.5rem,7vw,6rem)/1 var(--serif);transition:opacity .3s}
-.next:hover strong{opacity:.6}
-@media(max-width:760px){.detail{grid-template-columns:1fr}}
+.desc-block{text-align:center;padding-block:clamp(2.5rem,5vw,4rem) clamp(2rem,4vw,3rem)}
+.desc-title{font-size:clamp(1.75rem,3vw,2.4rem);margin-bottom:.75rem}
+.desc-block .desc{margin-inline:auto}
+.desc-block .desc+.desc{margin-top:1em}
+.desc a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line-hi);text-underline-offset:.2em;word-break:break-word;transition:text-decoration-color .3s}
+.desc a:hover{text-decoration-color:var(--text)}
+.specs{max-width:44em;margin:0 auto;padding:0 var(--pad) 3rem}
 
 /* About / Contact */
 .split{display:grid;grid-template-columns:1fr 1.2fr;gap:var(--pad);align-items:start}
@@ -127,13 +126,14 @@ dt{color:var(--muted)}
 .sound-btn svg{color:var(--accent-hi)}
 .sound-btn:hover{color:var(--text)}
 
-/* Page transitions: content fades up in, and fades out before leaving */
-main,#site-footer{animation:page-in .7s var(--ease) backwards}
-@keyframes page-in{from{opacity:0;transform:translateY(14px)}}
-body.leaving main,body.leaving #site-footer{opacity:0;transform:translateY(-8px);transition:opacity .32s ease,transform .32s ease}
+/* Page transition: a simple fade out, then fade in on the next page */
+html{background:var(--bg)}
+body{animation:fade-in .5s ease-out}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+body.leaving{opacity:0;transition:opacity .4s ease-in-out}
 
 @media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
+  *:not(body){animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
   .thumb{clip-path:none}
   .glitch::before,.glitch::after{display:none}
 }
