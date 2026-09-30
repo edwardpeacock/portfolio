@@ -11,10 +11,11 @@ window.SITE = {
     { label: "Instagram", url: "https://instagram.com/" }
   ],
   about: [
-    "Write two or three short paragraphs here about who you are, what you study, and the kind of work you want to make.",
-    "Mention your course, university, and the areas you focus on, such as compositing, FX, or cinematography."
+    "I’m a VFX Artist studying The Art of Visual Effects at Escape Studios. I have dedicated the past 6 years to learning and understanding how to create high quality VFX.",
+    "This involved delving deep into 2D compositing, practicing the 2D VFX pipeline whilst working with industry standard software and always thinking professionally. I also have experience in the 3D pipeline, from modelling to UV unwrapping and texturing.",
+    "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
-  skills: ["Compositing", "Nuke", "Houdini", "Blender", "DaVinci Resolve", "After Effects"]
+  skills: ["Nuke", "Blender", "Autodesk Maya", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 
 window.PROJECTS = [

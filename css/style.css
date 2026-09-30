@@ -37,11 +37,11 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacin
 h1{font-size:clamp(3rem,9vw,8rem)}
 h2{font-size:clamp(2rem,4.5vw,3.5rem)}
 h3{font-size:1.6rem;margin-top:.9rem}
-h1,h2{color:var(--accent-hi)}
-.lede{font-size:clamp(1.15rem,2vw,1.5rem);color:var(--muted);max-width:34em;margin-top:1.25rem}
+.lede{font-size:clamp(1.15rem,2vw,1.5rem);color:var(--muted);max-width:34em;margin:1.25rem auto 0;text-align:center}
+.hero.center{text-align:center}
 /* Descriptions: smaller, readable serif */
 .desc,.card p.desc,.lede.desc{font-family:var(--read);font-size:1rem;line-height:1.75;color:#bdbab4;font-weight:400;max-width:44em;letter-spacing:.005em}
-.lede.desc{margin-top:1.25rem}
+.lede.desc{margin:1.25rem auto 0;text-align:center}
 .prose p.desc{font-size:1rem}
 p{max-width:38em}
 main{padding-top:6.5rem}
@@ -55,13 +55,13 @@ section.hero{padding-block:clamp(2rem,6vw,5rem) clamp(2rem,4vw,3rem)}
 .home-hero .lede{margin-inline:auto;max-width:none}
 #greeting-sub{font-size:clamp(1.05rem,1.8vw,1.4rem);color:var(--muted);margin-top:1.1rem}
 .reel-title{padding-block:clamp(.5rem,2vw,1.5rem) 1.25rem;text-align:center}
-.reel-title h2{font:700 clamp(2.4rem,6vw,5rem)/1 var(--sans);letter-spacing:-.025em;color:var(--accent-hi)}
+.reel-title h2{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.01em}
 
 /* Glitch text: letters flicker in, then RGB-split bursts run now and then */
 .glitch{position:relative;display:block}
 .glitch .w{display:inline-block;white-space:nowrap}
 .glitch .ch{display:inline-block;opacity:0;animation:flick .7s steps(1,end) forwards;animation-delay:calc(var(--d)*1ms + 150ms)}
-@keyframes flick{0%{opacity:0}18%{opacity:1;transform:translateY(-.06em)}32%{opacity:.15}48%{opacity:1;color:var(--accent-hi);transform:translateX(.05em)}70%{opacity:.6}100%{opacity:1;transform:none}}
+@keyframes flick{0%{opacity:0}18%{opacity:1;transform:translateY(-.06em)}32%{opacity:.15}48%{opacity:1;transform:translateX(.05em)}70%{opacity:.6}100%{opacity:1;transform:none}}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;opacity:0;pointer-events:none;text-align:inherit}
 .glitch::before{color:#ff3b47;mix-blend-mode:screen}
 .glitch::after{color:#3fd6ff;mix-blend-mode:screen}
@@ -91,6 +91,8 @@ section.hero{padding-block:clamp(2rem,6vw,5rem) clamp(2rem,4vw,3rem)}
 .thumb .ph{background:linear-gradient(135deg,#242830,#0f1114)}
 .card:hover .thumb>*{transform:scale(1.05)}
 .card p{color:var(--muted);font-size:.95rem}
+.card{text-align:center}
+.card p.desc{margin-inline:auto}
 .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:2.5rem}
 .section-head a{color:var(--muted);border-bottom:1px solid var(--line);transition:color .3s}
 .section-head a:hover{color:var(--text);border-color:var(--muted)}
