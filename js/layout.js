@@ -29,8 +29,7 @@
     // Uses the visitor's own clock, so it follows their time zone.
     const h = new Date().getHours();
     const hello = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-    const lines = [[g, hello + ", welcome to my website!"],
-                   [document.getElementById("greeting-sub"), "Here you will find my most up to date work."]];
+    const lines = [[g, hello + ", welcome to my website!"]];
     let n = 0;
     const glitchEls = [];
     lines.forEach(([el, text]) => {
@@ -87,7 +86,8 @@
       master = ctx.createGain(); master.gain.value = 0.85;
       const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 8000;
       const comp = ctx.createDynamicsCompressor();
-      master.connect(lp); lp.connect(comp); comp.connect(ctx.destination);
+      const out = ctx.createGain(); out.gain.value = 0.6; // 40% quieter than before
+      master.connect(lp); lp.connect(comp); comp.connect(out); out.connect(ctx.destination);
     }
     if (ctx.state === "suspended") ctx.resume();
   }
@@ -108,7 +108,7 @@
   function play() {
     if (muted) return;
     if (sample) {
-      try { const a = sample.cloneNode(true); a.volume = 0.6; a.play().catch(() => {}); return; } catch (e) {}
+      try { const a = sample.cloneNode(true); a.volume = 0.36; a.play().catch(() => {}); return; } catch (e) {}
     }
     try {
       audioReady();
@@ -155,13 +155,22 @@
   });
   window.addEventListener("pageshow", e => { if (e.persisted) document.body.classList.remove("leaving"); });
 
-  // Custom cursor (mouse devices only)
+  // Custom cursor: liquid-glass lens (mouse devices only)
   if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     const root = document.documentElement;
+    // Lens refraction map: neutral in the middle, bending towards the edges
+    const map = "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><defs>"
+      + "<linearGradient id='r' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#f00'/><stop offset='.3' stop-color='#800000'/><stop offset='.7' stop-color='#800000'/><stop offset='1' stop-color='#000'/></linearGradient>"
+      + "<linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#0f0'/><stop offset='.3' stop-color='#008000'/><stop offset='.7' stop-color='#008000'/><stop offset='1' stop-color='#000'/></linearGradient></defs>"
+      + "<rect width='100' height='100' fill='#000'/><rect width='100' height='100' fill='url(#r)'/><rect width='100' height='100' fill='url(#g)' style='mix-blend-mode:screen'/></svg>";
+    const uri = "data:image/svg+xml," + encodeURIComponent(map);
+    const defs = document.createElement("div");
+    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="24" xChannelSelector="R" yChannelSelector="G"/></filter></svg>`;
+    document.body.appendChild(defs.firstChild);
+
     const dot = document.createElement("div"), ring = document.createElement("div");
-    dot.className = "cur-dot"; ring.className = "cur-ring"; ring.innerHTML = "<div class='ri'><span></span></div>";
-    document.body.append(dot, ring);
-    const label = ring.querySelector("span");
+    dot.className = "cur-dot"; ring.className = "cur-ring"; ring.innerHTML = "<div class='ri'></div>";
+    document.body.append(ring, dot); // dot sits above the glass
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let x = -100, y = -100, rx = -100, ry = -100, shown = false;
     window.addEventListener("mousemove", e => {
@@ -170,7 +179,7 @@
       dot.style.transform = `translate3d(${x}px,${y}px,0)`;
     }, { passive: true });
     (function loop() {
-      rx += (x - rx) * (still ? 1 : 0.18); ry += (y - ry) * (still ? 1 : 0.18);
+      rx += (x - rx) * (still ? 1 : 0.2); ry += (y - ry) * (still ? 1 : 0.2);
       ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
       requestAnimationFrame(loop);
     })();
@@ -178,8 +187,6 @@
       const t = e.target;
       root.classList.toggle("cc-native", !!t.closest("iframe")); // let Vimeo's own player cursor show
       ring.classList.toggle("link", !!t.closest("a, button"));
-      const text = t.closest(".card") ? "View" : t.closest(".play") ? "Play" : "";
-      label.textContent = text; ring.classList.toggle("label", !!text);
     });
     document.addEventListener("mousedown", () => ring.classList.add("down"));
     document.addEventListener("mouseup", () => ring.classList.remove("down"));
@@ -187,8 +194,11 @@
   }
 
   // Size videos so the whole frame fits on screen: measure the space above each video.
-  const fit = () => document.querySelectorAll(".wrap.wide>.video, .wrap.wide>#reel").forEach(v =>
-    v.style.setProperty("--chrome", (v.getBoundingClientRect().top + window.scrollY) + "px"));
+  const fit = () => {
+    const set = (box, v) => box.style.setProperty("--chrome", (v.getBoundingClientRect().top + window.scrollY) + "px");
+    document.querySelectorAll(".wrap.wide>.video").forEach(v => set(v, v));
+    document.querySelectorAll(".reel-wrap").forEach(w => { const v = w.querySelector("#reel"); if (v) set(w, v); });
+  };
   document.addEventListener("DOMContentLoaded", fit);
   window.addEventListener("load", fit);
   window.addEventListener("resize", fit);
