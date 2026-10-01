@@ -73,8 +73,7 @@ section.reel-desc{padding-block:2rem 0}
 /* Work grid */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(2rem,4vw,4rem) var(--pad)}
 .card{display:block}
-.thumb{aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel);clip-path:inset(0 0 100% 0);transition:clip-path 1.1s var(--ease)}
-.card.in .thumb{clip-path:inset(0)}
+.thumb{aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel)}
 .thumb img,.thumb .ph{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
 .thumb .ph{background:linear-gradient(135deg,#242830,#0f1114)}
 .card:hover .thumb>*{transform:scale(1.05)}
@@ -99,7 +98,6 @@ section.reel-desc{padding-block:2rem 0}
 /* About / Contact */
 .split{display:grid;grid-template-columns:minmax(0,.227fr) minmax(0,1.2fr);gap:var(--pad);align-items:start}
 .portrait{aspect-ratio:3/4;background:url(../assets/headshot.jpg) center/cover no-repeat,#171a1f;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;overflow:hidden;border-radius:var(--radius)}
-.portrait img{width:100%;height:100%;object-fit:cover}
 .split .prose p{font-size:1.2rem}
 .prose p+p{margin-top:1.5em}
 .skills{list-style:none;padding:0;margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem}
@@ -143,25 +141,22 @@ html.cc-native .cur-dot,html.cc-native .cur-ring{opacity:0}
 
 /* Motion is kept minimal by default (same as a "reduce motion" setting); the page fade is the only transition left */
 *:not(body){animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
-.thumb{clip-path:none}
 
-/* Interactive breakdown: scroll to build the shot layer by layer */
-.bd{padding-block:0}
-.bd-head{text-align:center;padding-block:clamp(2rem,4vw,3.5rem) 1.25rem}
-.bd-head .desc{margin-inline:auto}
+/* Interactive breakdown: scroll to build the shot layer by layer.
+   The "Breakdown" heading lives inside the sticky block, so it stays on screen the whole time. */
+.bd{padding-block:0;margin-top:clamp(1rem,3vw,2.5rem)}
+.bd-head{text-align:center;padding:.25rem var(--pad) .75rem}
+.bd-head .desc-title{margin:0 0 .15rem;font-size:clamp(1.5rem,2.4vw,2rem)}
+.bd-head .desc{margin-inline:auto;font-size:1rem;line-height:1.5;min-height:1.5em}
 .bd-track{height:calc(100vh + (var(--n) - 1) * 60vh);height:calc(100svh + (var(--n) - 1) * 60svh)}
 .bd-sticky{position:sticky;top:5rem;padding-bottom:1rem}
-.bd-stage,.bd-steps{width:80%;width:min(80%,calc((100vh - 12.5rem)*16/9));width:min(80%,calc((100svh - 12.5rem)*16/9));min-width:min(360px,100%);margin-inline:auto}
+.bd-stage,.bd-steps{width:80%;width:min(80%,calc((100vh - 15rem)*16/9));width:min(80%,calc((100svh - 15rem)*16/9));min-width:min(360px,100%);margin-inline:auto}
 .bd-stage{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel)}
 .bd-layer{position:absolute;inset:0;overflow:hidden}
-.bd-layer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;visibility:hidden;-webkit-user-drag:none;user-select:none}
-.bd-layer img.ok{visibility:visible}
-.bd-ph{position:absolute;inset:0;display:grid;place-content:center;gap:.5rem;text-align:center;padding:1rem;color:var(--muted);font-size:.95rem;background:hsl(220 9% calc(9% + var(--k) * 3.2%))}
-.bd-ph b{color:var(--text);font-weight:500;font-size:1.1rem}
-.bd-ph span{font-size:.8rem;opacity:.8;word-break:break-all}
+.bd-layer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none}
 .bd-line{position:absolute;top:0;bottom:0;left:0;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.65);opacity:0;pointer-events:none}
 .bd-tag{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center;padding:.45rem .95rem;border-radius:99px;background:rgba(15,17,20,.74);color:#fff;font-size:.9rem;pointer-events:none}
-.bd-tag .bd-num{color:var(--muted)}
+.bd-tag .bd-num{color:var(--muted);font-variant-numeric:tabular-nums}
 .bd-steps{list-style:none;padding:0;margin-top:.75rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.25rem .5rem}
 .bd-steps button{font:inherit;font-size:.9rem;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;padding:.35rem .6rem;cursor:pointer;transition:color .3s}
 .bd-steps button span{margin-right:.45rem;opacity:.7}

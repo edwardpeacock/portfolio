@@ -1,12 +1,12 @@
-Breakdown images for: alien-cube
+Breakdown images for: millennium-vfx-shot
 
 Drop your images in this folder using these names (.jpg, .png or .webp):
 
   01-original-plate   ->  Original plate
-  02-tracking   ->  Tracking
-  03-alien-cube   ->  Alien cube
-  04-rigid-body-simulation   ->  Rigid body simulation
-  05-comp-fixes   ->  Comp fixes
+  02-set-extension   ->  Set extension
+  03-cg-barbed-wire   ->  CG barbed wire
+  04-cctv-camera   ->  CCTV camera
+  05-grade-and-integration   ->  Grade and integration
   06-final-composite   ->  Final composite
 
 How it works:

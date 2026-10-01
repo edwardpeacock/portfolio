@@ -2,15 +2,17 @@
 (function () {
   const S = window.SITE;
   const links = [["index.html","Home"],["work.html","Work"],["about.html","About"],["contact.html","Contact"]];
-  const page = location.pathname.split("/").pop() || "index.html";
-  const current = page === "project.html" ? "work.html" : page;
+  // Hosts like Cloudflare Pages serve /about.html as /about, so compare names without ".html".
+  const strip = s => s.replace(/\.html$/, "");
+  const page = strip(location.pathname.split("/").pop() || "index");
+  const current = page === "project" ? "work" : page;
 
   const header = document.getElementById("site-header");
   if (header) {
     header.innerHTML = `<div class="bar">
       <a class="brand" href="index.html">${S.name}</a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
-      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${h===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
+      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
     btn.addEventListener("click", () => {
       const open = header.classList.toggle("open");
@@ -33,21 +35,11 @@
   }
 })();
 
-/* Old-school mouse click sound, page fade, custom cursor, video fitting.
-   Sound: if you add assets/click.mp3 (or .wav / .ogg) that file is used; otherwise a synthesised mechanical click plays. */
+/* Old-school mouse click sound (synthesised), page fade, custom cursor, video fitting. */
 (function () {
   const icon = on => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>${on ? '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>' : '<line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'}</svg>`;
   let muted = false;
   try { muted = localStorage.getItem("sfx") === "off"; } catch (e) {}
-
-  let sample = null;
-  try {
-    const probe = document.createElement("audio");
-    probe.preload = "auto";
-    probe.innerHTML = '<source src="assets/click.mp3" type="audio/mpeg"><source src="assets/click.wav" type="audio/wav"><source src="assets/click.ogg" type="audio/ogg">';
-    probe.addEventListener("canplaythrough", () => { sample = probe; }, { once: true });
-    probe.load();
-  } catch (e) {}
 
   // Synthesised microswitch click: a sharp "click" with a dull plastic thunk, then a lighter release click.
   let ctx, master;
@@ -78,9 +70,6 @@
   }
   function play() {
     if (muted) return;
-    if (sample) {
-      try { const a = sample.cloneNode(true); a.volume = 0.36; a.play().catch(() => {}); return; } catch (e) {}
-    }
     try {
       audioReady();
       const v = 0.96 + Math.random() * 0.08, t = ctx.currentTime + 0.005;
@@ -91,7 +80,7 @@
       thunk(t + 0.09, 240 * v, 120, 0.1, 0.035);
     } catch (e) {}
   }
-  const prime = () => { if (!sample && !muted) { try { audioReady(); } catch (e) {} } };
+  const prime = () => { if (!muted) { try { audioReady(); } catch (e) {} } };
   document.addEventListener("pointerdown", prime, { once: true });
   document.addEventListener("keydown", prime, { once: true });
 
@@ -118,7 +107,8 @@
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target || a.hasAttribute("download")) return;
     const u = new URL(a.href, location.href);
     if (u.protocol !== location.protocol || u.host !== location.host) return;
-    if (u.pathname === location.pathname && u.search === location.search) return;
+    const norm = p => p.replace(/\/index(\.html)?$/, "/").replace(/\.html$/, "");
+    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search) return;
     e.preventDefault();
     if (document.body.classList.contains("leaving")) return;
     document.body.classList.add("leaving");
