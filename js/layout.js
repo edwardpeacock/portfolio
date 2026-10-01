@@ -29,36 +29,7 @@
     // Uses the visitor's own clock, so it follows their time zone.
     const h = new Date().getHours();
     const hello = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-    const lines = [[g, hello + ", welcome to my website!"]];
-    let n = 0;
-    const glitchEls = [];
-    lines.forEach(([el, text]) => {
-      if (!el) return;
-      el.setAttribute("aria-label", text);
-      el.textContent = "";
-      const wrap = document.createElement("span");
-      wrap.className = "glitch"; wrap.dataset.text = text; wrap.setAttribute("aria-hidden", "true");
-      text.split(" ").forEach((word, wi, arr) => {
-        const w = document.createElement("span"); w.className = "w";
-        [...word].forEach(c => {
-          const s = document.createElement("span"); s.className = "ch"; s.textContent = c;
-          s.style.setProperty("--d", Math.round(Math.random() * 900 + n * 18)); n++;
-          w.appendChild(s);
-        });
-        wrap.appendChild(w);
-        if (wi < arr.length - 1) wrap.appendChild(document.createTextNode(" "));
-      });
-      el.appendChild(wrap); glitchEls.push(wrap);
-    });
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const burst = el => { el.classList.add("burst"); setTimeout(() => el.classList.remove("burst"), 450); };
-      const loop = () => {
-        glitchEls.forEach((el, i) => setTimeout(() => burst(el), i * 120));
-        setTimeout(loop, 2800 + Math.random() * 3200);
-      };
-      setTimeout(loop, 2600);
-      glitchEls.forEach(el => el.addEventListener("mouseenter", () => burst(el)));
-    }
+    g.textContent = hello + ", welcome to my website!";
   }
 })();
 
@@ -165,24 +136,18 @@
       + "<rect width='100' height='100' fill='#000'/><rect width='100' height='100' fill='url(#r)'/><rect width='100' height='100' fill='url(#g)' style='mix-blend-mode:screen'/></svg>";
     const uri = "data:image/svg+xml," + encodeURIComponent(map);
     const defs = document.createElement("div");
-    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="24" xChannelSelector="R" yChannelSelector="G"/></filter></svg>`;
+    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="18" xChannelSelector="R" yChannelSelector="G" result="dR"/><feColorMatrix in="dR" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="R"/><feDisplacementMap in="SourceGraphic" in2="map" scale="14" xChannelSelector="R" yChannelSelector="G" result="dG"/><feColorMatrix in="dG" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="G"/><feDisplacementMap in="SourceGraphic" in2="map" scale="10" xChannelSelector="R" yChannelSelector="G" result="dB"/><feColorMatrix in="dB" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="B"/><feBlend in="R" in2="G" mode="screen" result="RG"/><feBlend in="RG" in2="B" mode="screen"/></filter></svg>`;
     document.body.appendChild(defs.firstChild);
 
     const dot = document.createElement("div"), ring = document.createElement("div");
     dot.className = "cur-dot"; ring.className = "cur-ring"; ring.innerHTML = "<div class='ri'></div>";
     document.body.append(ring, dot); // dot sits above the glass
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let x = -100, y = -100, rx = -100, ry = -100, shown = false;
+    let shown = false;
     window.addEventListener("mousemove", e => {
-      x = e.clientX; y = e.clientY;
-      if (!shown) { shown = true; rx = x; ry = y; root.classList.add("cc"); dot.classList.add("on"); ring.classList.add("on"); }
-      dot.style.transform = `translate3d(${x}px,${y}px,0)`;
+      const t = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
+      if (!shown) { shown = true; root.classList.add("cc"); dot.classList.add("on"); ring.classList.add("on"); }
+      dot.style.transform = t; ring.style.transform = t;
     }, { passive: true });
-    (function loop() {
-      rx += (x - rx) * (still ? 1 : 0.2); ry += (y - ry) * (still ? 1 : 0.2);
-      ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
-      requestAnimationFrame(loop);
-    })();
     document.addEventListener("mouseover", e => {
       const t = e.target;
       root.classList.toggle("cc-native", !!t.closest("iframe")); // let Vimeo's own player cursor show

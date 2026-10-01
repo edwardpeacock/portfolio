@@ -14,7 +14,7 @@ window.SITE = {
     "This involved delving deep into 2D compositing, practicing the 2D VFX pipeline whilst working with industry standard software and always thinking professionally. I also have experience in the 3D pipeline, from modelling to UV unwrapping and texturing.",
     "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
-  skills: ["Nuke", "Blender", "Autodesk Maya", "DaVinci Resolve", "EmberGen", "After Effects"]
+  skills: ["Nuke", "Blender", "Autodesk Maya", "3DEqualizer", "SynthEyes", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 
 window.PROJECTS = [

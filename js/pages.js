@@ -2,6 +2,8 @@
 (function () {
   const S = window.SITE, $ = id => document.getElementById(id);
   const reel = $("reel"); if (reel) { reel.dataset.vimeo = S.showreel; reel.classList.add("video"); }
+  const portrait = $("portrait");
+  if (portrait) portrait.innerHTML = `<img src="assets/headshot.jpg" alt="Portrait of ${S.name} holding a Canon camera" width="1200" height="1604">`;
   const about = $("about-text");
   if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("") + `<ul class="skills">${S.skills.map(s => `<li>${s}</li>`).join("")}</ul>`;
   const acts = $("actions");
