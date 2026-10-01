@@ -129,14 +129,20 @@
   // Custom cursor: liquid-glass lens (mouse devices only)
   if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     const root = document.documentElement;
-    // Lens refraction map: neutral in the middle, bending towards the edges
-    const map = "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><defs>"
-      + "<linearGradient id='r' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#f00'/><stop offset='.3' stop-color='#800000'/><stop offset='.7' stop-color='#800000'/><stop offset='1' stop-color='#000'/></linearGradient>"
-      + "<linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#0f0'/><stop offset='.3' stop-color='#008000'/><stop offset='.7' stop-color='#008000'/><stop offset='1' stop-color='#000'/></linearGradient></defs>"
-      + "<rect width='100' height='100' fill='#000'/><rect width='100' height='100' fill='url(#r)'/><rect width='100' height='100' fill='url(#g)' style='mix-blend-mode:screen'/></svg>";
-    const uri = "data:image/svg+xml," + encodeURIComponent(map);
+    // Lens map: flat in the middle, bending only through the outer bevel (like the Liquid Glass pill)
+    const N = 128, cv = document.createElement("canvas"); cv.width = cv.height = N;
+    const cx = cv.getContext("2d"), px = cx.createImageData(N, N);
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const nx = (i + 0.5) / N * 2 - 1, ny = (j + 0.5) / N * 2 - 1, r = Math.hypot(nx, ny);
+      let dx = 0, dy = 0;
+      if (r > 0.001) { const m = Math.pow(Math.min(1, Math.max(0, (r - 0.58) / 0.42)), 1.6); dx = nx / r * m; dy = ny / r * m; }
+      const k = (j * N + i) * 4;
+      px.data[k] = 128 + dx * 127; px.data[k + 1] = 128 + dy * 127; px.data[k + 2] = 128; px.data[k + 3] = 255;
+    }
+    cx.putImageData(px, 0, 0);
+    const uri = cv.toDataURL("image/png");
     const defs = document.createElement("div");
-    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="18" xChannelSelector="R" yChannelSelector="G" result="dR"/><feColorMatrix in="dR" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="R"/><feDisplacementMap in="SourceGraphic" in2="map" scale="14" xChannelSelector="R" yChannelSelector="G" result="dG"/><feColorMatrix in="dG" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="G"/><feDisplacementMap in="SourceGraphic" in2="map" scale="10" xChannelSelector="R" yChannelSelector="G" result="dB"/><feColorMatrix in="dB" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="B"/><feBlend in="R" in2="G" mode="screen" result="RG"/><feBlend in="RG" in2="B" mode="screen"/></filter></svg>`;
+    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="32" xChannelSelector="R" yChannelSelector="G" result="dR"/><feColorMatrix in="dR" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="R"/><feDisplacementMap in="SourceGraphic" in2="map" scale="28" xChannelSelector="R" yChannelSelector="G" result="dG"/><feColorMatrix in="dG" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="G"/><feDisplacementMap in="SourceGraphic" in2="map" scale="24" xChannelSelector="R" yChannelSelector="G" result="dB"/><feColorMatrix in="dB" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="B"/><feBlend in="R" in2="G" mode="screen" result="RG"/><feBlend in="RG" in2="B" mode="screen"/></filter></svg>`;
     document.body.appendChild(defs.firstChild);
 
     const dot = document.createElement("div"), ring = document.createElement("div");

@@ -97,8 +97,8 @@ section.reel-desc{padding-block:2rem 0}
 .specs{max-width:44em;margin:0 auto;padding:0 var(--pad) 3rem}
 
 /* About / Contact */
-.split{display:grid;grid-template-columns:1fr 1.2fr;gap:var(--pad);align-items:start}
-.portrait{aspect-ratio:3/4;background:linear-gradient(135deg,#242830,#0f1114);overflow:hidden;border-radius:var(--radius)}
+.split{display:grid;grid-template-columns:minmax(0,.227fr) minmax(0,1.2fr);gap:var(--pad);align-items:start}
+.portrait{aspect-ratio:3/4;background:url(../assets/headshot.jpg) center/cover no-repeat,#171a1f;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;overflow:hidden;border-radius:var(--radius)}
 .portrait img{width:100%;height:100%;object-fit:cover}
 .split .prose p{font-size:1.2rem}
 .prose p+p{margin-top:1.5em}
@@ -108,7 +108,7 @@ section.reel-desc{padding-block:2rem 0}
 .btn{display:inline-flex;align-items:center;gap:.7rem;padding:.85rem 1.4rem;border:1px solid var(--line-hi);border-radius:99px;background:var(--panel);color:var(--text);font-size:1rem;line-height:1.2;word-break:break-word;transition:border-color .3s,background .3s,transform .4s var(--ease)}
 .btn svg{color:var(--accent-hi);flex:none}
 .btn:hover{border-color:var(--muted);background:#1d2026;transform:translateY(-2px)}
-@media(max-width:760px){.split{grid-template-columns:1fr}}
+@media(max-width:760px){.split{grid-template-columns:1fr}.portrait{width:35%;min-width:120px}}
 
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
 
@@ -130,12 +130,13 @@ html.cc,html.cc *{cursor:none!important}
 html.cc-native .cur-dot,html.cc-native .cur-ring{opacity:0}
 .cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff;mix-blend-mode:difference}
 .cur-ring .ri{position:absolute;left:0;top:0;width:52.8px;height:52.8px;border-radius:50%;transform:translate(-50%,-50%);
-  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.22),rgba(255,255,255,.04) 55%,rgba(255,255,255,.08));
-  -webkit-backdrop-filter:blur(2px) saturate(1.7) brightness(1.12);
-  backdrop-filter:blur(2px) saturate(1.7) brightness(1.12);
-  backdrop-filter:blur(1.5px) url(#lg-distort) saturate(1.7) brightness(1.12);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),inset 1.5px 2px 3px rgba(255,255,255,.55),inset -1.5px -2px 3px rgba(255,255,255,.18),inset 2px 0 3px rgba(255,70,90,.3),inset -2px 0 3px rgba(70,150,255,.3),0 8px 24px rgba(0,0,0,.28);
+  background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 45%,rgba(255,255,255,.07));
+  -webkit-backdrop-filter:blur(1px) saturate(1.3) brightness(1.06);
+  backdrop-filter:blur(1px) saturate(1.3) brightness(1.06);
+  backdrop-filter:url(#lg-distort) saturate(1.3) brightness(1.06);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.3),inset 2px 3px 5px rgba(255,255,255,.5),inset -2px -3px 6px rgba(255,255,255,.2),inset 1.5px 0 2px rgba(255,70,90,.18),inset -1.5px 0 2px rgba(70,150,255,.18),0 10px 28px rgba(0,0,0,.3);
   transition:width .35s var(--ease),height .35s var(--ease)}
+.cur-ring .ri::after{content:"";position:absolute;inset:2px;border-radius:50%;background:linear-gradient(140deg,rgba(255,255,255,.6),rgba(255,255,255,0) 38%,rgba(255,255,255,0) 62%,rgba(255,255,255,.3));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px))}
 .cur-ring.link .ri{width:58.08px;height:58.08px}
 .cur-ring.down .ri{width:48px;height:48px}
 .cur-ring.link.down .ri{width:52.8px;height:52.8px}
@@ -143,3 +144,27 @@ html.cc-native .cur-dot,html.cc-native .cur-ring{opacity:0}
 /* Motion is kept minimal by default (same as a "reduce motion" setting); the page fade is the only transition left */
 *:not(body){animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
 .thumb{clip-path:none}
+
+/* Interactive breakdown: scroll to build the shot layer by layer */
+.bd{padding-block:0}
+.bd-head{text-align:center;padding-block:clamp(2rem,4vw,3.5rem) 1.25rem}
+.bd-head .desc{margin-inline:auto}
+.bd-track{height:calc(100vh + (var(--n) - 1) * 60vh);height:calc(100svh + (var(--n) - 1) * 60svh)}
+.bd-sticky{position:sticky;top:5rem;padding-bottom:1rem}
+.bd-stage,.bd-steps{width:80%;width:min(80%,calc((100vh - 12.5rem)*16/9));width:min(80%,calc((100svh - 12.5rem)*16/9));min-width:min(360px,100%);margin-inline:auto}
+.bd-stage{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel)}
+.bd-layer{position:absolute;inset:0;overflow:hidden}
+.bd-layer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;visibility:hidden;-webkit-user-drag:none;user-select:none}
+.bd-layer img.ok{visibility:visible}
+.bd-ph{position:absolute;inset:0;display:grid;place-content:center;gap:.5rem;text-align:center;padding:1rem;color:var(--muted);font-size:.95rem;background:hsl(220 9% calc(9% + var(--k) * 3.2%))}
+.bd-ph b{color:var(--text);font-weight:500;font-size:1.1rem}
+.bd-ph span{font-size:.8rem;opacity:.8;word-break:break-all}
+.bd-line{position:absolute;top:0;bottom:0;left:0;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.65);opacity:0;pointer-events:none}
+.bd-tag{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center;padding:.45rem .95rem;border-radius:99px;background:rgba(15,17,20,.74);color:#fff;font-size:.9rem;pointer-events:none}
+.bd-tag .bd-num{color:var(--muted)}
+.bd-steps{list-style:none;padding:0;margin-top:.75rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.25rem .5rem}
+.bd-steps button{font:inherit;font-size:.9rem;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;padding:.35rem .6rem;cursor:pointer;transition:color .3s}
+.bd-steps button span{margin-right:.45rem;opacity:.7}
+.bd-steps button:hover{color:var(--text)}
+.bd-steps button.on{color:#fff;border-bottom-color:#fff}
+@media(max-width:760px){.bd-stage,.bd-steps{width:100%}.bd-steps button{font-size:.8rem;padding:.3rem .4rem}}
