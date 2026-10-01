@@ -35,8 +35,8 @@
     root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${[...p.tags, p.year].join(", ")}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
       <section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>
-      <div id="bd-mount"></div>
-      ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}`;
+      ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
+      <div id="bd-mount"></div>`;
     loadBreakdown(p, root.querySelector("#bd-mount"));
   }
 
@@ -85,7 +85,7 @@
   function initBreakdown(bd, st) {
     if (!bd) return;
     const track = bd.querySelector(".bd-track"), sticky = bd.querySelector(".bd-sticky");
-    const head = bd.querySelector(".bd-head"), headIn = bd.querySelector(".bd-head-in");
+    const head = bd.querySelector(".bd-head");
     const stage = bd.querySelector(".bd-stage"), steps = bd.querySelector(".bd-steps");
     const layers = [...bd.querySelectorAll(".bd-layer")];
     const line = bd.querySelector(".bd-line"), num = bd.querySelector(".bd-num"), name = bd.querySelector(".bd-name");
@@ -98,24 +98,25 @@
     document.body.appendChild(dim);
 
     const DIM = 0.94;                                  // how black the page gets (1 = fully)
-    const STEP_VH = 0.6, HOLD_VH = 0.1, EXIT_VH = 0.45; // scroll distance per layer / pause once pinned / zoom-out runway
+    const STEP_VH = 0.6, HOLD_VH = 0.1, END_VH = 0.1;  // scroll distance per layer / pause once pinned / rest on the final image
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const TAU_WIPE = reduce ? 0 : 90, TAU_FOCUS = reduce ? 0 : 150;   // ms; bigger = softer, more glide
     const ease = x => x * x * (3 - 2 * x), clamp01 = x => Math.min(1, Math.max(0, x));
 
     // Geometry, re-measured on resize
-    let vh, pin, W0, W1, headH, wipeLen, holdIn, exitLen;
+    let vh, pin, W0, W1, wipeLen, holdIn;
     function measure() {
       vh = innerHeight;
-      bd.style.removeProperty("--bd-w"); head.style.height = "";
+      bd.style.removeProperty("--bd-w");
       pin = parseFloat(getComputedStyle(sticky).top) || 0;
       const stickyH = sticky.offsetHeight;
-      headH = headIn.offsetHeight;
+      const headH = head.offsetHeight;
       W0 = stage.offsetWidth;
       const stepsH = steps.offsetHeight + 12 + 16;
-      W1 = Math.max(W0, Math.min(document.documentElement.clientWidth * 0.96, (stickyH - stepsH) * 16 / 9));
-      holdIn = HOLD_VH * vh; wipeLen = (N - 1) * STEP_VH * vh; exitLen = EXIT_VH * vh;
-      track.style.height = (stickyH + holdIn + wipeLen + exitLen) + "px";
+      W1 = Math.max(W0, Math.min(document.documentElement.clientWidth * 0.96, (stickyH - headH - stepsH) * 16 / 9));
+      holdIn = HOLD_VH * vh; wipeLen = (N - 1) * STEP_VH * vh;
+      // The page ends exactly when the track does: the final image stays pinned and there is nothing further down to scroll to.
+      track.style.height = (stickyH + holdIn + wipeLen + END_VH * vh) + "px";
     }
 
     // Where the scroll position says we should be (target) vs what is drawn (eased)
@@ -123,8 +124,7 @@
     function readScroll() {
       const top = track.getBoundingClientRect().top, scrolled = pin - top;      // px scrolled since the box pinned
       const into = clamp01((vh * 0.8 - top) / (vh * 0.8 - pin));                 // box rising into view -> 1 when pinned
-      const out = 1 - clamp01((scrolled - holdIn - wipeLen) / exitLen);          // after the last layer -> back to 0
-      tf = ease(into) * ease(out);
+      tf = ease(into);
       tu = N > 1 && wipeLen > 0 ? clamp01((scrolled - holdIn) / wipeLen) * (N - 1) : 0;
     }
     function render() {
@@ -138,8 +138,10 @@
         btns.forEach((b, k) => { b.classList.toggle("on", k === a); k === a ? b.setAttribute("aria-current", "step") : b.removeAttribute("aria-current"); });
       }
       if (W1 > W0 + 1) bd.style.setProperty("--bd-w", (W0 + (W1 - W0) * cf).toFixed(1) + "px");
-      head.style.height = (headH * (1 - cf)).toFixed(1) + "px"; head.style.opacity = (1 - Math.min(1, cf * 1.6)).toFixed(3);
-      dim.style.opacity = header && header.classList.contains("open") ? 0 : (cf * DIM).toFixed(3);
+      // The nav stays above the black layer, faded back so it does not compete (full strength on hover)
+      if (header) { header.style.zIndex = cf > 0.01 ? 13 : ""; header.style.opacity = cf > 0.01 ? (1 - cf * 0.7).toFixed(3) : ""; }
+      document.body.classList.toggle("bd-on", cf > 0.01);
+      dim.style.opacity = (cf * DIM).toFixed(3);
     }
     function tick(now) {
       const dt = Math.min(64, now - lastT || 16); lastT = now;
@@ -160,6 +162,7 @@
     }));
     // Layout settles after images/fonts load, so re-measure once more
     addEventListener("load", () => { measure(); kick(); });
+    document.body.classList.add("bd-end");            // no footer below: the work page ends on the final image
     measure(); readScroll(); cu = tu; cf = tf; render();
   }
 })();

@@ -39,12 +39,15 @@ h2{font-size:clamp(2rem,4.5vw,3.5rem)}
 h3{font-size:1.6rem;margin-top:.9rem}
 .lede{font-size:clamp(1.15rem,2vw,1.5rem);color:var(--muted);max-width:34em;margin:1.25rem auto 0;text-align:center}
 .hero.center{text-align:center}
-.lede.contact-lede{font-size:clamp(2rem,5.2vw,3.75rem);line-height:1.2;max-width:none;margin-top:0}
+.lede.desc.contact-lede{font-size:clamp(2rem,5.2vw,3.75rem);line-height:1.2;max-width:none;margin-top:0}
 /* Descriptions: same font and colour as the footer, slightly larger */
 .desc,.card p.desc,.lede.desc{font-family:var(--sans);font-size:1.125rem;line-height:1.7;color:var(--muted);font-weight:400;max-width:44em}
 .lede.desc{margin:1.25rem auto 0;text-align:center}
 p{max-width:38em}
-main{padding-top:5rem}
+body{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+main{padding-top:5rem;flex:1;width:100%}
+main.fill{display:flex;flex-direction:column;justify-content:center}
+main.fill>section{padding-block:clamp(.5rem,2vw,1.5rem);width:100%}
 section{padding-block:clamp(3rem,8vw,7rem)}
 
 /* Hero: the one orchestrated moment */
@@ -96,7 +99,8 @@ section.reel-desc{padding-block:2rem 0}
 .specs{max-width:44em;margin:0 auto;padding:0 var(--pad) 3rem}
 
 /* About / Contact */
-.split{display:grid;grid-template-columns:minmax(0,.227fr) minmax(0,1.2fr);gap:var(--pad);align-items:start}
+.split{display:grid;grid-template-columns:minmax(200px,280px) minmax(0,34em);gap:clamp(2rem,5vw,4.5rem);align-items:center;justify-content:center;max-width:1100px;margin-inline:auto}
+.about-hero{text-align:center}
 .portrait{aspect-ratio:3/4;background:url(../assets/headshot.jpg) center/cover no-repeat,#171a1f;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;overflow:hidden;border-radius:var(--radius)}
 .split .prose p{font-size:1.2rem}
 .prose p+p{margin-top:1.5em}
@@ -106,7 +110,7 @@ section.reel-desc{padding-block:2rem 0}
 .btn{display:inline-flex;align-items:center;gap:.7rem;padding:.85rem 1.4rem;border:1px solid var(--line-hi);border-radius:99px;background:var(--panel);color:var(--text);font-size:1rem;line-height:1.2;word-break:break-word;transition:border-color .3s,background .3s,transform .4s var(--ease)}
 .btn svg{color:var(--accent-hi);flex:none}
 .btn:hover{border-color:var(--muted);background:#1d2026;transform:translateY(-2px)}
-@media(max-width:760px){.split{grid-template-columns:1fr}.portrait{width:35%;min-width:120px}}
+@media(max-width:760px){.split{grid-template-columns:1fr;justify-items:center;text-align:center}.portrait{width:45%;min-width:140px}.skills{justify-content:center}}
 
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
 
@@ -146,13 +150,15 @@ html.cc-native .cur-dot,html.cc-native .cur-ring{opacity:0}
    While it is in view the box grows to fill the screen and the rest of the page fades to black (.bd-dim).
    js/projects.js drives --bd-w (box width), the heading collapse and the dim; the wipe itself is eased there too. */
 .bd{padding-block:0;margin-top:clamp(1rem,3vw,2.5rem)}
-.bd-head{text-align:center;overflow:hidden}
+.bd-head{text-align:center}
 .bd-head-in{padding:.25rem var(--pad) .75rem}
 .bd-head .desc-title{margin:0 0 .15rem;font-size:clamp(1.5rem,2.4vw,2rem)}
 .bd-head .desc{margin-inline:auto;font-size:1rem;line-height:1.5;min-height:1.5em}
-.bd-track{height:calc(100vh + (var(--n) - 1) * 60vh + 55vh);height:calc(100svh + (var(--n) - 1) * 60svh + 55svh)}
+.bd-track{height:calc(100vh - 5rem + (var(--n) - 1) * 60vh + 20vh);height:calc(100svh - 5rem + (var(--n) - 1) * 60svh + 20svh)}
 .bd-sticky{position:sticky;top:5rem;z-index:12;height:calc(100vh - 5rem);height:calc(100svh - 5rem);display:flex;flex-direction:column;justify-content:center}
 .bd-sticky>*{flex:none}
+body.bd-on #site-header:hover{opacity:1!important}
+.bd-end #site-footer{display:none}
 .bd-dim{position:fixed;inset:0;z-index:11;background:#000;opacity:0;pointer-events:none}
 .bd-stage,.bd-steps{width:var(--bd-w,80%);width:var(--bd-w,min(80%,calc((100vh - 15rem)*16/9)));width:var(--bd-w,min(80%,calc((100svh - 15rem)*16/9)));min-width:min(360px,100%);max-width:100%;margin-inline:auto}
 .bd-stage{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel)}
