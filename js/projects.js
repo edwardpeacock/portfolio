@@ -99,8 +99,7 @@
 
     const DIM = 0.94;                                  // how black the page gets (1 = fully)
     const STEP_VH = 0.6, HOLD_VH = 0.1, END_VH = 0.1;  // scroll distance per layer / pause once pinned / rest on the final image
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const TAU_WIPE = reduce ? 0 : 90, TAU_FOCUS = reduce ? 0 : 150;   // ms; bigger = softer, more glide
+    const TAU_WIPE = 90, TAU_FOCUS = 150;   // ms; bigger = softer, more glide
     const ease = x => x * x * (3 - 2 * x), clamp01 = x => Math.min(1, Math.max(0, x));
 
     // Geometry, re-measured on resize

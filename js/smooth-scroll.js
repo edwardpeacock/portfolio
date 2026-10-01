@@ -1,9 +1,8 @@
 /* Smooth mouse-wheel scrolling.
    Wheel notches normally jump the page in steps. This turns each notch into a short glide so the
    page eases to a stop, like dragging the scrollbar. Scrollbar, keyboard, touch and trackpad
-   behaviour is left alone. Skipped if the visitor has "reduce motion" switched on. */
+   behaviour is left alone. Runs for everyone, including visitors with "reduce motion" switched on. */
 (function () {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const root = document.documentElement;
   const TAU = 120;                      // ms: bigger = longer, softer glide
   let target = scrollY, pos = scrollY, raf = 0, last = 0;
@@ -15,7 +14,8 @@
     const dt = Math.min(64, now - last || 16); last = now;
     pos += (target - pos) * (1 - Math.exp(-dt / TAU));
     if (Math.abs(target - pos) < 0.4) { pos = target; raf = 0; } else raf = requestAnimationFrame(frame);
-    scrollTo({ top: pos, behavior: "instant" });   // "instant" so the page's CSS smooth-scroll doesn't fight us
+    root.style.scrollBehavior = "auto";            // stop the page's CSS smooth-scroll fighting us (works in older browsers too)
+    scrollTo(0, pos);
   }
 
   // Scrollbar drag, keyboard, links etc: follow wherever the page actually is.
