@@ -41,12 +41,38 @@
   }
 
   // ---- Interactive breakdown ----
-  // data/site.js lists the possible steps; this checks which images actually exist in
-  // assets/breakdowns/<slug>/ and builds the section from only those. So the number of steps,
-  // the numbering ("03 / 05") and the step names always match the images you have added.
+  // Each project's breakdown is controlled by assets/breakdowns/<slug>/README.txt.
+  // Every line like   01-original-plate  ->  Original plate   adds one step: the file name (without
+  // the extension) on the left, the name shown on the website on the right. The order of the lines
+  // is the order of the steps and you can list as many as you need. Only steps whose image exists
+  // in that folder are shown, and the numbering ("03 / 05") follows what is found.
+  // If README.txt can't be read (e.g. the site is opened straight from disk), the list in
+  // data/site.js is used instead.
+  function parseReadme(txt) {
+    const out = [];
+    String(txt).replace(/^\uFEFF/, "").split(/\r?\n/).forEach(raw => {
+      const line = raw.trim();
+      if (!line || line[0] === "#") return;
+      let file, label;
+      const m = line.match(/^([\w.\-]+)\s*(?:->|=>|\u2192)\s*(.+)$/);
+      if (m) { file = m[1]; label = m[2].trim(); }
+      else if (/^[\w\-]+(\.(jpe?g|png|webp))?$/i.test(line)) { file = line; }   // file name only
+      else return;                                                               // normal text: ignore
+      let ext;
+      const e = file.match(/^(.*)\.(jpe?g|png|webp)$/i);
+      if (e) { file = e[1]; ext = e[2].toLowerCase(); }
+      if (!label) {
+        label = file.replace(/^\d+[-_ ]*/, "").replace(/[-_]+/g, " ").trim() || file;
+        label = label.charAt(0).toUpperCase() + label.slice(1);
+      }
+      out.push({ label, file, ext });
+    });
+    return out;
+  }
+
   function loadBreakdown(p, mount) {
     const dir = `assets/breakdowns/${p.slug}/`;
-    const defs = (p.breakdown || []).map((s, k) => {
+    const fallback = () => (p.breakdown || []).map((s, k) => {
       if (typeof s === "string") s = { label: s };
       return { label: s.label, file: s.file || `${pad(k + 1)}-${slugify(s.label)}`, ext: s.ext };
     });
@@ -61,12 +87,17 @@
       };
       attempt(0);
     });
-    Promise.all(defs.map(probe)).then(found => {
-      const st = found.filter(Boolean);
-      if (!st.length) return;                       // no images at all: no Breakdown section
-      mount.innerHTML = breakdown(p, st);
-      initBreakdown(mount.querySelector(".bd"), st);
-    });
+    fetch(`${dir}README.txt`, { cache: "no-cache" })
+      .then(r => { if (!r.ok) throw new Error("no readme"); return r.text(); })
+      .then(t => { const d = parseReadme(t); return d.length ? d : fallback(); })
+      .catch(fallback)
+      .then(defs => Promise.all(defs.map(probe)))
+      .then(found => {
+        const st = found.filter(Boolean);
+        if (!st.length) return;                     // no images at all: no Breakdown section
+        mount.innerHTML = breakdown(p, st);
+        initBreakdown(mount.querySelector(".bd"), st);
+      });
   }
 
   function breakdown(p, st) {

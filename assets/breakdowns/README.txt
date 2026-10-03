@@ -1,1 +1,1 @@
-One folder per project. Put that project's breakdown images in its folder (see the README inside each).
+One folder per project. Each folder has a README.txt that controls that project's Breakdown section: the names shown on the website, their order, and how many steps there are. Put the images in the same folder (see the README inside each).
