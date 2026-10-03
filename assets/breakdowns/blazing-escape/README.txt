@@ -2,11 +2,14 @@ Breakdown images for: blazing-escape
 
 Steps, in order (images go in this folder):
 
-  01-ocean   ->  Ocean
-  02-mountains-and-rocks   ->  Mountains and rocks
-  03-spaceship   ->  Spaceship
-  04-smoke-trails   ->  Smoke trails
-  05-final-composite   ->  Final composite
+  01-clay   ->  Ocean
+  02-textures   ->  Mountains and rocks
+  03-render   ->  Spaceship
+  04-smoke-trail   ->  Smoke trail
+  05   ->  Sky grade
+  06   ->  Ocean grade
+  07   ->  Look grade
+  08   ->  Lens FX
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
