@@ -108,6 +108,7 @@ section.reel-desc{padding-block:2rem 0}
 
 /* About / Contact */
 /* Balanced layout: portrait and text are two equal-weight blocks of similar height, centred as a pair under the title; the skills sit centred underneath. */
+<<<<<<< HEAD
 .split{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,36em);gap:clamp(2.5rem,6vw,5.5rem);align-items:stretch;justify-content:center;max-width:1100px;margin-inline:auto}
 .about-hero{text-align:center}
 .portrait{background:url(../assets/headshot.jpg) center/cover no-repeat,#171a1f;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;overflow:hidden;border-radius:var(--radius)}
@@ -115,6 +116,13 @@ section.reel-desc{padding-block:2rem 0}
 .prose p+p{margin-top:1.4em}
 /* Trim the empty line-height space above the first line and below the last, so the photo's top and bottom edges line up with the text itself */
 @supports (text-box:trim-both cap alphabetic){.prose{text-box:trim-both cap alphabetic}}
+=======
+.split{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,36em);gap:clamp(2.5rem,6vw,5.5rem);align-items:center;justify-content:center;max-width:1100px;margin-inline:auto}
+.about-hero{text-align:center}
+.portrait{aspect-ratio:3/4;background:url(../assets/headshot.jpg) center/cover no-repeat,#171a1f;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;overflow:hidden;border-radius:var(--radius)}
+.split .prose p{font-size:1.25rem;line-height:1.7}
+.prose p+p{margin-top:1.4em}
+>>>>>>> 0e176bf03f10068a00b60616586f0a270337bf78
 .skills{list-style:none;padding:0;margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem}
 .skills li{border:1px solid rgba(217,65,76,.55);background:rgba(217,65,76,.07);padding:.3rem .9rem;border-radius:99px;color:var(--accent-hi);font-size:.95rem}
 .skills-row .skills{justify-content:center;max-width:60em;margin:0 auto}
@@ -122,7 +130,11 @@ section.reel-desc{padding-block:2rem 0}
 .btn{display:inline-flex;align-items:center;gap:.7rem;padding:.85rem 1.4rem;border:1px solid var(--line-hi);border-radius:99px;background:var(--panel);color:var(--text);font-size:1rem;line-height:1.2;word-break:break-word;transition:border-color .3s,background .3s,transform .4s var(--ease)}
 .btn svg{color:var(--accent-hi);flex:none}
 .btn:hover{border-color:var(--muted);background:#1d2026;transform:translateY(-2px)}
+<<<<<<< HEAD
 @media(max-width:760px){.split{grid-template-columns:1fr;justify-items:center;text-align:center}.portrait{width:55%;min-width:160px;aspect-ratio:3/4}.skills{justify-content:center}}
+=======
+@media(max-width:760px){.split{grid-template-columns:1fr;justify-items:center;text-align:center}.portrait{width:55%;min-width:160px}.skills{justify-content:center}}
+>>>>>>> 0e176bf03f10068a00b60616586f0a270337bf78
 
 .foot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
 .foot>*{max-width:none}
@@ -144,10 +156,16 @@ body{animation:fade-in .5s ease-out}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
 body.leaving{opacity:0;transition:opacity .4s ease-in-out}
 
+<<<<<<< HEAD
 /* Custom cursor: black version of the Windows 11 arrow, same size as the original (12x19px, hotspot at the tip).
    It is inlined here (not a separate file) so it is there from the very first paint of every page, and it is forced on every element and state.
    Note: once a Vimeo video is playing, the browser lets the player (a separate page inside an iframe) choose the cursor, which a website cannot override. */
 html,html *,html *::before,html *::after,html *:hover,html *:active,html *:focus{cursor:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='12'%20height='19'%20viewBox='0%200%2012%2019'%3E%3Cpath%20d='M.5.5V16L4%2012.7l2.7%205.8L9%2017.4%206.4%2011.7h4.8Z'%20fill='%23000'%20stroke='%23fff'%20stroke-linejoin='round'/%3E%3C/svg%3E") 0 0,auto!important}
+=======
+/* Custom cursor: black version of the Windows 11 pointer (assets/cursor.svg, hotspot at the tip).
+   Falls back to the normal system cursor if the file can't be loaded. */
+html,body,a,button,.card,.video,.play,.bd-steps button,.sound-btn,.menu-btn,.btn{cursor:url(../assets/cursor.svg) 1 1,auto}
+>>>>>>> 0e176bf03f10068a00b60616586f0a270337bf78
 
 /* Motion is kept minimal by default (same as a "reduce motion" setting); the page fade is the only transition left */
 *:not(body){animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
