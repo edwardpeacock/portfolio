@@ -2,9 +2,9 @@ Breakdown images for: blazing-escape
 
 Steps, in order (images go in this folder):
 
-  01-clay   ->  Ocean
-  02-textures   ->  Mountains and rocks
-  03-render   ->  Spaceship
+  01-clay   ->  Viewport
+  02-textures   ->  Textures
+  03-render   ->  Render
   04-smoke-trail   ->  Smoke trail
   05   ->  Sky grade
   06   ->  Ocean grade
