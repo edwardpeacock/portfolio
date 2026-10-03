@@ -6,10 +6,9 @@ Steps, in order (images go in this folder):
   02-textures   ->  Textures
   03-render   ->  Render
   04-smoke-trail   ->  Smoke trail
-  05   ->  Sky grade
-  06   ->  Ocean grade
-  07   ->  Look grade
-  08   ->  Lens FX
+  05   ->  Grading
+  06   ->  Look grade
+  07   ->  Lens FX
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
