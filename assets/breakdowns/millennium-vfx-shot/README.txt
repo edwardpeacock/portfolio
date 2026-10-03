@@ -8,7 +8,8 @@ Steps, in order (images go in this folder):
   04-graffiti-plain   ->  Graffiti
   05-graffiti-wall-final   ->  Imperfections
   06-cg-raw   ->  Raw CG
-  07-my-cg-graded   ->  Final Output
+  07-my-cg-graded   ->  Integration
+  08-final-render   ->  Final Output
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
