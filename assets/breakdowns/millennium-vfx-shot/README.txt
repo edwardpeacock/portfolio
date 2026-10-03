@@ -4,10 +4,11 @@ Drop your images in this folder using these names (.jpg, .png or .webp):
 
   01-original-plate   ->  Original plate
   02-set-extension   ->  Set extension
-  03-cg-barbed-wire   ->  CG barbed wire
-  04-cctv-camera   ->  CCTV camera
-  05-grade-and-integration   ->  Grade and integration
-  06-final-composite   ->  Final composite
+  03-barewall   ->  Wall
+  04-grafitti-plain   ->  Graffiti
+  05-graffiti-wall-final   ->  Imperfections
+  06-cg-raw   ->  Raw CG
+  07-my-cg-graded   ->  Final Output
 
 How it works:
 - You choose how many images to use. Only the images that exist in this folder are shown, and the website
