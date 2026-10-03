@@ -3,11 +3,9 @@ Breakdown images for: gramophone-vfx-shot
 Steps, in order (images go in this folder):
 
   01-original-plate   ->  Original plate
-  02-camera-track   ->  Camera track
-  03-3d-gramophone   ->  3D gramophone
-  04-reflections   ->  Reflections
-  05-glass-refraction   ->  Glass refraction
-  06-final-composite   ->  Final composite
+  02-set-extension   ->  Set Extension
+  03-raw-cg   ->  Raw CG
+  04-final-composite   ->  Final output
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
