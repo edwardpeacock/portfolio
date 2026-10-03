@@ -73,5 +73,11 @@ window.PROJECTS = [
       { label: "Imperfections", file: "05-graffiti-wall-final" },
       { label: "Raw CG", file: "06-cg-raw" },
       { label: "Final Output", file: "07-my-cg-graded" }
-    ] }
+    ] },
+  { slug: "boxer-rotoscope", title: "Boxer Rotoscope", year: "2026",
+    tags: ["Rotoscoping"],
+    vimeo: "https://vimeo.com/1232643933", image: "",
+    body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
+    tools: [], credits: [],
+    breakdown: [] }
 ];

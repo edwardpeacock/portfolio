@@ -9,7 +9,9 @@
     ["contextmenu", "dragstart", "selectstart"].forEach(ev => portrait.addEventListener(ev, e => e.preventDefault()));
   }
   const about = $("about-text");
-  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("") + `<ul class="skills">${S.skills.map(s => `<li>${s}</li>`).join("")}</ul>`;
+  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("");
+  const skills = $("skills");
+  if (skills) skills.innerHTML = S.skills.map(s => `<li>${s}</li>`).join("");
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
