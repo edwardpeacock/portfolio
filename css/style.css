@@ -363,4 +363,16 @@ img,.bd-img,.bd-viewer,.portrait{-webkit-user-drag:none;-webkit-touch-callout:no
 
   /* Work page: a little space between the title and the "Selected work" button */
   .work-cue{margin-top:1.6rem}
+
+  /* Header sits a little lower */
+  :root{--header-h:7rem}
+  .bar{padding-top:1.6rem}
+
+  /* About me: smaller contact buttons / icons */
+  .btn{padding:.55rem .95rem;gap:.5rem;font-size:.88rem}
+  .btn svg{width:16px;height:16px}
+  .actions{gap:.6rem}
+
+  /* Home: greeting and "Selected work" centred, with more space between them */
+  .home-stage .stage-text{align-items:center;text-align:center;gap:1.6rem}
 }

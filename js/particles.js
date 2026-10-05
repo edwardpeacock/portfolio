@@ -36,7 +36,7 @@
       o: rand(CONFIG.opacity[0], CONFIG.opacity[1]),
       ph: Math.random() * Math.PI * 2,
       tw: rand(0.6, 1.4),
-      fx: rand(0.3, 0.9), fy: rand(0.3, 0.9)   // own slow wander speeds (used while the phone menu is open)
+      fx: rand(0.5, 1.3), fy: rand(0.5, 1.3)   // own slow wander speeds (used while the phone menu is open)
     };
   }
 
@@ -57,8 +57,8 @@
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     const span = H + 20;
     for (const p of parts) {
-      const y = mod(p.y * H - (pos + idle) * p.d, span) - 10 + Math.cos(clock * p.fy + p.ph * 1.7) * amp * 7;
-      const x = p.x * W + Math.sin(pos * 0.0035 * p.tw + p.ph) * CONFIG.sway * p.d * 2 + Math.sin(clock * p.fx + p.ph) * amp * 7;
+      const y = mod(p.y * H - (pos + idle) * p.d, span) - 10 + Math.cos(clock * p.fy + p.ph * 1.7) * amp * 12;
+      const x = p.x * W + Math.sin(pos * 0.0035 * p.tw + p.ph) * CONFIG.sway * p.d * 2 + Math.sin(clock * p.fx + p.ph) * amp * 12;
       const tw = 1 - CONFIG.twinkle * (0.5 + 0.5 * Math.sin(pos * 0.006 * p.tw + p.ph * 2));
       ctx.globalAlpha = p.o * tw;
       ctx.beginPath();
@@ -82,7 +82,7 @@
   }
 
   function kick() {
-    if (reduce) return;
+    if (reduce && !document.body.classList.contains("menu-open")) return;   // the phone-menu wander runs even with Reduce Motion on, like the rest of this site
     if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
   }
 
