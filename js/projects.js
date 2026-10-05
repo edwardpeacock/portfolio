@@ -8,7 +8,6 @@
 
   const grid = document.getElementById("work-grid");
   if (grid) {
-    grid.style.setProperty("--rows", Math.ceil(Math.min(P.length, +grid.dataset.limit || P.length) / 2));
     const list = P.slice(0, +grid.dataset.limit || P.length);
     grid.innerHTML = list.map(p => `<a class="card" href="project.html?p=${p.slug}">
       <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>

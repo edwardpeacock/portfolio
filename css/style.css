@@ -2,7 +2,7 @@
   --bg:#0f1114; --panel:#171a1f; --text:#eeece8; --muted:#9a9fa8; --line:#2a2e35; --line-hi:#454b55;
   --panel-hi:#1d2026; --accent:#b8252f; --accent-hi:#d9414c; --radius:12px;
   --space-s:1.25rem; --space-m:2rem; --space-l:clamp(2rem,5vw,4rem); --content-w:80%; --header-h:5rem;
-  --head:"Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --head:"Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --display:"Fraunces",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   --pad:clamp(1.25rem,4vw,3.5rem); --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box;margin:0}
@@ -71,11 +71,14 @@ section.reel-desc{padding-block:var(--space-m) 0}
 }
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .video video.loop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.video .play{z-index:1;position:absolute;inset:0;width:100%;border:0;background:rgba(0,0,0,.25);color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;transition:background .4s}
+/* Only the button starts playback (not the whole frame). The frame just gets a light dim behind it. */
+.video[data-vimeo]::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.22);pointer-events:none}
+.video iframe{z-index:1}
+.video .play{z-index:1;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;background:none;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.9rem;padding:.5rem}
 .video .play-label{font:500 .85rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.video .play svg{box-sizing:border-box;width:84px;height:84px;padding:26px;background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:50%;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 10px 40px rgba(0,0,0,.35);transition:transform .5s var(--ease),background .3s}
-.video:hover .play{background:rgba(0,0,0,.05)}
-.video:hover .play svg{transform:scale(1.08);background:rgba(255,255,255,.36)}
+/* Liquid-glass button: very clear, heavy blur + saturation behind, bright rim and inner highlights */
+.video .play svg{box-sizing:border-box;width:84px;height:84px;padding:26px;color:#fff;background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.28);border-radius:50%;-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);box-shadow:inset 0 1.5px 1px rgba(255,255,255,.65),inset 0 -1.5px 1px rgba(255,255,255,.18),inset 0 0 18px rgba(255,255,255,.1),0 8px 32px rgba(0,0,0,.28);transition:transform .5s var(--ease),background .3s}
+.video .play:hover svg{transform:scale(1.07);background:linear-gradient(135deg,rgba(255,255,255,.34),rgba(255,255,255,.1))}
 .video.empty{display:grid;place-items:center;background:var(--panel);color:var(--muted)}
 
 /* Work grid */
@@ -86,9 +89,9 @@ section.reel-desc{padding-block:var(--space-m) 0}
 .thumb .ph{background:linear-gradient(135deg,#242830,#0f1114)}
 .card:hover .thumb>*{transform:scale(1.05)}
 /* Work page: a rounded red border appears around a thumbnail on hover (and keyboard focus) */
-.work-page .thumb{position:relative}
-.work-page .thumb::after{content:"";position:absolute;inset:0;border:3px solid var(--accent-hi);border-radius:inherit;opacity:0;pointer-events:none;transition:opacity .25s ease!important}
-.work-page .card:hover .thumb::after,.work-page .card:focus-visible .thumb::after{opacity:1}
+.thumb{position:relative}
+.thumb::after{content:"";position:absolute;inset:0;border:3px solid var(--accent-hi);border-radius:inherit;opacity:0;pointer-events:none;transition:opacity .25s ease!important}
+.card:hover .thumb::after,.card:focus-visible .thumb::after{opacity:1}
 .card p{color:var(--muted);font-size:.95rem}
 .card{text-align:center}
 .card p.desc{margin-inline:auto}
@@ -183,25 +186,20 @@ body.bd-on #site-header:hover{opacity:1!important}
 /* Own stacking context so the particle canvas (z-index:-1) paints above the body background instead of behind it */
 body{isolation:isolate}
 
-/* ---------- Layout consistency: reel, project video, project grid and headings share one 80% column on desktop ---------- */
+/* ---------- Project pages with no breakdown fit on one screen (desktop) ---------- */
 @media(min-width:761px){
-  .section-head,.grid{width:var(--content-w);margin-inline:auto}
   /* Project page with no breakdown: tighter text so video + description + footer fit one screen */
   .proj-fit .desc-block{padding-block:var(--space-s) 0}
   .proj-fit .specs{padding-bottom:var(--space-s)}
   .proj-fit #project header{padding-block:.25rem .75rem}
-  /* Work page: the whole grid fits on screen. --rows is set from the project count; 6.6rem = title + tags + row gap, 20rem = header, heading and footer. */
-  .work-page .work-list{padding-block:0 var(--space-s)}
-  .work-page .grid{width:min(var(--content-w),calc(2 * (100vh - 20rem - var(--rows,2) * 6.6rem) / var(--rows,2) * 16 / 9 + var(--pad)));width:min(var(--content-w),calc(2 * (100svh - 20rem - var(--rows,2) * 6.6rem) / var(--rows,2) * 16 / 9 + var(--pad)));min-width:min(560px,100%)}
-  .work-page .grid>.card:last-child:nth-child(odd){width:calc(50% - var(--pad)/2)}
 }
 
 /* ---------- Software strip (About): one line, sliding right like a conveyor belt ---------- */
 .marquee{overflow:hidden;width:100%;padding-block:var(--space-m);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .marquee-track{display:flex;width:max-content;animation:marquee 70s linear infinite}
 .marquee ul{display:flex;flex:none;list-style:none;padding:0}
-.marquee li{display:flex;align-items:center;white-space:nowrap;padding-left:2.5rem;font:600 clamp(1.4rem,2.6vw,2rem)/1.2 var(--head);letter-spacing:-.02em;color:var(--muted)}
-.marquee li::after{content:"";width:5px;height:5px;margin-left:2.5rem;border-radius:50%;background:var(--line-hi)}
+.marquee li{display:flex;align-items:center;white-space:nowrap;padding-left:2.5rem;font:italic 500 clamp(1.7rem,3.2vw,2.6rem)/1.3 var(--display);color:rgba(238,236,232,.88);text-shadow:0 0 14px rgba(238,236,232,.3),0 0 36px rgba(217,65,76,.28)}
+.marquee li::after{content:"";width:5px;height:5px;margin-left:2.5rem;border-radius:50%;background:var(--line-hi);box-shadow:0 0 10px rgba(217,65,76,.5)}
 @keyframes marquee{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 /* the site-wide "minimal motion" rule above would freeze this; a class selector outranks it */
 .marquee-track{animation-duration:70s!important}

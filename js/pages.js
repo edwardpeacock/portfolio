@@ -1,4 +1,4 @@
-/* Fills the homepage showreel and the Information page (about text, software strip and contact buttons), then starts the video players. */
+/* Fills the homepage showreel and the About me page (about text, software strip and contact buttons), then starts the video players. */
 (function () {
   const S = window.SITE, $ = id => document.getElementById(id);
   const reel = $("reel");

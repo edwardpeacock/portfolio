@@ -1,7 +1,7 @@
 /* Shared header, footer, greeting. */
 (function () {
   const S = window.SITE;
-  const links = [["index.html","Home"],["work.html","Work"],["info.html","Information"]];
+  const links = [["index.html","Home"],["work.html","Work"],["info.html","About me"]];
   // Hosts like Cloudflare Pages serve /about.html as /about, so compare names without ".html".
   const strip = s => s.replace(/\.html$/, "");
   const page = strip(location.pathname.split("/").pop() || "index");
