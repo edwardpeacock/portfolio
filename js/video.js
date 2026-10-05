@@ -30,7 +30,7 @@
   function setup(el) {
     const v = parse(el.dataset.vimeo);
     if (!v) { el.classList.add("empty"); el.innerHTML = "<span>Video coming soon</span>"; return; }
-    el.innerHTML = `<button class="play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>`;
+    el.innerHTML = `<button class="play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>${el.dataset.label ? `<span class="play-label">${el.dataset.label}</span>` : ""}</button>`;
     if (el.dataset.loop) {
       // Looping local clip (no thumbnail). If the file is missing the box simply stays dark behind the play button.
       const vid = document.createElement("video");
@@ -43,6 +43,9 @@
     } else if (el.dataset.poster) el.style.backgroundImage = `url(${el.dataset.poster})`;
     else thumb(el.dataset.vimeo).then(u => { if (u) el.style.backgroundImage = `url(${u})`; });
     el.querySelector(".play").addEventListener("click", () => {
+      el.classList.add("playing");
+      const stage = el.closest(".home-stage"); if (stage) stage.classList.add("playing");   // home page: shrink the full-screen frame so the player controls fit
+      dispatchEvent(new Event("resize"));
       const q = (v.hash ? "h=" + v.hash + "&" : "") + "autoplay=1&dnt=1&title=0&byline=0&portrait=0";
       el.innerHTML = `<iframe src="https://player.vimeo.com/video/${v.id}?${q}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video player"></iframe>`;
     });

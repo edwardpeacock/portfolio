@@ -4,7 +4,7 @@
   const reel = $("reel");
   if (reel) {
     reel.dataset.vimeo = S.showreel; reel.classList.add("video");
-    if (reel.hasAttribute("data-home") && S.showreelLoop) reel.dataset.loop = S.showreelLoop;   // home page only: looping clip instead of a thumbnail
+    if (reel.hasAttribute("data-home")) { reel.dataset.label = "Showreel 2026"; if (S.showreelLoop) reel.dataset.loop = S.showreelLoop; }   // home page only: looping clip instead of a thumbnail
   }
   const portrait = $("portrait");
   if (portrait) {
