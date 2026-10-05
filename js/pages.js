@@ -1,7 +1,11 @@
-/* Fills the homepage showreel and the about and contact pages, then starts the video players. */
+/* Fills the homepage showreel and the Information page (about text, software strip and contact buttons), then starts the video players. */
 (function () {
   const S = window.SITE, $ = id => document.getElementById(id);
-  const reel = $("reel"); if (reel) { reel.dataset.vimeo = S.showreel; reel.classList.add("video"); }
+  const reel = $("reel");
+  if (reel) {
+    reel.dataset.vimeo = S.showreel; reel.classList.add("video");
+    if (reel.hasAttribute("data-home") && S.showreelLoop) reel.dataset.loop = S.showreelLoop;   // home page only: looping clip instead of a thumbnail
+  }
   const portrait = $("portrait");
   if (portrait) {
     portrait.setAttribute("role", "img");
@@ -9,7 +13,13 @@
     ["contextmenu", "dragstart", "selectstart"].forEach(ev => portrait.addEventListener(ev, e => e.preventDefault()));
   }
   const about = $("about-text");
-  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("") + `<ul class="skills">${S.skills.map(s => `<li>${s}</li>`).join("")}</ul>`;
+  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("");
+  // Software strip: two identical halves, slid right by half its width, loop seamlessly (see .marquee in style.css)
+  const skills = $("skills");
+  if (skills) {
+    const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
+    skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
+  }
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
