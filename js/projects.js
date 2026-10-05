@@ -25,7 +25,8 @@
     const cards = grid.querySelectorAll(".card"); if (!cards.length) return;
     e.preventDefault();
     const bottom = cards[cards.length - 1].getBoundingClientRect().bottom + scrollY;
-    const y = Math.max(0, bottom - innerHeight + 24);
+    let y = Math.max(0, bottom - innerHeight + 24);
+    if (matchMedia("(max-width:760px)").matches) y = document.documentElement.scrollHeight;   // phones: all the way down so the footer is visible too
     if (window.glideTo) window.glideTo(y); else scrollTo({ top: y, behavior: "smooth" });
   });
 

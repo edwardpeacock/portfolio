@@ -18,6 +18,7 @@
     btn.addEventListener("click", () => {
       const open = header.classList.toggle("open");
       btn.setAttribute("aria-expanded", open);
+      document.body.classList.toggle("menu-open", open);
     });
   }
 
