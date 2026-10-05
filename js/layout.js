@@ -10,7 +10,8 @@
   const header = document.getElementById("site-header");
   if (header) {
     header.innerHTML = `<div class="bar">
-      <a class="brand" href="index.html">${S.name}, ${S.role}</a>
+      <div class="brand"><span class="brand-name">${S.name}</span><span class="brand-role">${S.role}</span>
+        <a class="home-btn" href="index.html"${current === "index" ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a></div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
@@ -19,6 +20,10 @@
       btn.setAttribute("aria-expanded", open);
     });
   }
+
+  // Scrolled: the name shrinks slightly and the role line fades away (see .scrolled in style.css)
+  const onScroll = () => document.body.classList.toggle("scrolled", window.scrollY > 40);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
   const footer = document.getElementById("site-footer");
   if (footer) footer.innerHTML = `<div class="wrap foot">
@@ -117,18 +122,9 @@
   window.addEventListener("pageshow", e => { if (e.persisted) document.body.classList.remove("leaving"); });
 
   // Size videos so the whole frame fits on screen: measure the space above each video.
-  // On pages with no breakdown (body.proj-fit) the description and footer must fit too, so also measure --below.
   const fit = () => {
     const set = (box, v) => box.style.setProperty("--chrome", (v.getBoundingClientRect().top + window.scrollY) + "px");
-    document.querySelectorAll(".wrap.wide>.video").forEach(v => {
-      set(v, v);
-      const proj = document.getElementById("project"), foot = document.getElementById("site-footer");
-      if (document.body.classList.contains("proj-fit") && proj && proj.lastElementChild) {
-        const last = proj.lastElementChild === v.parentElement ? v : proj.lastElementChild;
-        const below = last.getBoundingClientRect().bottom - v.getBoundingClientRect().bottom + (foot ? foot.offsetHeight : 0);
-        v.style.setProperty("--below", below + "px");
-      } else v.style.removeProperty("--below");
-    });
+    document.querySelectorAll(".wrap.wide>.video").forEach(v => set(v, v));
     document.querySelectorAll(".reel-wrap").forEach(w => { const v = w.querySelector("#reel"); if (v) set(w, v); });
   };
   document.addEventListener("DOMContentLoaded", fit);

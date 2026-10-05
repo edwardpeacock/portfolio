@@ -23,7 +23,9 @@
   if (root) {
     const slug = new URLSearchParams(location.search).get("p");
     const i = P.findIndex(p => p.slug === slug);
-    if (i < 0) { root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
+    const ready = () => document.body.classList.remove("proj-wait");
+    setTimeout(ready, 2500);   // failsafe
+    if (i < 0) { ready(); root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
     const p = P[i];
     document.title = `${p.title} · ${window.SITE.name}`;
     const md = document.querySelector('meta[name="description"]');
@@ -37,8 +39,7 @@
       ${p.body.length ? `<section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
       ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
       <div id="bd-mount"></div>`;
-    document.body.classList.add("proj-fit");   // no breakdown (yet): fit the whole page on screen; removed below if one is found
-    loadBreakdown(p, root.querySelector("#bd-mount"));
+    loadBreakdown(p, root.querySelector("#bd-mount"), ready);
   }
 
   // ---- Interactive breakdown ----
@@ -71,7 +72,7 @@
     return out;
   }
 
-  function loadBreakdown(p, mount) {
+  function loadBreakdown(p, mount, ready) {
     const dir = `assets/breakdowns/${p.slug}/`;
     const fallback = () => (p.breakdown || []).map((s, k) => {
       if (typeof s === "string") s = { label: s };
@@ -95,11 +96,11 @@
       .then(defs => Promise.all(defs.map(probe)))
       .then(found => {
         const st = found.filter(Boolean);
-        if (!st.length) return;                     // no images at all: no Breakdown section
+        if (!st.length) return ready();             // no images at all: no Breakdown section; the page stays fitted to the screen
         document.body.classList.remove("proj-fit");
-        dispatchEvent(new Event("resize"));
         mount.innerHTML = breakdown(p, st);
         initBreakdown(mount.querySelector(".bd"), st);
+        ready();
       });
   }
 
