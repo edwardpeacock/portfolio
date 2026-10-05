@@ -19,6 +19,15 @@
     }));
   }
 
+  // "Selected work ↓" on the Work page: scroll until the last project is fully on screen (so it is clear there are more than the first few)
+  const cue = document.querySelector(".work-cue");
+  if (cue && grid) cue.addEventListener("click", e => {
+    const cards = grid.querySelectorAll(".card"); if (!cards.length) return;
+    e.preventDefault();
+    const bottom = cards[cards.length - 1].getBoundingClientRect().bottom + scrollY;
+    scrollTo({ top: Math.max(0, bottom - innerHeight + 24), behavior: "smooth" });
+  });
+
   const root = document.getElementById("project");
   if (root) {
     const slug = new URLSearchParams(location.search).get("p");
