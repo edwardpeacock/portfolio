@@ -34,7 +34,7 @@
     const specs = [p.tools.length ? `<dt>Tools</dt><dd>${p.tools.join(", ")}</dd>` : "", p.credits.length ? `<dt>Credits</dt><dd>${p.credits.join("<br>")}</dd>` : ""].join("");
     root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc">${[...p.tags, p.year].join(", ")}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
-      <section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>
+      ${p.body.length ? `<section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
       ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
       <div id="bd-mount"></div>`;
     loadBreakdown(p, root.querySelector("#bd-mount"));

@@ -9,13 +9,19 @@
     return m ? { id: m[1], hash: m[2] || new URLSearchParams((url.split("?")[1] || "")).get("h") } : null;
   }
 
+  const json = u => fetch(u).then(r => (r.ok ? r.json() : null)).then(d => (d && d.thumbnail_url) || null).catch(() => null);
+  const loads = u => new Promise(ok => { const im = new Image(); im.onload = () => ok(u); im.onerror = () => ok(null); im.src = u; });
+
+  // Tries, in order: Vimeo's oEmbed for the normal link, oEmbed for the player link, then a public thumbnail service.
   function thumb(url) {
     const v = parse(url);
     if (!v) return Promise.resolve(null);
     if (!cache.has(url)) {
-      const canonical = "https://vimeo.com/" + v.id + (v.hash ? "/" + v.hash : "");
-      cache.set(url, fetch("https://vimeo.com/api/oembed.json?width=1280&url=" + encodeURIComponent(canonical))
-        .then(r => (r.ok ? r.json() : null)).then(d => (d && d.thumbnail_url) || null).catch(() => null));
+      const h = v.hash ? "/" + v.hash : "";
+      const oembed = target => "https://vimeo.com/api/oembed.json?width=1280&url=" + encodeURIComponent(target);
+      cache.set(url, json(oembed("https://vimeo.com/" + v.id + h))
+        .then(u => u || json(oembed("https://player.vimeo.com/video/" + v.id + (v.hash ? "?h=" + v.hash : ""))))
+        .then(u => u || loads("https://vumbnail.com/" + v.id + ".jpg")));
     }
     return cache.get(url);
   }

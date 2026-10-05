@@ -1,7 +1,7 @@
 /* Shared header, footer, greeting. */
 (function () {
   const S = window.SITE;
-  const links = [["index.html","Home"],["work.html","Work"],["about.html","About"],["contact.html","Contact"]];
+  const links = [["index.html","Home"],["work.html","Work"],["info.html","Information"]];
   // Hosts like Cloudflare Pages serve /about.html as /about, so compare names without ".html".
   const strip = s => s.replace(/\.html$/, "");
   const page = strip(location.pathname.split("/").pop() || "index");
@@ -10,7 +10,7 @@
   const header = document.getElementById("site-header");
   if (header) {
     header.innerHTML = `<div class="bar">
-      <a class="brand" href="index.html">${S.name}</a>
+      <a class="brand" href="index.html">${S.name}, ${S.role}</a>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
@@ -35,7 +35,7 @@
   }
 })();
 
-/* Old-school mouse click sound (synthesised), page fade, custom cursor, video fitting. */
+/* Old-school mouse click sound (synthesised), page fade, video fitting. */
 (function () {
   const icon = on => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>${on ? '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>' : '<line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'}</svg>`;
   let muted = false;
@@ -115,44 +115,6 @@
     setTimeout(() => { location.href = u.href; }, 420);
   });
   window.addEventListener("pageshow", e => { if (e.persisted) document.body.classList.remove("leaving"); });
-
-  // Custom cursor: liquid-glass lens (mouse devices only)
-  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    const root = document.documentElement;
-    // Lens map: flat in the middle, bending only through the outer bevel (like the Liquid Glass pill)
-    const N = 128, cv = document.createElement("canvas"); cv.width = cv.height = N;
-    const cx = cv.getContext("2d"), px = cx.createImageData(N, N);
-    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
-      const nx = (i + 0.5) / N * 2 - 1, ny = (j + 0.5) / N * 2 - 1, r = Math.hypot(nx, ny);
-      let dx = 0, dy = 0;
-      if (r > 0.001) { const m = Math.pow(Math.min(1, Math.max(0, (r - 0.58) / 0.42)), 1.6); dx = nx / r * m; dy = ny / r * m; }
-      const k = (j * N + i) * 4;
-      px.data[k] = 128 + dx * 127; px.data[k + 1] = 128 + dy * 127; px.data[k + 2] = 128; px.data[k + 3] = 255;
-    }
-    cx.putImageData(px, 0, 0);
-    const uri = cv.toDataURL("image/png");
-    const defs = document.createElement("div");
-    defs.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="lg-distort" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${uri}" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="32" xChannelSelector="R" yChannelSelector="G" result="dR"/><feColorMatrix in="dR" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="R"/><feDisplacementMap in="SourceGraphic" in2="map" scale="28" xChannelSelector="R" yChannelSelector="G" result="dG"/><feColorMatrix in="dG" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="G"/><feDisplacementMap in="SourceGraphic" in2="map" scale="24" xChannelSelector="R" yChannelSelector="G" result="dB"/><feColorMatrix in="dB" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="B"/><feBlend in="R" in2="G" mode="screen" result="RG"/><feBlend in="RG" in2="B" mode="screen"/></filter></svg>`;
-    document.body.appendChild(defs.firstChild);
-
-    const dot = document.createElement("div"), ring = document.createElement("div");
-    dot.className = "cur-dot"; ring.className = "cur-ring"; ring.innerHTML = "<div class='ri'></div>";
-    document.body.append(ring, dot); // dot sits above the glass
-    let shown = false;
-    window.addEventListener("mousemove", e => {
-      const t = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
-      if (!shown) { shown = true; root.classList.add("cc"); dot.classList.add("on"); ring.classList.add("on"); }
-      dot.style.transform = t; ring.style.transform = t;
-    }, { passive: true });
-    document.addEventListener("mouseover", e => {
-      const t = e.target;
-      root.classList.toggle("cc-native", !!t.closest("iframe")); // let Vimeo's own player cursor show
-      ring.classList.toggle("link", !!t.closest("a, button"));
-    });
-    document.addEventListener("mousedown", () => ring.classList.add("down"));
-    document.addEventListener("mouseup", () => ring.classList.remove("down"));
-    root.addEventListener("mouseleave", () => { shown = false; dot.classList.remove("on"); ring.classList.remove("on"); root.classList.remove("cc"); });
-  }
 
   // Size videos so the whole frame fits on screen: measure the space above each video.
   const fit = () => {

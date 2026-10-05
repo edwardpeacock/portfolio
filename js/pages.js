@@ -1,4 +1,4 @@
-/* Fills the homepage showreel and the about and contact pages, then starts the video players. */
+/* Fills the homepage showreel and the Information page (about text, skills and contact buttons), then starts the video players. */
 (function () {
   const S = window.SITE, $ = id => document.getElementById(id);
   const reel = $("reel"); if (reel) { reel.dataset.vimeo = S.showreel; reel.classList.add("video"); }
@@ -9,7 +9,10 @@
     ["contextmenu", "dragstart", "selectstart"].forEach(ev => portrait.addEventListener(ev, e => e.preventDefault()));
   }
   const about = $("about-text");
-  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("") + `<ul class="skills">${S.skills.map(s => `<li>${s}</li>`).join("")}</ul>`;
+  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("");
+  const skills = $("skills"), pills = S.skills.map(s => `<li>${s}</li>`).join("");
+  if (skills) skills.innerHTML = pills;
+  else if (about) about.insertAdjacentHTML("beforeend", `<ul class="skills">${pills}</ul>`);   // older about.html without the separate skills row
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
