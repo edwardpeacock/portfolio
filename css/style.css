@@ -276,3 +276,50 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
 
 .work-cue{display:table;margin:.9rem auto 0}
 #work-grid{scroll-margin-top:calc(var(--header-h) - 1rem)}
+
+/* ---------- Dark colour scheme: even before styles apply, text is light and the canvas dark (no black-text flash) ---------- */
+html{color-scheme:dark;color:var(--text)}
+
+/* ---------- About me: no fade-from-black on the text. The page fade made the white text look black for a moment while it brightened,
+   so the text appears at full colour straight away and only the photo and software strip fade in. ---------- */
+.info-page{animation:none}
+.info-page .portrait,.info-page .marquee{animation:fade-in .5s ease-out both;animation-duration:.5s!important}
+.info-page .marquee-track{animation-duration:70s!important}
+
+/* ---------- About me: more room between "Like what you see?..." and the contact buttons ---------- */
+.actions{margin-top:1.75rem}
+@media(min-width:981px) and (min-height:640px){.actions{margin-top:clamp(1rem,3.4svh,2.25rem)}}
+
+/* ---------- Project pages without a breakdown: a small gap between the video and the footer line ---------- */
+@media(min-width:761px){.proj-fit .wrap.wide>.video{width:min(80cqw,calc((100cqh - 2rem)*16/9))}}
+@media(max-width:760px){.proj-fit #project{padding-bottom:1.25rem}}
+
+/* ---------- Breakdown: Zoom button on the image ---------- */
+.bd-img{position:absolute;inset:0;background:center/cover no-repeat;-webkit-user-select:none;user-select:none}
+.bd-zoom{position:absolute;top:1rem;right:1rem;z-index:3;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem .55rem .8rem;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(15,17,20,.74);color:#fff;font:500 .9rem/1 var(--body);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .25s ease,border-color .25s ease!important}
+.bd-zoom svg{width:18px;height:18px;flex:none}
+.bd-zoom:hover,.bd-zoom:focus-visible{background:rgba(15,17,20,.94);border-color:#fff}
+
+/* ---------- Breakdown: full-screen examine viewer (js/viewer.js) ---------- */
+.bd-viewer{position:fixed;inset:0;z-index:1000;background:#050608;color:#fff;opacity:0;transition:opacity .22s ease!important;overscroll-behavior:contain;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.bd-viewer.on{opacity:1}
+.bdv-canvas{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:zoom-in}
+.bdv-canvas.zoomed{cursor:grab}.bdv-canvas.drag{cursor:grabbing}
+.bdv-img{position:absolute;left:0;top:0;transform-origin:0 0;background:center/100% 100% no-repeat;will-change:transform;pointer-events:none;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.bdv-top{position:absolute;inset:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem var(--pad);background:linear-gradient(rgba(5,6,8,.85),transparent);pointer-events:none}
+.bdv-title{display:flex;gap:.7rem;align-items:baseline;min-width:0;font-size:1rem}
+.bdv-num{font:400 .8rem/1 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.bdv-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bdv-exit{pointer-events:auto;display:inline-flex;align-items:center;gap:.5rem;flex:none;padding:.6rem 1.1rem .6rem .9rem;border-radius:99px;border:1px solid rgba(255,255,255,.35);background:rgba(23,26,31,.9);color:#fff;font:500 .95rem/1 var(--body);cursor:pointer;transition:background .25s ease,border-color .25s ease!important}
+.bdv-exit:hover,.bdv-exit:focus-visible{background:var(--accent);border-color:var(--accent-hi)}
+.bdv-bar{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.2rem;padding:.35rem;border-radius:99px;border:1px solid var(--line-hi);background:rgba(23,26,31,.92);max-width:calc(100vw - 1rem)}
+.bdv-btn{display:grid;place-items:center;width:42px;height:42px;border:0;border-radius:50%;background:none;color:#fff;cursor:pointer;transition:background .2s ease!important}
+.bdv-btn:hover,.bdv-btn:focus-visible{background:rgba(255,255,255,.14)}
+.bdv-btn:disabled{opacity:.3;cursor:default;background:none}
+.bdv-pct{min-width:4.2rem;text-align:center;font:400 .85rem/1 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.bdv-hint{position:absolute;bottom:5rem;left:0;right:0;max-width:none;text-align:center;font-size:.85rem;color:var(--muted);pointer-events:none;transition:opacity .6s ease!important}
+.bdv-hint.gone{opacity:0}
+
+/* ---------- Image protection: images cannot be picked up, dragged or long-pressed ---------- */
+img,.bd-img,.bd-viewer,.portrait{-webkit-user-drag:none;-webkit-touch-callout:none}
+.thumb img,.portrait img{pointer-events:none}

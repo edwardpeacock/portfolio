@@ -25,7 +25,8 @@
     const cards = grid.querySelectorAll(".card"); if (!cards.length) return;
     e.preventDefault();
     const bottom = cards[cards.length - 1].getBoundingClientRect().bottom + scrollY;
-    scrollTo({ top: Math.max(0, bottom - innerHeight + 24), behavior: "smooth" });
+    const y = Math.max(0, bottom - innerHeight + 24);
+    if (window.glideTo) window.glideTo(y); else scrollTo({ top: y, behavior: "smooth" });
   });
 
   const root = document.getElementById("project");
@@ -92,7 +93,7 @@
       const attempt = n => {
         if (n >= exts.length) return done(null);
         const src = `${dir}${s.file}.${exts[n]}`, im = new Image();
-        im.onload = () => done({ label: s.label, src });
+        im.onload = () => done({ label: s.label, src, w: im.naturalWidth, h: im.naturalHeight });
         im.onerror = () => attempt(n + 1);
         im.src = src;
       };
@@ -118,9 +119,10 @@
       <div class="bd-track"><div class="bd-sticky">
         <div class="bd-head"><div class="bd-head-in"><h2 class="desc-title">Breakdown</h2><p class="desc">${st.length > 1 ? "Scroll down to build the shot, one element at a time." : ""}</p></div></div>
         <div class="bd-stage" role="img" aria-label="Breakdown of ${p.title}">
-          ${st.map((s, k) => `<div class="bd-layer" data-k="${k}"${k ? ' style="clip-path:inset(0 100% 0 0)"' : ""}><img src="${s.src}" alt="${s.label}" draggable="false"></div>`).join("")}
+          ${st.map((s, k) => `<div class="bd-layer" data-k="${k}"${k ? ' style="clip-path:inset(0 100% 0 0)"' : ""}><div class="bd-img" style="background-image:url('${s.src}')"></div></div>`).join("")}
           <div class="bd-line"></div>
           <div class="bd-tag"><span class="bd-num"></span><span class="bd-name"></span></div>
+          <button type="button" class="bd-zoom" aria-label="Zoom in to examine this image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg><span>Zoom</span></button>
         </div>
         <ol class="bd-steps">${st.map((s, k) => `<li><button type="button" data-k="${k}"><span>${pad(k + 1)}</span>${s.label}</button></li>`).join("")}</ol>
       </div></div></section>`;
@@ -196,6 +198,9 @@
       raf = done ? 0 : requestAnimationFrame(tick);
     }
     const kick = () => { readScroll(); if (!raf) { lastT = performance.now(); raf = requestAnimationFrame(tick); } };
+
+    const zoomBtn = bd.querySelector(".bd-zoom");
+    if (zoomBtn) zoomBtn.addEventListener("click", () => window.openBreakdownViewer && window.openBreakdownViewer(st, Math.max(0, shown), zoomBtn));
 
     addEventListener("scroll", kick, { passive: true });
     addEventListener("resize", () => { measure(); kick(); });
