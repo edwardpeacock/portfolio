@@ -11,7 +11,7 @@
   if (header) {
     header.innerHTML = `<div class="bar">
       <div class="brand"><div class="brand-line"><span class="brand-name">${S.name}</span><span class="brand-tail"><span class="brand-sep" aria-hidden="true">|</span><span class="brand-role">${S.role}</span></span></div>
-        <a class="home-btn" href="index.html" aria-label="Home"${current === "index" ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a></div>
+        <a class="home-btn" href="index.html" aria-label="Home"${current === "index" ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a></div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
@@ -113,7 +113,11 @@
     const u = new URL(a.href, location.href);
     if (u.protocol !== location.protocol || u.host !== location.host) return;
     const norm = p => p.replace(/\/index(\.html)?$/, "/").replace(/\.html$/, "");
-    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search) return;
+    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search) {
+      // Already on this page: don't reload (that cut the click sound off); just glide back to the top. Links with a #hash use the normal in-page jump.
+      if (!u.hash) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); }
+      return;
+    }
     e.preventDefault();
     if (document.body.classList.contains("leaving")) return;
     document.body.classList.add("leaving");
