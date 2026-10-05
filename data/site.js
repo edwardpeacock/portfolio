@@ -1,7 +1,7 @@
 /* Edit this file: your details, showreel and projects. No other file needs touching to add work. */
 window.SITE = {
   name: "Edward Peacock",
-  role: "VFX Artist & Compositor",
+  role: "Junior VFX Compositor",
   place: "United Kingdom",
   email: "epeacockvfx@gmail.com",
   showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
