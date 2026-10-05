@@ -23,7 +23,7 @@
   const ctx = cv.getContext("2d");
   const [r, g, b] = CONFIG.color;
   let W = 0, H = 0, dpr = 1, parts = [], raf = 0, last = 0;
-  let pos = scrollY, idle = 0;                 // smoothed scroll position, idle drift offset
+  let pos = scrollY, idle = 0, amp = 0, clock = 0;   // amp: 0..1, how much the stars wander (only with the phone menu open)                 // smoothed scroll position, idle drift offset
   const rand = (a, b2) => a + Math.random() * (b2 - a);
   const mod = (n, m) => ((n % m) + m) % m;
 
@@ -35,7 +35,8 @@
       r: CONFIG.size[0] + depth * (CONFIG.size[1] - CONFIG.size[0]) * (0.6 + Math.random() * 0.4),
       o: rand(CONFIG.opacity[0], CONFIG.opacity[1]),
       ph: Math.random() * Math.PI * 2,
-      tw: rand(0.6, 1.4)
+      tw: rand(0.6, 1.4),
+      fx: rand(0.3, 0.9), fy: rand(0.3, 0.9)   // own slow wander speeds (used while the phone menu is open)
     };
   }
 
@@ -56,8 +57,8 @@
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     const span = H + 20;
     for (const p of parts) {
-      const y = mod(p.y * H - (pos + idle) * p.d, span) - 10;
-      const x = p.x * W + Math.sin(pos * 0.0035 * p.tw + p.ph) * CONFIG.sway * p.d * 2;
+      const y = mod(p.y * H - (pos + idle) * p.d, span) - 10 + Math.cos(clock * p.fy + p.ph * 1.7) * amp * 7;
+      const x = p.x * W + Math.sin(pos * 0.0035 * p.tw + p.ph) * CONFIG.sway * p.d * 2 + Math.sin(clock * p.fx + p.ph) * amp * 7;
       const tw = 1 - CONFIG.twinkle * (0.5 + 0.5 * Math.sin(pos * 0.006 * p.tw + p.ph * 2));
       ctx.globalAlpha = p.o * tw;
       ctx.beginPath();
@@ -72,8 +73,11 @@
     const target = scrollY;
     pos += (target - pos) * (1 - Math.exp(-dt / 140));   // eases in/out so motion stays soft
     if (CONFIG.idleDrift) idle += CONFIG.idleDrift * dt / 1000;
+    const menu = document.body.classList.contains("menu-open");
+    amp += ((menu ? 1 : 0) - amp) * (1 - Math.exp(-dt / 400));        // ease the wander in and out
+    if (menu || amp > 0.002) clock += dt / 1000; else amp = 0;
     draw();
-    if (Math.abs(target - pos) > 0.05 || CONFIG.idleDrift) raf = requestAnimationFrame(frame);
+    if (Math.abs(target - pos) > 0.05 || CONFIG.idleDrift || menu || amp > 0.002) raf = requestAnimationFrame(frame);
     else { pos = target; raf = 0; draw(); }
   }
 
@@ -83,6 +87,7 @@
   }
 
   addEventListener("scroll", kick, { passive: true });
+  new MutationObserver(kick).observe(document.body, { attributes: true, attributeFilter: ["class"] });   // menu opened/closed
   addEventListener("resize", resize);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else { pos = scrollY; kick(); }

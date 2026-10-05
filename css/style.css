@@ -334,10 +334,10 @@ img,.bd-img,.bd-viewer,.portrait{-webkit-user-drag:none;-webkit-touch-callout:no
   .home-stage{height:auto;padding-top:0;background:var(--bg);overflow:visible}
   .home-stage #reel.video{position:relative;inset:auto;width:100%;aspect-ratio:auto;height:calc(var(--header-h) + 78.75vw);border-radius:0;background:var(--bg)}
   .home-stage #reel video.loop{bottom:-1px;height:calc(100% + 1px)}   /* no hairline seam under the video */
-  .home-stage .stage-text{position:static;padding:1rem var(--pad) 0;background:none}
+  .home-stage .stage-text{position:static;padding:1.75rem var(--pad) 0;background:none}
   .home-stage.playing{display:block;padding-top:var(--header-h)}
   .home-stage.playing #reel.video{aspect-ratio:16/9;height:auto}
-  .home .reel-desc{padding-block:1rem 0}
+  .home .reel-desc{padding-block:1rem 1.75rem}
   /* Home: only the top 2 projects */
   #work-grid[data-limit] .card:nth-child(n+3){display:none}
 
@@ -349,10 +349,18 @@ img,.bd-img,.bd-viewer,.portrait{-webkit-user-drag:none;-webkit-touch-callout:no
   .split{grid-template-columns:1fr;gap:1rem;justify-items:stretch;align-items:start;text-align:left}
   .split-right h1{text-align:center;margin-bottom:.25rem}
   .split-left{max-width:none;width:100%;align-items:center}
-  .portrait{width:min(230px,62%)}
-  .split .prose p{font-size:.88rem;line-height:1.5}
+  .portrait{width:min(195px,52.5%)}
+  .split .prose p{font-size:.968rem;line-height:1.5}   /* about text 10% bigger */
   .prose p+p{margin-top:.8em}
 
   /* Menu: stars drawn over the menu's dark background too */
   body.menu-open #bg-particles{z-index:11}
+
+  /* Header: "Menu" lines up with the name on the top row */
+  .bar{align-items:flex-start}
+  .menu-btn{padding:.5rem;margin:-.5rem -.5rem 0 0;line-height:1.2;font-size:1.05rem}
+  .scrolled .menu-btn{font-size:.95rem}
+
+  /* Work page: a little space between the title and the "Selected work" button */
+  .work-cue{margin-top:1.6rem}
 }
