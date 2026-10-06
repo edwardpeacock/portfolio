@@ -1,6 +1,7 @@
 :root{
-  --bg:#0f1114; --panel:#171a1f; --text:#eeece8; --muted:#9a9fa8; --line:#2a2e35; --line-hi:#454b55;
-  --panel-hi:#1d2026; --accent:#b8252f; --accent-hi:#d9414c; --radius:12px;
+  --bg:#0d0f1a; --panel:#151829; --text:#eeece8; --muted:#9a9fa8; --line:#272b42; --line-hi:#454b6e;
+  --panel-hi:#1b1f33; --accent:#e8921a; --accent-hi:#ffb02e;
+  --heat-1:#2b3aa8; --heat-2:#7b86d6; --heat-3:#d6d9f2; --heat-4:#f2a01e; --heat-5:#ffd25a; --radius:12px;
   --space-s:1.25rem; --space-m:2rem; --space-l:clamp(2rem,5vw,4rem); --content-w:80%; --header-h:6.5rem; --footer-h:6.5rem;
   --head:"Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --display:"Fraunces",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   --pad:clamp(1.25rem,4vw,3.5rem); --ease:cubic-bezier(.2,.7,.2,1);
@@ -9,14 +10,14 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:radial-gradient(1100px 560px at 90% -8%,rgba(255,255,255,.045),transparent 65%) no-repeat,var(--bg);color:var(--text);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
-::selection{background:var(--accent);color:#fff}
+::selection{background:var(--accent);color:#1a1204}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--text);outline-offset:3px}
 .wrap{padding-inline:var(--pad);max-width:1600px;margin-inline:auto}
 .wrap.wide{max-width:1800px}
 
 /* Header */
-#site-header{position:fixed;inset:0 0 auto;z-index:10;background:linear-gradient(rgba(15,17,20,.82),rgba(15,17,20,0))}
+#site-header{position:fixed;inset:0 0 auto;z-index:10;background:linear-gradient(rgba(13,15,26,.82),rgba(13,15,26,0))}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:1.1rem var(--pad)}
 .brand{display:flex;flex-direction:column;align-items:flex-start;min-width:0;font-family:var(--head);--brand-size:clamp(1.05rem,1.9vw,1.5rem)}
 .brand-line{display:flex;align-items:baseline;min-width:0}
@@ -100,7 +101,7 @@ section.reel-desc{padding-block:var(--space-m) 0}
 .card{display:block}
 .thumb{aspect-ratio:16/9;overflow:hidden;border-radius:var(--radius);background:var(--panel)}
 .thumb img,.thumb .ph{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
-.thumb .ph{background:linear-gradient(135deg,#242830,#0f1114)}
+.thumb .ph{background:linear-gradient(135deg,#242830,#0d0f1a)}
 .card:hover .thumb>*{transform:scale(1.05)}
 /* Work page: a rounded red border appears around a thumbnail on hover (and keyboard focus) */
 .thumb{position:relative}
@@ -186,7 +187,7 @@ body.bd-on #site-header:hover{opacity:1!important}
 .bd-layer{position:absolute;inset:0;overflow:hidden}
 .bd-layer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none}
 .bd-line{position:absolute;top:0;bottom:0;left:0;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.65);opacity:0;pointer-events:none}
-.bd-tag{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center;padding:.45rem .95rem;border-radius:99px;background:rgba(15,17,20,.74);color:#fff;font-size:.9rem;pointer-events:none}
+.bd-tag{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center;padding:.45rem .95rem;border-radius:99px;background:rgba(13,15,26,.74);color:#fff;font-size:.9rem;pointer-events:none}
 .bd-tag .bd-num{font-family:var(--mono);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .bd-steps{list-style:none;padding:0;margin-top:.75rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.25rem .5rem}
 .bd-steps button{font:inherit;font-size:.9rem;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;padding:.35rem .6rem;cursor:pointer;transition:color .3s}
@@ -245,7 +246,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
 .home-stage.playing{display:flex;align-items:center;justify-content:center;padding-top:var(--header-h);background:var(--bg)}
 .home-stage.playing #reel.video{position:relative;inset:auto;flex:none;aspect-ratio:16/9;height:auto;width:min(94vw,calc((100vh - var(--header-h) - 3rem)*16/9));width:min(94vw,calc((100svh - var(--header-h) - 3rem)*16/9));border-radius:var(--radius)}
 .home-stage.playing .stage-text{display:none}
-.stage-text{position:absolute;inset:auto 0 0;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;padding:5rem var(--pad) var(--space-m);background:linear-gradient(transparent,rgba(15,17,20,.8));pointer-events:none}
+.stage-text{position:absolute;inset:auto 0 0;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;padding:5rem var(--pad) var(--space-m);background:linear-gradient(transparent,rgba(13,15,26,.8));pointer-events:none}
 .stage-text #greeting{font-size:clamp(1.25rem,2vw,1.75rem);font-weight:500;line-height:1.25;color:var(--text)}
 .stage-link{pointer-events:auto;flex:none;color:var(--muted);border-bottom:1px solid var(--line-hi);transition:color .3s,border-color .3s}
 .stage-link:hover{color:var(--text);border-color:var(--muted)}
@@ -296,9 +297,9 @@ html{color-scheme:dark;color:var(--text)}
 
 /* ---------- Breakdown: Zoom button on the image ---------- */
 .bd-img{position:absolute;inset:0;background:center/cover no-repeat;-webkit-user-select:none;user-select:none}
-.bd-zoom{position:absolute;top:1rem;right:1rem;z-index:3;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem .55rem .8rem;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(15,17,20,.74);color:#fff;font:500 .9rem/1 var(--body);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .25s ease,border-color .25s ease!important}
+.bd-zoom{position:absolute;top:1rem;right:1rem;z-index:3;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem .55rem .8rem;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(13,15,26,.74);color:#fff;font:500 .9rem/1 var(--body);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .25s ease,border-color .25s ease!important}
 .bd-zoom svg{width:18px;height:18px;flex:none}
-.bd-zoom:hover,.bd-zoom:focus-visible{background:rgba(15,17,20,.94);border-color:#fff}
+.bd-zoom:hover,.bd-zoom:focus-visible{background:rgba(13,15,26,.94);border-color:#fff}
 
 /* ---------- Breakdown: full-screen examine viewer (js/viewer.js) ---------- */
 .bd-viewer{position:fixed;inset:0;z-index:1000;background:#050608;color:#fff;opacity:0;transition:opacity .22s ease!important;overscroll-behavior:contain;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -375,4 +376,47 @@ img,.bd-img,.bd-viewer,.portrait{-webkit-user-drag:none;-webkit-touch-callout:no
 
   /* Home: greeting and "Selected work" centred, with more space between them */
   .home-stage .stage-text{align-items:center;text-align:center;gap:1.6rem}
+}
+
+
+/* ================= Thermal "heatmap" look (palette from the reference image: deep indigo, periwinkle, pale highlights, amber) ================= */
+/* Slowly drifting thermal glow behind every page */
+body::before{content:"";position:fixed;inset:-20%;z-index:-2;pointer-events:none;
+  background:radial-gradient(38% 34% at 16% 18%,rgba(43,58,168,.34),transparent 70%),
+             radial-gradient(34% 30% at 88% 78%,rgba(242,160,30,.15),transparent 70%),
+             radial-gradient(30% 28% at 72% 12%,rgba(123,134,214,.16),transparent 70%);
+  animation:heat-drift 40s ease-in-out infinite alternate}
+@keyframes heat-drift{to{transform:translate3d(3%,-2%,0) scale(1.14)}}
+
+/* Project thumbnails turn thermal on hover: image brightness is kept, colour is mapped from deep blue to amber */
+.thumb{isolation:isolate}
+.thumb::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;mix-blend-mode:color;
+  background:linear-gradient(165deg,var(--heat-1) 0%,var(--heat-2) 32%,var(--heat-4) 68%,var(--heat-5) 100%);transition:opacity .45s ease!important}
+.card:hover .thumb::before,.card:focus-visible .thumb::before{opacity:.92}
+.thumb::after{border-color:var(--heat-4)}
+
+/* Thermal accents */
+nav a[aria-current]{text-decoration-color:var(--accent-hi)}
+.hero h1::after,.split-right h1::after{content:"";display:block;width:4.5rem;height:3px;margin:.7rem auto 0;border-radius:3px;background:linear-gradient(90deg,var(--heat-1),var(--heat-2),var(--heat-4),var(--heat-5))}
+.hero h1::after{margin-left:0}
+@media(min-width:761px){.split-right h1::after{margin-left:0}}
+.btn:hover,.btn:focus-visible{border-color:var(--heat-4)}
+.bdv-exit:hover,.bdv-exit:focus-visible{color:#1a1204}
+
+/* Big bouncing scroll arrow (replaces the "Selected work" text link) */
+.stage-link.cue-arrow{display:grid;place-items:center;position:relative;width:5.25rem;height:5.25rem;margin:1.2rem auto 0;padding:0;border:2px solid transparent;border-radius:50%;color:var(--heat-5);
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,conic-gradient(from 200deg,var(--heat-1),var(--heat-2),var(--heat-4),var(--heat-5),var(--heat-1)) border-box;
+  box-shadow:0 0 26px rgba(242,160,30,.35),0 0 60px rgba(43,58,168,.4);
+  animation:cue-bounce 1.5s ease-in-out infinite;animation-duration:1.5s!important;animation-delay:0s!important;animation-iteration-count:infinite!important}
+.stage-link.cue-arrow:hover,.stage-link.cue-arrow:focus-visible{color:#fff;border-color:transparent;box-shadow:0 0 34px rgba(255,176,46,.6),0 0 70px rgba(43,58,168,.55)}
+.stage-link.cue-arrow svg{width:2.5rem;height:2.5rem}
+.stage-link.cue-arrow::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--heat-4);opacity:0;pointer-events:none;animation:cue-ring 1.5s ease-out infinite}
+@keyframes cue-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(16px)}}
+@keyframes cue-ring{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(1.55);opacity:0}}
+@media(min-width:761px){.stage-text .cue-arrow{position:absolute;left:50%;bottom:var(--space-m);margin:0 0 0 -2.625rem}}
+@media(max-width:760px){
+  .stage-link.cue-arrow{width:4.5rem;height:4.5rem}
+  .stage-link.cue-arrow svg{width:2.1rem;height:2.1rem}
+  .home-stage .stage-text .cue-arrow{position:relative;left:auto;bottom:auto;margin:0}
+  .stage-link.work-cue.cue-arrow{margin-top:1.6rem}
 }
