@@ -36,11 +36,10 @@
   };
   const contactBtns = S.socials.map(x => `<a class="btn" href="${x.url}" target="_blank" rel="noopener">${icoSvg(ico[x.label] || "")}<span>${x.label}</span></a>`).join("")
     + `<a class="btn" href="mailto:${S.email}">${icoSvg(ico.Mail)}<span>${S.email}</span></a>`;
-  if (footer) footer.innerHTML = `<div class="wrap foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div>
-  <div class="wrap foot">
+  if (footer) footer.innerHTML = `<div class="wrap foot">
     <p>${S.name}, ${S.role}</p>
     <button class="sound-btn" type="button" aria-pressed="true"></button>
-    <p><a href="mailto:${S.email}">${S.email}</a></p></div>`;
+    <div class="foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div></div>`;
 
   const g = document.getElementById("greeting");
   if (g) {
