@@ -79,13 +79,17 @@
     document.body.appendChild(svg);
     return (lenses[size] = id);
   }
-  function glass(btn) {
+  function glass(btn, self) {
     if (!lensOK) return;
-    const icon = btn.querySelector("svg"); if (!icon) return;
+    const icon = self ? btn : btn.querySelector("svg"); if (!icon) return;
     const size = Math.round(icon.getBoundingClientRect().width) || 84;
     const v = `blur(3px) url(#${lens(size)}) saturate(1.5)`;
     icon.style.backdropFilter = v; icon.style.webkitBackdropFilter = v;
   }
+
+  // Home page scroll arrow gets the same glass lens as the play button (the arrow itself is the circle)
+  const arrow = document.querySelector(".home-stage .cue-arrow");
+  if (arrow) glass(arrow, true);
 
   window.vimeo = { parse, thumb };
   window.initVideos = (root = document) => root.querySelectorAll(".video[data-vimeo]").forEach(setup);
