@@ -2,7 +2,7 @@
   --bg:#0f1319; --panel:#161a22; --text:#eeece8; --muted:#9a9fa8; --line:#262c38; --line-hi:#414a5c;
   --panel-hi:#1c212b; --accent:#5f7fc4; --accent-hi:#94aadb;
   --radius:12px;
-  --space-s:1.25rem; --space-m:2rem; --space-l:clamp(2rem,5vw,4rem); --content-w:80%; --header-h:6.5rem; --footer-h:6.5rem;
+  --space-s:1.25rem; --space-m:2rem; --space-l:clamp(2rem,5vw,4rem); --content-w:80%; --header-h:6.5rem; --foot-row-h:6.5rem; --foot-contact-h:6.75rem; --footer-h:calc(var(--foot-row-h) + var(--foot-contact-h));
   --head:"Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --display:"Space Grotesk","Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   --pad:clamp(1.25rem,4vw,3.5rem); --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -206,7 +206,8 @@ body{isolation:isolate}
    and the video takes whatever space is left, so nothing moves after load. The page stays hidden (.proj-wait) until the breakdown check finishes. ---------- */
 .proj-wait main,.proj-wait #site-footer{visibility:hidden}
 @media(min-width:761px){
-  .foot{height:var(--footer-h);padding-block:0}
+  .foot{height:var(--foot-row-h);padding-block:0}
+  .foot-contact{height:var(--foot-contact-h)}
   .proj-fit #project{display:flex;flex-direction:column;height:calc(100vh - var(--header-h) - var(--footer-h));height:calc(100svh - var(--header-h) - var(--footer-h))}
   .proj-fit #project>*{flex:none}
   .proj-fit #project header{padding-block:.25rem .75rem}
@@ -420,3 +421,19 @@ nav a[aria-current]{text-decoration-color:var(--accent-hi)}
 @keyframes proj-cue-bob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
 @media(min-width:761px){body.has-cue #project{--below:4.25rem}}
 #proj-more{scroll-margin-top:calc(var(--header-h) - 1rem)}
+
+/* ---------- Footer contact info (all pages that have a footer) ---------- */
+.foot-contact{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;padding-block:1.5rem 1.25rem;border-top:1px solid var(--line)}
+.foot-contact+.foot{border-top:0;padding-top:0}
+.foot-title{margin:0;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.foot-contact .actions{margin-top:0;gap:.6rem}
+.foot-contact .btn{padding:.5rem 1rem;gap:.5rem;font-size:.88rem}
+.foot-contact .btn svg{width:16px;height:16px}
+@media(max-width:760px){.foot-contact{height:auto}.foot-contact .btn{font-size:.82rem;padding:.5rem .85rem}}
+
+/* ---------- Home: location / availability strip ---------- */
+.home-status{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem 1.75rem;padding-block:1.25rem .25rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;letter-spacing:.04em;color:var(--text)}
+.home-status span{display:inline-flex;align-items:center;gap:.55rem}
+.home-status svg{color:var(--accent-hi);flex:none}
+.home-status .dot{width:.55rem;height:.55rem;border-radius:50%;background:#6fcf97;flex:none}
+@media(max-width:760px){.home-status{font-size:.78rem;flex-direction:column;align-items:center;gap:.5rem}}

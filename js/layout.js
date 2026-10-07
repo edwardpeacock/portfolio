@@ -27,7 +27,16 @@
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
   const footer = document.getElementById("site-footer");
-  if (footer) footer.innerHTML = `<div class="wrap foot">
+  const icoSvg = d => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const ico = {
+    LinkedIn: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+    Instagram: '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+    Mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>'
+  };
+  const contactBtns = S.socials.map(x => `<a class="btn" href="${x.url}" target="_blank" rel="noopener">${icoSvg(ico[x.label] || "")}<span>${x.label}</span></a>`).join("")
+    + `<a class="btn" href="mailto:${S.email}">${icoSvg(ico.Mail)}<span>${S.email}</span></a>`;
+  if (footer) footer.innerHTML = `<div class="wrap foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div>
+  <div class="wrap foot">
     <p>${S.name}, ${S.role}</p>
     <button class="sound-btn" type="button" aria-pressed="true"></button>
     <p><a href="mailto:${S.email}">${S.email}</a></p></div>`;
