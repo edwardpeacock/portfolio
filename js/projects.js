@@ -47,7 +47,8 @@
     const specs = [p.tools.length ? `<dt>Tools</dt><dd>${p.tools.join(", ")}</dd>` : "", p.credits.length ? `<dt>Credits</dt><dd>${p.credits.join("<br>")}</dd>` : ""].join("");
     root.innerHTML = `<header class="wrap"><h1>${p.title}</h1><p class="lede desc meta">${[...p.tags, p.year].join(", ")}</p></header>
       <div class="wrap wide"><div class="video" data-vimeo="${p.vimeo}" ${p.image ? `data-poster="${p.image}"` : ""}></div></div>
-      ${p.body.length ? `<section class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
+      <div class="proj-cue-row" hidden><a class="proj-cue" href="#proj-more"><span>Description &amp; breakdown</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></a></div>
+      ${p.body.length ? `<section id="proj-more" class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
       ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
       <div id="bd-mount"></div>`;
     loadBreakdown(p, root.querySelector("#bd-mount"), ready);
@@ -109,6 +110,16 @@
         const st = found.filter(Boolean);
         if (!st.length) return ready();             // no images at all: no Breakdown section; the page stays fitted to the screen
         document.body.classList.remove("proj-fit");
+        const cueRow = document.querySelector(".proj-cue-row");
+        if (cueRow) {
+          cueRow.hidden = false; document.body.classList.add("has-cue");
+          const more = document.getElementById("proj-more") || mount;
+          cueRow.querySelector("a").addEventListener("click", e => {
+            e.preventDefault();
+            const y = more.getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 9.5);
+            if (window.glideTo) window.glideTo(Math.max(0, y)); else scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+          });
+        }
         mount.innerHTML = breakdown(p, st);
         initBreakdown(mount.querySelector(".bd"), st);
         ready();
