@@ -30,6 +30,15 @@
     if (window.glideTo) window.glideTo(y); else scrollTo({ top: y, behavior: "smooth" });
   });
 
+  // Home page down arrow: the same slow glide as the Work page button
+  const homeCue = document.querySelector(".home-stage .cue-arrow");
+  const workSec = document.getElementById("work");
+  if (homeCue && workSec) homeCue.addEventListener("click", e => {
+    e.preventDefault();
+    const y = Math.max(0, workSec.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(workSec).scrollMarginTop) || 0));
+    if (window.glideTo) window.glideTo(y); else scrollTo({ top: y, behavior: "smooth" });
+  });
+
   const root = document.getElementById("project");
   if (root) {
     const slug = new URLSearchParams(location.search).get("p");

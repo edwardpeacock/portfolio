@@ -19,6 +19,21 @@
   if (skills) {
     const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
     skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
+    // Fade the strip in and out exactly at the content margins: left edge of the photo, right edge of the text
+    const fitMarquee = () => {
+      const pr = $("portrait"), tx = document.querySelector(".split-right"), sp = document.querySelector(".split");
+      let l = 0, r = innerWidth;
+      if (sp) {
+        const cs = getComputedStyle(sp), b = sp.getBoundingClientRect();
+        l = b.left + parseFloat(cs.paddingLeft); r = b.right - parseFloat(cs.paddingRight);
+        if (innerWidth > 980 && pr && tx) { l = pr.getBoundingClientRect().left; r = tx.getBoundingClientRect().right; }
+      }
+      skills.style.setProperty("--mq-l", Math.round(l) + "px");
+      skills.style.setProperty("--mq-r", Math.round(r) + "px");
+      skills.style.setProperty("--mq-f", Math.round(Math.min(110, (r - l) * .12)) + "px");
+    };
+    fitMarquee(); addEventListener("resize", fitMarquee); addEventListener("load", fitMarquee);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMarquee);
   }
   const acts = $("actions");
   if (acts) {
