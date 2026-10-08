@@ -20,6 +20,9 @@
     const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
     skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
   }
+  // Work page: "Selected work - 7 projects". The number comes from projectTotal in data/site.js (so it can be ahead of the projects added so far).
+  const wc = $("work-count");
+  if (wc) { const n = S.projectTotal || (window.PROJECTS || []).length; wc.textContent = `Selected work — ${n} ${n === 1 ? "project" : "projects"}`; }
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
