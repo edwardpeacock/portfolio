@@ -567,14 +567,22 @@ body.scrolled .stage-link.cue-arrow{opacity:0;visibility:hidden;pointer-events:n
 body.proj-min{--header-h:8rem}
 body.proj-min .brand{--brand-size:clamp(1.5rem,2.6vw,2.1rem)}
 body.proj-min .brand-status{opacity:0;max-height:0;margin-top:0}
-body.proj-min .brand-tail{opacity:0;max-width:0;padding-left:0}
 body.proj-min .home-btn{margin-top:.6rem}
 body.proj-min #project header{padding-block:.5rem .9rem}
 body.proj-min{--content-w:94%}
-@media(max-width:760px){body.proj-min{--header-h:8.5rem}}
+@media(max-width:760px){body.proj-min{--header-h:10rem}}
 /* Title on the left, categories / year on the right, one row, same width as the video */
 @media(min-width:761px){
   body.proj-min #project header.wrap{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem 2rem;flex-wrap:wrap;width:var(--vw,var(--content-w));max-width:100%;padding-inline:0;margin-inline:auto}
   body.proj-min #project header .lede{margin:0;max-width:none;text-align:right}
 }
 .brand-tail{line-height:1.1}
+
+
+/* ---------- v22 tweaks ---------- */
+
+/* "|" placed explicitly from the cap height down to the baseline of the name (Inter: cap height ~.73em, baseline ~.91em below the top of the line), so it no longer depends on how the browser baseline-aligns an empty box */
+.brand-sep{align-self:flex-start;margin-top:calc(var(--brand-size)*.18);height:calc(var(--brand-size)*.73)}
+
+/* Project pages: keep the role (and its divider) visible, even after scrolling; everything else in the header stays hidden */
+body.proj-min .brand-tail,body.proj-min.scrolled .brand-tail{opacity:1;max-width:30em}
