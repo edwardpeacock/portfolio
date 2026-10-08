@@ -60,6 +60,9 @@
       ${p.body.length ? `<section id="proj-more" class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
       ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
       <div id="bd-mount"></div>`;
+    // Title row lines up with the video: its width follows the video's (the video is sized to fit the screen)
+    const vid = root.querySelector(".wrap.wide>.video"), head = root.querySelector("header");
+    if (vid && head && window.ResizeObserver) new ResizeObserver(() => head.style.setProperty("--vw", vid.offsetWidth + "px")).observe(vid);
     loadBreakdown(p, root.querySelector("#bd-mount"), ready);
   }
 
@@ -117,18 +120,28 @@
       .then(defs => Promise.all(defs.map(probe)))
       .then(found => {
         const st = found.filter(Boolean);
-        if (!st.length) return ready();             // no images at all: no Breakdown section; the page stays fitted to the screen
-        document.body.classList.remove("proj-fit");
+        const hasDesc = p.body.length > 0;
         const cueRow = document.querySelector(".proj-cue-row");
-        if (cueRow) {
+        // "Description" / "Breakdown" / "Description & breakdown" button under the video, scrolling to whatever sits below
+        const showCue = (label, target) => {
+          if (!cueRow || !target) return;
+          document.body.classList.remove("proj-fit");   // the page now scrolls: video first, description / breakdown beneath
           cueRow.hidden = false; document.body.classList.add("has-cue");
-          const more = document.getElementById("proj-more") || mount;
+          cueRow.querySelector("span").textContent = label;
           cueRow.querySelector("a").addEventListener("click", e => {
             e.preventDefault();
-            const y = more.getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 9.5);
+            const pad = parseFloat(getComputedStyle(document.querySelector("main")).paddingTop) || 0;
+            const y = target.getBoundingClientRect().top + window.scrollY - Math.max(0, pad - 16);
             if (window.glideTo) window.glideTo(Math.max(0, y)); else scrollTo({ top: Math.max(0, y), behavior: "smooth" });
           });
+        };
+        if (!st.length) {
+          // No breakdown yet: a plain "Description" button (only when there is a description). With neither, the video simply fills the screen.
+          if (hasDesc) showCue("Description", document.getElementById("proj-more"));
+          return ready();
         }
+        document.body.classList.remove("proj-fit");
+        showCue(hasDesc ? "Description & breakdown" : "Breakdown", document.getElementById("proj-more") || mount);
         mount.innerHTML = breakdown(p, st);
         initBreakdown(mount.querySelector(".bd"), st);
         ready();

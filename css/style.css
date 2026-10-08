@@ -553,3 +553,28 @@ body.scrolled .stage-link.cue-arrow{opacity:0;visibility:hidden;pointer-events:n
 
 /* Work page: small count under the title */
 .work-count{max-width:none;margin:.7rem 0 0;font-family:var(--mono);font-size:.8rem;line-height:1.4;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+
+/* ---------- v21 tweaks ---------- */
+
+/* Header "|": a thin hairline from the baseline to the cap height instead of a large, heavy glyph; one word-space on each side */
+.brand-sep{font-size:0;line-height:0;color:transparent;width:1px;height:calc(var(--brand-size)*.75);margin:0;padding:0;background:#fff;overflow:hidden}
+.brand-tail{padding-left:0}
+.brand-tail::before{content:"\00a0";font-size:var(--brand-size);font-weight:700;letter-spacing:-.025em}
+@media(max-width:760px){.brand-tail::before{display:none}}
+
+/* Project pages: the top-left header starts minimised (name only), exactly like after scrolling down the homepage; the video gets the extra room */
+body.proj-min{--header-h:8rem}
+body.proj-min .brand{--brand-size:clamp(1.5rem,2.6vw,2.1rem)}
+body.proj-min .brand-status{opacity:0;max-height:0;margin-top:0}
+body.proj-min .brand-tail{opacity:0;max-width:0;padding-left:0}
+body.proj-min .home-btn{margin-top:.6rem}
+body.proj-min #project header{padding-block:.5rem .9rem}
+body.proj-min{--content-w:94%}
+@media(max-width:760px){body.proj-min{--header-h:8.5rem}}
+/* Title on the left, categories / year on the right, one row, same width as the video */
+@media(min-width:761px){
+  body.proj-min #project header.wrap{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem 2rem;flex-wrap:wrap;width:var(--vw,var(--content-w));max-width:100%;padding-inline:0;margin-inline:auto}
+  body.proj-min #project header .lede{margin:0;max-width:none;text-align:right}
+}
+.brand-tail{line-height:1.1}
