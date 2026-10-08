@@ -48,7 +48,7 @@ window.PROJECTS = [
     ] },
   { slug: "alien-cube", title: "Alien Cube", year: "2026",
     tags: ["Personal project", "CG Integration"],
-    vimeo: "https://vimeo.com/1201158953", image: "",
+    vimeo: "https://vimeo.com/1234175409", image: "",
     body: ["This personal project was experimentation with tracking and rigid body simulations. In addition I wanted to test a workflow involving fixing problems in compositing without relying on backtracking to 3D."],
     tools: [], credits: [],
     // Fallback only: the real list is read from assets/breakdowns/alien-cube/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
