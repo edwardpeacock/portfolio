@@ -609,3 +609,63 @@ body.proj-min{--content-w:94%}
   .work-page .hero.wrap{grid-template-columns:minmax(0,1fr)}
   .work-page .work-count{grid-column:1;margin-top:.5rem;text-align:left;white-space:normal}
 }
+
+
+/* ---------- v24 phone tweaks ---------- */
+@media(max-width:760px){
+  /* Home: no availability line under the name (London, UK stays) */
+  .home .brand-status span:nth-child(2){display:none}
+  /* A little more space between the name and the role (they are stacked on phones) */
+  .brand-tail{margin-top:.4rem}
+  .scrolled .brand-tail{margin-top:0}
+  /* Home: the description under the showreel banner is hidden */
+  .home .reel-desc{display:none}
+}
+
+
+/* ---------- v25 phone tweaks ---------- */
+@media(max-width:760px){
+  /* No availability line on any page (London, UK stays) */
+  .brand-status span:nth-child(2){display:none}
+  /* No Home button on phones (the Menu has Home) */
+  .home-btn{display:none}
+  /* "Menu" sits on the same baseline as the name */
+  .bar{align-items:baseline}
+}
+
+
+/* ---------- v27: gaussian blur on scroll ---------- */
+
+/* 1) Things that fade away when you scroll also blur as they go (and sharpen again when you return to the top) */
+.brand-tail{transition:font-size .35s var(--ease),opacity .3s ease,max-width .35s var(--ease),padding .35s var(--ease),filter .3s ease!important}
+.scrolled .brand-tail{filter:blur(5px)}
+.brand-status{transition:opacity .3s ease,max-height .35s var(--ease),margin .35s var(--ease),filter .3s ease!important}
+.scrolled .brand-status,body.proj-min .brand-status{filter:blur(5px)}
+.stage-link.cue-arrow{transition:opacity .3s ease,filter .3s ease!important}
+body.scrolled .stage-link.cue-arrow{filter:blur(6px);transition:opacity .3s ease,filter .3s ease,visibility 0s .3s!important}
+
+/* 2) Soft blur band under the header: once you scroll, page content blurs as it slides up beneath the name/menu (fades out towards the bottom of the band) */
+#site-header::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:calc(100% + 1.25rem);pointer-events:none;opacity:0;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  -webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent);
+  transition:opacity .35s ease}
+body.scrolled #site-header::before{opacity:1}
+
+
+/* ---------- v28: softer blur, and a progressive (non-linear) blur band ---------- */
+
+/* Gentler blur strengths */
+.scrolled .brand-tail{filter:blur(3px)}
+.scrolled .brand-status,body.proj-min .brand-status{filter:blur(3px)}
+body.scrolled .stage-link.cue-arrow{filter:blur(3px)}
+
+/* Header blur band: four stacked layers, each a little blurrier and fading out over a shorter distance, so the blur builds up gradually
+   towards the top of the screen (no hard line where it starts). Layers are injected by js/layout.js. */
+#site-header::before{display:none}
+.hdr-blur{position:absolute;z-index:-1;left:0;right:0;top:0;height:calc(100% + 3rem);pointer-events:none}
+.hdr-blur i{position:absolute;inset:0;opacity:0;transition:opacity .4s ease!important}
+body.scrolled .hdr-blur i{opacity:1}
+.hdr-blur i:nth-child(1){-webkit-backdrop-filter:blur(.6px);backdrop-filter:blur(.6px);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.7) 35%,transparent 100%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.7) 35%,transparent 100%)}
+.hdr-blur i:nth-child(2){-webkit-backdrop-filter:blur(1.4px);backdrop-filter:blur(1.4px);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.6) 28%,transparent 78%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.6) 28%,transparent 78%)}
+.hdr-blur i:nth-child(3){-webkit-backdrop-filter:blur(2.8px);backdrop-filter:blur(2.8px);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.5) 22%,transparent 56%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.5) 22%,transparent 56%)}
+.hdr-blur i:nth-child(4){-webkit-backdrop-filter:blur(4.5px);backdrop-filter:blur(4.5px);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.4) 16%,transparent 36%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.4) 16%,transparent 36%)}
