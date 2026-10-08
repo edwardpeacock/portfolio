@@ -584,5 +584,28 @@ body.proj-min{--content-w:94%}
 /* "|" placed explicitly from the cap height down to the baseline of the name (Inter: cap height ~.73em, baseline ~.91em below the top of the line), so it no longer depends on how the browser baseline-aligns an empty box */
 .brand-sep{align-self:flex-start;margin-top:calc(var(--brand-size)*.18);height:calc(var(--brand-size)*.73)}
 
-/* Project pages: keep the role (and its divider) visible, even after scrolling; everything else in the header stays hidden */
-body.proj-min .brand-tail,body.proj-min.scrolled .brand-tail{opacity:1;max-width:30em}
+/* Project pages: the role and its divider show at the top and hide once the page is scrolled, like the homepage (the default .scrolled rule) */
+
+/* "|": bottom sits exactly on the text baseline, slightly thicker. Both lines in the role area use the same line height as the name's space, so the maths below lines up (Inter: cap height ~.73em, baseline ~.914em below the top of the line). */
+.brand-role{line-height:1.1}
+.brand-sep{width:2px;margin-top:calc(var(--brand-size)*.184);height:calc(var(--brand-size)*.73)}
+
+
+/* ---------- v24 tweaks ---------- */
+
+/* Header: "Edward Peacock  |  Junior VFX Compositor" - two spaces on each side of the "|" (both gaps are built the same way, so they match exactly) */
+.brand-tail::before{content:"\00a0\00a0"}
+.brand-role::before{content:"\00a0\00a0"}
+
+/* Home button: 20% bigger (2.7rem -> 3.24rem; icon 24px -> 29px in js/layout.js). It is only drawn on pages other than Home (js/layout.js). */
+.home-btn{width:3.24rem;height:3.24rem}
+
+/* Work page: "Selected work - 7 projects" sits on the title row, right-aligned, instead of on its own line under the heading */
+.work-page .hero.wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:2rem}
+.work-page .hero h1{grid-column:1}
+.work-page .work-count{grid-column:2;margin:0;text-align:right;white-space:nowrap}
+.work-page .hero .work-cue{grid-column:1/-1}
+@media(max-width:760px){
+  .work-page .hero.wrap{grid-template-columns:minmax(0,1fr)}
+  .work-page .work-count{grid-column:1;margin-top:.5rem;text-align:left;white-space:normal}
+}
