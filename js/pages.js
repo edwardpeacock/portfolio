@@ -19,27 +19,6 @@
   if (skills) {
     const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
     skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
-    // The strip is deliberately wider than the text column: it fades in and out near the edges of the screen instead of at the content margins
-    const fitMarquee = () => {
-      const l = innerWidth * 0.03, r = innerWidth * 0.97;
-      skills.style.setProperty("--mq-l", Math.round(l) + "px");
-      skills.style.setProperty("--mq-r", Math.round(r) + "px");
-      skills.style.setProperty("--mq-f", Math.round(Math.min(140, (r - l) * .1)) + "px");
-    };
-    fitMarquee(); addEventListener("resize", fitMarquee); addEventListener("load", fitMarquee);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMarquee);
-  }
-  // About me (desktop): the photo is exactly as tall as the text beside it, top of the heading to bottom of the last line
-  const sr = document.querySelector(".split-right");
-  if (portrait && sr) {
-    const fitPortrait = () => {
-      if (innerWidth <= 980) { portrait.style.removeProperty("--portrait-h"); return; }
-      const h = Math.round(sr.getBoundingClientRect().height);
-      if (h > 0) portrait.style.setProperty("--portrait-h", h + "px");
-    };
-    fitPortrait(); addEventListener("resize", fitPortrait); addEventListener("load", fitPortrait);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPortrait);
-    if (window.ResizeObserver) new ResizeObserver(fitPortrait).observe(sr);
   }
   const acts = $("actions");
   if (acts) {
