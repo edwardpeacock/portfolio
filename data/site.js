@@ -15,7 +15,6 @@ window.SITE = {
     "This involved delving deep into 2D compositing, practicing the 2D VFX pipeline whilst working with industry standard software and always thinking professionally. I also have experience in the 3D pipeline, from modelling to UV unwrapping and texturing.",
     "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
-  projectTotal: 7,   // number shown under the title on the Work page (the final count you are building towards). Delete this line to count the projects automatically.
   skills: ["Nuke", "Blender", "Autodesk Maya", "3DEqualizer", "SynthEyes", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 
@@ -79,6 +78,12 @@ window.PROJECTS = [
   { slug: "boxer-rotoscope", title: "Boxer Rotoscope", year: "2026",
     tags: ["Rotoscoping"],
     vimeo: "https://vimeo.com/1232643933", image: "",
+    body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
+    tools: [], credits: [],
+    breakdown: [] },
+  { slug: "the-diner", title: "The Diner", year: "2026",
+    tags: ["Virtual Production", "Keying", "Set Extension"],
+    vimeo: "https://vimeo.com/1194709999", image: "",
     body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
     tools: [], credits: [],
     breakdown: [] }
