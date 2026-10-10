@@ -1,7 +1,7 @@
 /* Renders project cards (#work-grid, optional data-limit) and the project detail page (#project). */
 (function () {
   const P = window.PROJECTS;
-  const EXTS = ["jpg", "png", "webp", "jpeg"];
+  const EXTS = ["jpg", "png", "webp", "jpeg", "tif", "tiff"];
   const pad = n => String(n).padStart(2, "0");
   const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   const media = p => p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="ph" aria-hidden="true"></div>`;
@@ -74,6 +74,32 @@
   // in that folder are shown, and the numbering ("03 / 05") follows what is found.
   // If README.txt can't be read (e.g. the site is opened straight from disk), the list in
   // data/site.js is used instead.
+  // ---- TIFF support ----
+  // Browsers (except Safari) can't display .tif/.tiff, so they are downloaded, decoded with the UTIF library
+  // (loaded from a CDN only when a TIFF is actually found) and turned into a normal image in memory.
+  const isTiff = f => /\.tiff?$/i.test(f);
+  const loadScript = url => new Promise((ok, no) => {
+    const el = document.createElement("script"); el.src = url; el.async = true;
+    el.onload = ok; el.onerror = () => no(new Error("script failed: " + url)); document.head.appendChild(el);
+  });
+  let tiffLib = null;
+  const getTiffLib = () => tiffLib || (tiffLib = loadScript("https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js")
+    .catch(() => {})                                             // pako is only needed for ZIP-compressed TIFFs
+    .then(() => loadScript("https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js"))
+    .then(() => window.UTIF));
+  // Resolves to { src: blob URL, w, h } or rejects if the file is missing or can't be decoded.
+  function decodeTiff(url) {
+    return Promise.all([fetch(url).then(r => { if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }), getTiffLib()])
+      .then(([buf, U]) => {
+        const ifds = U.decode(buf); if (!ifds.length) throw new Error("empty tiff");
+        const page = ifds[0]; U.decodeImage(buf, page);
+        const w = page.width, h = page.height, rgba = new Uint8ClampedArray(U.toRGBA8(page).buffer);
+        const c = document.createElement("canvas"); c.width = w; c.height = h;
+        c.getContext("2d").putImageData(new ImageData(rgba, w, h), 0, 0);
+        return new Promise((ok, no) => c.toBlob(b => b ? ok({ src: URL.createObjectURL(b), w, h }) : no(new Error("encode failed")), "image/jpeg", 0.95));
+      });
+  }
+
   function parseReadme(txt) {
     const out = [];
     String(txt).replace(/^\uFEFF/, "").split(/\r?\n/).forEach(raw => {
@@ -82,10 +108,10 @@
       let file, label;
       const m = line.match(/^([\w.\-]+)\s*(?:->|=>|\u2192)\s*(.+)$/);
       if (m) { file = m[1]; label = m[2].trim(); }
-      else if (/^[\w\-]+(\.(jpe?g|png|webp))?$/i.test(line)) { file = line; }   // file name only
+      else if (/^[\w\-]+(\.(jpe?g|png|webp|tiff?))?$/i.test(line)) { file = line; }   // file name only
       else return;                                                               // normal text: ignore
       let ext;
-      const e = file.match(/^(.*)\.(jpe?g|png|webp)$/i);
+      const e = file.match(/^(.*)\.(jpe?g|png|webp|tiff?)$/i);
       if (e) { file = e[1]; ext = e[2].toLowerCase(); }
       if (!label) {
         label = file.replace(/^\d+[-_ ]*/, "").replace(/[-_]+/g, " ").trim() || file;
@@ -106,7 +132,12 @@
       const exts = s.ext ? [s.ext] : EXTS;
       const attempt = n => {
         if (n >= exts.length) return done(null);
-        const src = `${dir}${s.file}.${exts[n]}`, im = new Image();
+        const src = `${dir}${s.file}.${exts[n]}`;
+        if (isTiff(src)) {
+          decodeTiff(src).then(t => done({ label: s.label, src: t.src, w: t.w, h: t.h })).catch(() => attempt(n + 1));
+          return;
+        }
+        const im = new Image();
         im.onload = () => done({ label: s.label, src, w: im.naturalWidth, h: im.naturalHeight });
         im.onerror = () => attempt(n + 1);
         im.src = src;
