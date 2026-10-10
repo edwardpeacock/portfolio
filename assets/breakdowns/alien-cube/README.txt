@@ -2,15 +2,15 @@ Breakdown images for: alien-cube
 
 Steps, in order (images go in this folder):
 
-  1_plate   ->  Original plate
-  2_rawcg   ->  Raw CG
-  3_gradedcg   ->  Combined
-  4_glowcentre   ->  Glows01
-  5_glowSTMAP   ->  Glows02
-  6_glowstmapcombined   ->  Glows03
-  7_lighting   ->  Lighting
-  8_explosionrender   ->  Shockwave01
-  9_glass   ->  Shockwave02
+  01_plate   ->  Original plate
+  02_rawcg   ->  Raw CG
+  03_gradedcg   ->  Combined
+  04_glowcentre   ->  Glows01
+  05_glowSTMAP   ->  Glows02
+  06_glowstmapcombined   ->  Glows03
+  07_lighting   ->  Lighting
+  08_explosionrender   ->  Shockwave01
+  09_glass   ->  Shockwave02
   10_shockwaveee   ->  Shockwave03
   11_lensfx   ->  Lens FX
   12_lookgrade   ->  Look Grade
