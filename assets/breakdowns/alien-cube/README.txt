@@ -17,7 +17,7 @@ Steps, in order (images go in this folder):
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
-  Left of the arrow: the image file name WITHOUT the extension (.jpg, .jpeg, .png or .webp .tiff are found automatically).
+  Left of the arrow: the image file name WITHOUT the extension (.jpg, .jpeg, .png or .webp are found automatically).
   Right of the arrow: the text the website shows for that step (rename it to whatever you like).
 - The order of the lines is the order of the steps. Move a line up or down to reorder.
 - Add as many lines as you need. Add a new line for each new image, then drop that image in this folder.
