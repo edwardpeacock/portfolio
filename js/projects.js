@@ -94,6 +94,9 @@
         const ifds = U.decode(buf); if (!ifds.length) throw new Error("empty tiff");
         const page = ifds[0]; U.decodeImage(buf, page);
         const w = page.width, h = page.height, rgba = new Uint8ClampedArray(U.toRGBA8(page).buffer);
+        for (let i = 3; i < rgba.length; i += 4) rgba[i] = 255;   // ignore the alpha channel (Nuke TIFFs often have an empty one, which made the image transparent/black)
+        let sum = 0; for (let i = 0; i < rgba.length; i += 997) sum += rgba[i];
+        console.log("[tiff]", url, w + "x" + h, "bits:", page.t258, "samples:", page.t277, "format:", page.t339, "compression:", page.t259, "avg:", Math.round(sum / Math.ceil(rgba.length / 997)));
         const c = document.createElement("canvas"); c.width = w; c.height = h;
         c.getContext("2d").putImageData(new ImageData(rgba, w, h), 0, 0);
         return new Promise((ok, no) => c.toBlob(b => b ? ok({ src: URL.createObjectURL(b), w, h }) : no(new Error("encode failed")), "image/jpeg", 0.95));
