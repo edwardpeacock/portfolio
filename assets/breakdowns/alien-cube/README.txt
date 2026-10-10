@@ -5,15 +5,15 @@ Steps, in order (images go in this folder):
   01_plate   ->  Original plate
   02_rawcg   ->  Raw CG
   03_gradedcg   ->  Combined
-  04_glowcentre   ->  Glows01
-  05_glowSTMAP   ->  Glows02
-  06_glowstmapcombined   ->  Glows03
+  04_glowcentre   ->  Glow
+  05_glowSTMAP   ->  Projection Glow
+  06_glowstmapcombined   ->  Combined Glow
   07_lighting   ->  Lighting
-  08_explosionrender   ->  Shockwave01
-  09_glass   ->  Shockwave02
-  10_shockwaveee   ->  Shockwave03
-  11_lensfx   ->  Lens FX
-  12_lookgrade   ->  Look Grade
+  08_explosionrender   ->  Shockwave CG render
+  09_glass   ->  Glass Effect
+  10_shockwave   ->  Shockwave
+  11_lensfxx   ->  Lens FX
+  12_lookgradee   ->  Look Grade
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
