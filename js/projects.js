@@ -92,15 +92,18 @@
   });
   let tiffLib = null;
   const getTiffLib = () => tiffLib || (tiffLib = loadScript("https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js")
-    .catch(() => {})                                             // pako is only needed for ZIP-compressed TIFFs
-    .then(() => loadScript("https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js"))
+    .catch(() => dbg("pako failed to load"))                       // pako is only needed for ZIP-compressed TIFFs
+    .then(() => loadScript("https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js").catch(e => { tiffLib = null; throw e; }))
     .then(() => window.UTIF));
   // Resolves to { src: blob URL, w, h } or rejects if the file is missing or can't be decoded.
   function decodeTiff(url) {
     return Promise.all([fetch(url).then(r => { if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); }), getTiffLib()])
       .then(([buf, U]) => {
+        const hd = new Uint8Array(buf, 0, 4);                      // real TIFFs start with II*\0 or MM\0* (a host that answers a missing file with a web page is rejected here)
+        if (!((hd[0] === 73 && hd[1] === 73 && hd[2] === 42) || (hd[0] === 77 && hd[1] === 77 && hd[3] === 42))) throw new Error("not a TIFF file (" + buf.byteLength + " bytes)");
         const ifds = U.decode(buf); if (!ifds.length) throw new Error("empty tiff");
         const page = ifds[0]; U.decodeImage(buf, page);
+        if (!(page.width > 0 && page.height > 0)) throw new Error("decoder returned no pixels (" + page.width + "x" + page.height + ")");
         const w = page.width, h = page.height, rgba = new Uint8ClampedArray(U.toRGBA8(page).buffer);
         for (let i = 3; i < rgba.length; i += 4) rgba[i] = 255;   // ignore the alpha channel (Nuke TIFFs often have an empty one, which made the image transparent/black)
         let sum = 0; for (let i = 0; i < rgba.length; i += 997) sum += rgba[i];
