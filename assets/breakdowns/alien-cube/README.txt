@@ -2,16 +2,22 @@ Breakdown images for: alien-cube
 
 Steps, in order (images go in this folder):
 
-  01-original-plate   ->  Original plate
-  02-tracking   ->  Tracking
-  03-alien-cube   ->  Alien cube
-  04-rigid-body-simulation   ->  Rigid body simulation
-  05-comp-fixes   ->  Comp fixes
-  06-final-composite   ->  Final composite
+  1_plate   ->  Original plate
+  2_rawcg   ->  Raw CG
+  3_gradedcg   ->  Combined
+  4_glowcentre   ->  Glows01
+  5_glowSTMAP   ->  Glows02
+  6_glowstmapcombined   ->  Glows03
+  7_lighting   ->  Lighting
+  8_explosionrender   ->  Shockwave01
+  9_glass   ->  Shockwave02
+  10_shockwaveee   ->  Shockwave03
+  11_lensfx   ->  Lens FX
+  12_lookgrade   ->  Look Grade
 
 HOW THIS FILE WORKS - it controls the Breakdown section for this project
 - Each line above is one step:   file-name   ->   Name shown on the website
-  Left of the arrow: the image file name WITHOUT the extension (.jpg, .jpeg, .png or .webp are found automatically).
+  Left of the arrow: the image file name WITHOUT the extension (.jpg, .jpeg, .png or .webp .tiff are found automatically).
   Right of the arrow: the text the website shows for that step (rename it to whatever you like).
 - The order of the lines is the order of the steps. Move a line up or down to reorder.
 - Add as many lines as you need. Add a new line for each new image, then drop that image in this folder.
