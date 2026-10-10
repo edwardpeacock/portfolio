@@ -77,6 +77,14 @@
   // ---- TIFF support ----
   // Browsers (except Safari) can't display .tif/.tiff, so they are downloaded, decoded with the UTIF library
   // (loaded from a CDN only when a TIFF is actually found) and turned into a normal image in memory.
+  // Add ?debug=1 to the page address (e.g. project.html?p=alien-cube&debug=1) to show TIFF diagnostics in a box on screen.
+  const dbg = msg => {
+    console.log("[tiff]", msg);
+    if (!/[?&]debug=1/.test(location.search)) return;
+    let b = document.getElementById("tiff-debug");
+    if (!b) { b = document.createElement("pre"); b.id = "tiff-debug"; b.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99999;max-width:92vw;max-height:45vh;overflow:auto;margin:0;padding:8px 10px;background:#000c;color:#9f9;font:11px/1.4 monospace;white-space:pre-wrap;pointer-events:none"; document.body.appendChild(b); }
+    b.textContent += msg + "\n";
+  };
   const isTiff = f => /\.tiff?$/i.test(f);
   const loadScript = url => new Promise((ok, no) => {
     const el = document.createElement("script"); el.src = url; el.async = true;
@@ -96,7 +104,7 @@
         const w = page.width, h = page.height, rgba = new Uint8ClampedArray(U.toRGBA8(page).buffer);
         for (let i = 3; i < rgba.length; i += 4) rgba[i] = 255;   // ignore the alpha channel (Nuke TIFFs often have an empty one, which made the image transparent/black)
         let sum = 0; for (let i = 0; i < rgba.length; i += 997) sum += rgba[i];
-        console.log("[tiff]", url, w + "x" + h, "bits:", page.t258, "samples:", page.t277, "format:", page.t339, "compression:", page.t259, "avg:", Math.round(sum / Math.ceil(rgba.length / 997)));
+        dbg(url + " | " + w + "x" + h + " | bits:" + page.t258 + " samples:" + page.t277 + " format:" + page.t339 + " compression:" + page.t259 + " predictor:" + page.t317 + " | avg brightness 0-255: " + Math.round(sum / Math.ceil(rgba.length / 997)));
         const c = document.createElement("canvas"); c.width = w; c.height = h;
         c.getContext("2d").putImageData(new ImageData(rgba, w, h), 0, 0);
         return new Promise((ok, no) => c.toBlob(b => b ? ok({ src: URL.createObjectURL(b), w, h }) : no(new Error("encode failed")), "image/jpeg", 0.95));
@@ -137,7 +145,7 @@
         if (n >= exts.length) return done(null);
         const src = `${dir}${s.file}.${exts[n]}`;
         if (isTiff(src)) {
-          decodeTiff(src).then(t => done({ label: s.label, src: t.src, w: t.w, h: t.h })).catch(() => attempt(n + 1));
+          decodeTiff(src).then(t => done({ label: s.label, src: t.src, w: t.w, h: t.h })).catch(err => { dbg(src + " FAILED: " + (err && err.message || err)); attempt(n + 1); });
           return;
         }
         const im = new Image();
