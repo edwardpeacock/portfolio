@@ -1,7 +1,7 @@
 /* Renders project cards (#work-grid, optional data-limit) and the project detail page (#project). */
 (function () {
   const P = window.PROJECTS;
-  const EXTS = ["jpg", "png", "webp", "jpeg", "tif", "tiff"];
+  const EXTS = ["jpg", "png", "webp", "jpeg", "tif", "tiff", "JPG", "JPEG", "PNG"];
   const pad = n => String(n).padStart(2, "0");
   const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   const media = p => p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="ph" aria-hidden="true"></div>`;
@@ -145,7 +145,7 @@
     const probe = s => new Promise(done => {
       const exts = s.ext ? [s.ext] : EXTS;
       const attempt = n => {
-        if (n >= exts.length) return done(null);
+        if (n >= exts.length) { dbg("step not found: " + dir + s.file + ".(" + exts.join("|") + ")"); return done(null); }
         const src = `${dir}${s.file}.${exts[n]}`;
         if (isTiff(src)) {
           decodeTiff(src).then(t => done({ label: s.label, src: t.src, w: t.w, h: t.h })).catch(err => { dbg(src + " FAILED: " + (err && err.message || err)); attempt(n + 1); });
@@ -203,7 +203,7 @@
           <div class="bd-tag"><span class="bd-num"></span><span class="bd-name"></span></div>
           <button type="button" class="bd-zoom" aria-label="Zoom in to examine this image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg><span>Zoom</span></button>
         </div>
-        <ol class="bd-steps">${st.map((s, k) => `<li><button type="button" data-k="${k}"><span>${pad(k + 1)}</span>${s.label}</button></li>`).join("")}</ol>
+        <ol class="bd-steps${st.length > 8 ? " compact" : ""}">${st.map((s, k) => `<li><button type="button" data-k="${k}"${st.length > 8 ? ` title="${s.label}" aria-label="${pad(k + 1)} ${s.label}"` : ""}><span>${pad(k + 1)}</span>${st.length > 8 ? "" : s.label}</button></li>`).join("")}</ol>
       </div></div></section>`;
   }
 

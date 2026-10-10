@@ -199,6 +199,10 @@ body.bd-on #site-header:hover{opacity:1!important}
 .bd-steps button span{font-family:var(--mono);font-size:.75rem;margin-right:.45rem;opacity:.7}
 .bd-steps button:hover{color:var(--text)}
 .bd-steps button.on{color:#fff;border-bottom-color:#fff}
+.bd-steps.compact{flex-wrap:nowrap;gap:.1rem}
+.bd-steps.compact button{padding:.35rem .5rem}
+.bd-steps.compact button span{margin-right:0;font-size:.8rem;opacity:.9}
+@media(max-width:760px){.bd-steps.compact{flex-wrap:wrap}.bd-steps.compact button{padding:.3rem .35rem}}
 @media(max-width:760px){.bd-stage,.bd-steps{width:var(--bd-w,100%)}.bd-steps button{font-size:.8rem;padding:.3rem .4rem}}
 
 /* Particle canvas (sits behind all content) */
