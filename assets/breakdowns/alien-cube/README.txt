@@ -4,7 +4,7 @@ Steps, in order (images go in this folder):
 
   01_plate   ->  Original plate
   02_rawcg   ->  Raw CG
-  03_gradedcg   ->  Combined
+  03_gradedcg   ->  Graded CG
   04_glowcentre   ->  Glow
   05_glowSTMAP   ->  Projection Glow
   06_glowstmapcombined   ->  Combined Glow
