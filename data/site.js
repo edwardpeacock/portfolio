@@ -1,6 +1,6 @@
 /* Edit this file: your details, showreel and projects. No other file needs touching to add work. */
 window.SITE = {
-  name: "Edward Peacock",
+  name: "Oscar Peacock",
   role: "VFX Compositor",
   place: "United Kingdom",
   email: "epeacockvfx@gmail.com",

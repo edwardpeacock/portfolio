@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Still cooking | Edward Peacock</title>
+<title>Still cooking | Oscar Peacock</title>
 <meta name="description" content="This project is still being finished. Check back soon!">
 <meta name="robots" content="noindex">
-<meta property="og:site_name" content="Edward Peacock">
+<meta property="og:site_name" content="Oscar Peacock">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_GB">
 <meta name="theme-color" content="#111114">
@@ -18,7 +18,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=39">
+<link rel="stylesheet" href="css/style.css?v=40">
 </head>
 <body class="wip-page">
 <div id="site-header"></div>
@@ -36,16 +36,16 @@
 </section>
 </main>
 <div id="site-footer"></div>
-<script src="data/site.js?v=39"></script>
-<script src="js/protect.js?v=39"></script>
-<script src="js/layout.js?v=39"></script>
-<script src="js/particles.js?v=39"></script>
+<script src="data/site.js?v=40"></script>
+<script src="js/protect.js?v=40"></script>
+<script src="js/layout.js?v=40"></script>
+<script src="js/particles.js?v=40"></script>
 <script>
 /* "Still cooking" page for unfinished projects (wip: true in data/site.js). Shows the project's name if one is given (wip.html?p=the-diner). */
 (function () {
   var slug = new URLSearchParams(location.search).get("p");
   var p = (window.PROJECTS || []).filter(function (x) { return x.slug === slug; })[0];
-  if (p) { document.getElementById("wip-eyebrow").textContent = p.title + " · Work in progress"; document.title = p.title + " is still cooking | Edward Peacock"; }
+  if (p) { document.getElementById("wip-eyebrow").textContent = p.title + " · Work in progress"; document.title = p.title + " is still cooking | Oscar Peacock"; }
 })();
 </script>
 </body>
