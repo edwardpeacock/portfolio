@@ -1,7 +1,7 @@
 /* Edit this file: your details, showreel and projects. No other file needs touching to add work. */
 window.SITE = {
   name: "Edward Peacock",
-  role: "Junior VFX Compositor",
+  role: "VFX Compositor",
   place: "United Kingdom",
   email: "epeacockvfx@gmail.com",
   showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
@@ -82,6 +82,7 @@ window.PROJECTS = [
     tools: [], credits: [],
     breakdown: [] },
   { slug: "the-diner", title: "The Diner", year: "2026",
+    wip: true,   // still in progress: the card opens the "still cooking" page (wip.html) instead of the project page. Delete this line when it's finished.
     tags: ["Virtual Production", "Keying", "Set Extension"],
     vimeo: "https://vimeo.com/1194709999", image: "",
     body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.

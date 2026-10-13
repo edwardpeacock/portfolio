@@ -7,11 +7,13 @@
   const page = strip(location.pathname.split("/").pop() || "index");
   const current = page === "project" ? "work" : page;
 
+  // Location / availability lines: shown only on the home page, at the bottom left of the showreel (not in the header)
+  const statusHTML = `<span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>London, UK</span><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>Available for Junior Compositor roles</span>`;
+
   const header = document.getElementById("site-header");
   if (header) {
     header.innerHTML = `<div class="hdr-blur" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="bar">
       <div class="brand"><div class="brand-line"><span class="brand-name">${S.name}</span><span class="brand-tail"><span class="brand-sep" aria-hidden="true">|</span><span class="brand-role">${S.role}</span></span></div>
-        <div class="brand-status"><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>London, UK</span><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>Available for Junior Compositor roles</span></div>
         ${current === "index" ? "" : `<a class="home-btn" href="index.html" aria-label="Home"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>`}</div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}${h==="cv.html"?' target="_blank" rel="noopener"':""}>${t}</a>`).join("")}</nav></div>`;
@@ -46,8 +48,7 @@
 
   // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)
   const st = document.getElementById("stage-status");
-  const hs = header && header.querySelector(".brand-status");
-  if (st && hs) st.innerHTML = hs.innerHTML;
+  if (st) st.innerHTML = statusHTML;
 })();
 
 /* Click sounds (synthesised mouse click, OFF by default, toggled in the footer), page fade, video fitting. */

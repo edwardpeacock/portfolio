@@ -25,6 +25,11 @@
     }
   }
   fit();
+  // Show the page only once the fonts have loaded and the photo / strip are sized, so nothing jumps into place (max 1.5s wait)
+  let shown = false;
+  const show = () => { if (shown) return; shown = true; fit(); requestAnimationFrame(() => document.body.classList.remove("lay-wait")); };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(show); else show();
+  setTimeout(show, 1500);
   addEventListener("resize", fit); addEventListener("load", fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   if (window.ResizeObserver) new ResizeObserver(fit).observe(sr);
