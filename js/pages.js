@@ -31,8 +31,11 @@
       Instagram: '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
       Mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>'
     };
-    acts.innerHTML = S.socials.map(s => `<a class="btn" href="${s.url}" target="_blank" rel="noopener">${svg(icons[s.label] || "")}<span>${s.label}</span></a>`).join("")
-      + `<a class="btn" href="mailto:${S.email}">${svg(icons.Mail)}<span>${S.email}</span></a>`;
+    // Email button in the middle so the row looks centred (on phones CSS moves it to its own line)
+    const soc = S.socials.map(s => `<a class="btn btn-social" href="${s.url}" target="_blank" rel="noopener">${svg(icons[s.label] || "")}<span>${s.label}</span></a>`);
+    const mail = `<a class="btn btn-mail" href="mailto:${S.email}">${svg(icons.Mail)}<span>${S.email}</span></a>`;
+    const mid = Math.ceil(soc.length / 2);
+    acts.innerHTML = soc.slice(0, mid).join("") + mail + soc.slice(mid).join("");
   }
   window.initVideos();
 })();

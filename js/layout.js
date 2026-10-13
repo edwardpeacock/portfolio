@@ -1,7 +1,7 @@
-/* Shared header, footer, greeting. */
+/* Shared header, footer, home status lines. */
 (function () {
   const S = window.SITE;
-  const links = [["index.html","Home"],["work.html","Work"],["info.html","About me"]];
+  const links = [["index.html","Home"],["work.html","Work"],["info.html","About me"],["cv.html","CV"]];   // CV opens in a new tab (see cv.html)
   // Hosts like Cloudflare Pages serve /about.html as /about, so compare names without ".html".
   const strip = s => s.replace(/\.html$/, "");
   const page = strip(location.pathname.split("/").pop() || "index");
@@ -14,7 +14,7 @@
         <div class="brand-status"><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>London, UK</span><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>Available for Junior Compositor roles</span></div>
         ${current === "index" ? "" : `<a class="home-btn" href="index.html" aria-label="Home"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>`}</div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
-      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
+      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}${h==="cv.html"?' target="_blank" rel="noopener"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
     btn.addEventListener("click", () => {
       const open = header.classList.toggle("open");
@@ -34,27 +34,29 @@
     Instagram: '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
     Mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>'
   };
-  const contactBtns = S.socials.map(x => `<a class="btn" href="${x.url}" target="_blank" rel="noopener">${icoSvg(ico[x.label] || "")}<span>${x.label}</span></a>`).join("")
-    + `<a class="btn" href="mailto:${S.email}">${icoSvg(ico.Mail)}<span>${S.email}</span></a>`;
+  // Email button goes in the middle of the row so the (wider) email doesn't pull the group off-centre. On phones CSS moves it to its own line.
+  const socialBtns = S.socials.map(x => `<a class="btn btn-social" href="${x.url}" target="_blank" rel="noopener">${icoSvg(ico[x.label] || "")}<span>${x.label}</span></a>`);
+  const mailBtn = `<a class="btn btn-mail" href="mailto:${S.email}">${icoSvg(ico.Mail)}<span>${S.email}</span></a>`;
+  const mid = Math.ceil(socialBtns.length / 2);
+  const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
   if (footer) footer.innerHTML = `<div class="wrap foot">
     <p>${S.name}, ${S.role}</p>
-    <button class="sound-btn" type="button" aria-pressed="true"></button>
+    <button class="sound-btn" type="button" aria-pressed="false"></button>
     <div class="foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div></div>`;
 
-  const g = document.getElementById("greeting");
-  if (g) {
-    // Uses the visitor's own clock, so it follows their time zone.
-    const h = new Date().getHours();
-    const hello = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-    g.textContent = hello + ", welcome to my website!";
-  }
+  // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)
+  const st = document.getElementById("stage-status");
+  const hs = header && header.querySelector(".brand-status");
+  if (st && hs) st.innerHTML = hs.innerHTML;
 })();
 
-/* Old-school mouse click sound (synthesised), page fade, video fitting. */
+/* Click sounds (synthesised mouse click, OFF by default, toggled in the footer), page fade, video fitting. */
 (function () {
-  const icon = on => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>${on ? '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>' : '<line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'}</svg>`;
-  let muted = false;
-  try { muted = localStorage.getItem("sfx") === "off"; } catch (e) {}
+  // Mouse-pointer icon (not a speaker) so it reads as interface clicks, not the Vimeo audio
+  const icon = on => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3l7 17 2.5-7.5L21 10z"/>${on ? '' : '<line x1="3" y1="21" x2="21" y2="3"/>'}</svg>`;
+  // Off unless the visitor has switched them on (new storage key, so everyone starts with them off)
+  let muted = true;
+  try { muted = localStorage.getItem("clickSounds") !== "on"; } catch (e) {}
 
   // Synthesised microswitch click: a sharp "click" with a dull plastic thunk, then a lighter release click.
   let ctx, master;
@@ -102,7 +104,8 @@
   const btn = document.querySelector(".sound-btn");
   const paint = () => {
     if (!btn) return;
-    btn.innerHTML = icon(!muted) + `<span>Sound ${muted ? "off" : "on"}</span>`;
+    btn.innerHTML = icon(!muted) + `<span>Click sounds: ${muted ? "Off" : "On"}</span>`;
+    btn.title = muted ? "Turn interface click sounds on" : "Turn interface click sounds off";
     btn.setAttribute("aria-pressed", String(!muted));
   };
   paint();
@@ -110,7 +113,7 @@
   document.addEventListener("click", e => {
     if (btn && e.target.closest(".sound-btn")) {
       muted = !muted;
-      try { localStorage.setItem("sfx", muted ? "off" : "on"); } catch (err) {}
+      try { localStorage.setItem("clickSounds", muted ? "off" : "on"); } catch (err) {}
       paint(); play(); return;
     }
     const el = e.target.closest("a, button");

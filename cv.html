@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CV | Edward Peacock</title>
+<meta name="theme-color" content="#111114">
+<link rel="icon" href="favicon.ico" sizes="any">
+<!--
+  CV: put your PDF in the assets folder named exactly  cv.pdf  (assets/cv.pdf), then commit and push.
+  The "CV" link in the menu opens this page in a new tab, and it goes straight to the PDF.
+  Until the PDF is there, this page shows a short "on its way" message with your email instead of an error.
+-->
+<style>
+  html,body{margin:0;height:100%;background:#111114;color:#eeece8;font:400 1.05rem/1.6 Inter,system-ui,sans-serif}
+  main{min-height:100%;display:grid;place-items:center;text-align:center;padding:2rem;box-sizing:border-box}
+  h1{margin:0 0 .5rem;font-size:1.6rem;font-weight:600}
+  p{margin:0;color:#9d9da6}
+  a{color:#7cc4bd}
+  .msg{display:none}
+</style>
+</head>
+<body>
+<main><div class="msg" id="msg"><h1>Edward Peacock — CV</h1><p>My CV is on its way. In the meantime, email me at <a href="mailto:epeacockvfx@gmail.com">epeacockvfx@gmail.com</a>.</p></div></main>
+<script>
+(function () {
+  var pdf = "assets/cv.pdf";
+  var show = function () { document.getElementById("msg").style.display = "block"; };
+  // Check the PDF really exists (some hosts answer missing files with the home page instead of an error)
+  fetch(pdf, { method: "HEAD", cache: "no-store" }).then(function (r) {
+    var type = r.headers.get("content-type") || "";
+    if (r.ok && type.indexOf("pdf") !== -1) location.replace(pdf); else show();
+  }).catch(show);
+})();
+</script>
+</body>
+</html>
