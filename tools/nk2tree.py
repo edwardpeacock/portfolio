@@ -39,8 +39,8 @@ and gives Nuke's exact default colour for every node type and the exact size of 
     json.dump(out, open(path, "w"))
     print("Saved", path)
 
-Only the layout is kept: node class, name, position, colour, backdrop labels and which node feeds which.
-File paths, render settings, expressions and every other knob are left out, so nothing private ends up on the site.
+Only the layout is kept: node class, name, position, colour, backdrop labels, which node feeds which, and the file
+NAME (not its folders) of Read / Write nodes. Paths, render settings, expressions and every other knob are left out.
 Nodes inside Groups are not drawn (the Group shows as one node, as it does in Nuke's main node graph).
 """
 import json, re, sys
@@ -132,7 +132,10 @@ def convert(path):
                 except Exception: pass
             lab = unq(k.get("label", "")) if k.get("label") else ""
             if lab and "[" not in lab and "/" not in lab and "\\" not in lab and len(lab) < 120: node["l"] = lab
-            if unq(k.get("disable", "false")) == "true": node["d"] = 1
+            # Read / Write nodes show their file name under the node name, as in Nuke (the file name only: never the folders)
+            if k.get("file") and cls in ("Read", "Write", "DeepRead", "DeepWrite", "ReadGeo2", "WriteGeo"):
+                base = re.split(r"[\\/]", unq(k["file"]))[-1]
+                if base and "[" not in base and len(base) < 90: node["f"] = base
             if cls == "BackdropNode":
                 b = {"x": round(x), "y": round(y), "w": round(num(k.get("bdwidth", "160"))), "h": round(num(k.get("bdheight", "120"))),
                      "l": lab, "fs": round(num(k.get("note_font_size", "14"))), "z": round(num(k.get("z_order", "0")))}

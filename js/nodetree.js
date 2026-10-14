@@ -2,7 +2,7 @@
    Everything is drawn as vectors on a canvas at the screen's own resolution, so it stays sharp at any zoom.
    - On the project page: a preview of the whole tree (click to open).
    - window.openNodeTree(data, title, opener): full-screen explorer. Scroll / pinch to zoom, drag to move, double-click to zoom in,
-     hover (or tap) a node for its name and type, and the chips along the top jump to each backdrop (CG, RELIGHT, LENS FX...).
+     and the chips along the top jump to each backdrop (CG, RELIGHT, LENS FX...).
    Project data: nodeTree: "assets/nodetrees/<slug>.json" in data/site.js. */
 (function () {
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -108,7 +108,6 @@
     const showText = s * 11 >= 6;
     d.nodes.forEach((n, i) => {
       if (!vis(n.x, n.y, n.w, n.h)) return;
-      ctx.globalAlpha = n.d ? 0.45 : 1;
       if (n.c === "Dot") {
         ctx.fillStyle = css(n.col); ctx.beginPath(); ctx.arc(n.x + DOT / 2, n.y + DOT / 2, DOT / 2 - 1, 0, 7); ctx.fill();
         ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "#111"; ctx.lineWidth = (i === hiSet ? 2 : 1) * px; ctx.stroke();
@@ -119,7 +118,7 @@
         ctx.fillStyle = g; ctx.fillRect(n.x, n.y, n.w, n.h);
         const stamp = n.h >= 60 && n.c !== "Group";   // nodes showing a postage stamp (Reads, Constants, PostageStamp...)
         if (stamp) {
-          const bx = n.x + 3, by = n.y + 3, bw = n.w - 6, bh = n.h - 18;
+          const bx = n.x + 3, by = n.y + 3, bw = n.w - 6, bh = n.h - (n.f ? 30 : 18);
           const img = n.p && opt.stamp ? opt.stamp(n, bw * s) : null;   // the real frame, loaded once it's on screen and big enough to see
           ctx.fillStyle = "#151515"; ctx.fillRect(bx, by, bw, bh);
           if (img) {   // fitted inside the box like Nuke's postage stamp (letterboxed, never stretched)
@@ -131,19 +130,20 @@
           }
         }
         ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "#000"; ctx.lineWidth = (i === hiSet ? 2.5 : 1) * px; ctx.strokeRect(n.x, n.y, n.w, n.h);
-        if (n.d) { ctx.strokeStyle = "rgba(200,40,40,.9)"; ctx.lineWidth = 1.5 * px; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n.x + n.w, n.y + n.h); ctx.stroke(); }
         if (showText) {
           // Nuke writes node names in black (white only on very dark tiles), in its plain UI font
           ctx.fillStyle = lum(n.col) > 0.22 ? "#000" : "#e6e6e6"; ctx.font = `400 11px ${NUKE_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          const ty = stamp ? n.y + n.h - 8 : n.y + 9.5;
+          const ty = stamp ? n.y + n.h - (n.f ? 20 : 8) : n.y + 9.5;
           ctx.fillText(n.n, n.x + n.w / 2, ty, n.w - 4);
-          if (n.l && !stamp) {   // the node's label, inside the tile under its name, as in Nuke
-            ctx.font = `400 10px ${NUKE_FONT}`;
-            n.l.split("\n").slice(0, Math.max(0, Math.floor((n.h - 18) / 12))).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, n.y + 21 + k * 12, n.w - 4));
+          // Read / Write: the file name on the line under the name, as Nuke shows it; then the node's own label
+          const extra = [n.f, !stamp && n.l].filter(Boolean).join("\n");
+          if (extra) {
+            ctx.font = `400 9.5px ${NUKE_FONT}`;
+            const room = stamp ? 1 : Math.max(0, Math.floor((n.h - 18) / 12));
+            extra.split("\n").slice(0, room).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, (stamp ? ty + 12 : n.y + 21) + k * 12, n.w - 4));
           }
         }
       }
-      ctx.globalAlpha = 1;
       if (showText && n.l && n.c !== "Dot" && n.h < 30) {   // no room inside the tile: the label sits just under it
         ctx.fillStyle = "rgba(235,235,235,.85)"; ctx.font = font(9.5, 400); ctx.textAlign = "center"; ctx.textBaseline = "top";
         n.l.split("\n").slice(0, 3).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, n.y + n.h + 3 + k * 11, 160));
@@ -153,11 +153,20 @@
     d.backdrops.forEach(b => {
       if (!b.l || !vis(b.x, b.y, b.w, b.h)) return;
       const onScreen = b.w * s; if (onScreen < 50) return;
-      const size = Math.max(b.fs || 14, 11 * px), lines = b.l.split("\n").filter((t, k, a) => t || k < a.length - 1);
+      let size = Math.max(b.fs || 14, 11 * px); const lines = b.l.split("\n").filter((t, k, a) => t || k < a.length - 1);
+      ctx.font = `400 ${size}px ${NUKE_FONT}`;
+      const longest = Math.max(...lines.join(" ").split(" ").map(w => ctx.measureText(w).width));
+      if (longest > b.w * .9) size *= b.w * .9 / longest;   // a single word wider than the backdrop: shrink the title to fit
       ctx.save(); ctx.beginPath(); ctx.rect(b.x, b.y, b.w, b.h); ctx.clip();
       ctx.fillStyle = lum(b.col) > 0.6 ? "rgba(0,0,0,.85)" : "rgba(255,255,255,.92)";
       ctx.font = `400 ${size}px ${NUKE_FONT}`; ctx.textAlign = "left"; ctx.textBaseline = "top";
-      lines.slice(0, s * size < 13 ? 1 : 12).forEach((t, k) => ctx.fillText(t, b.x + size * .45, b.y + size * .35 + k * size * 1.2));
+      const maxW = b.w - size * .9, wrapped = [];
+      lines.forEach(t => {   // long titles wrap word by word to fit the backdrop
+        let cur = "";
+        t.split(" ").forEach(w => { const tryT = cur ? cur + " " + w : w; if (cur && ctx.measureText(tryT).width > maxW) { wrapped.push(cur); cur = w; } else cur = tryT; });
+        wrapped.push(cur);
+      });
+      wrapped.slice(0, s * size < 13 ? 2 : 14).forEach((t, k) => ctx.fillText(t, b.x + size * .45, b.y + size * .35 + k * size * 1.2));
       ctx.restore();
     });
   }
@@ -207,8 +216,7 @@
       <div class="bdv-top"><div class="bdv-title"><span class="bdv-num">Node tree</span><span class="bdv-name">${title}</span></div>
         <button type="button" class="bdv-exit" aria-label="Close node tree">${ic('<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>')}<span>Close</span></button></div>
       ${d.chips.length ? `<div class="nt-chips" role="toolbar" aria-label="Jump to a section">${d.chips.map((c, k) => `<button type="button" data-k="${k}">${c.t}</button>`).join("")}</div>` : ""}
-      <div class="nt-tip" hidden></div>
-      <p class="bdv-hint">${touch ? "Pinch to zoom · drag to move · tap a node for its name" : "Scroll to zoom · drag to move · hover a node for its name · Esc to close"}</p>
+      <p class="bdv-hint">${touch ? "Pinch to zoom · drag to move" : "Scroll to zoom · drag to move · double-click to zoom in · Esc to close"}</p>
       <div class="bdv-bar">
         <button type="button" class="bdv-btn" data-a="out" aria-label="Zoom out">${ic('<line x1="5" y1="12" x2="19" y2="12"/>')}</button>
         <span class="bdv-pct" aria-live="polite"></span>
@@ -219,7 +227,7 @@
     document.documentElement.style.overflow = "hidden";
     requestAnimationFrame(() => el.classList.add("on"));
     setTimeout(() => { const h = el.querySelector(".bdv-hint"); if (h) h.classList.add("gone"); }, 5000);
-    const cv = el.querySelector("canvas"), ctx = cv.getContext("2d"), tip = el.querySelector(".nt-tip"), pct = el.querySelector(".bdv-pct");
+    const cv = el.querySelector("canvas"), ctx = cv.getContext("2d"), pct = el.querySelector(".bdv-pct");
     const col = accent();
     let W = 0, H = 0, dpr = 1, view = { s: 1, x: 0, y: 0 }, fit = view, hi = -1, raf = 0, anim = null;
     const MAXS = 3;
@@ -260,15 +268,6 @@
     };
     size(); view = { ...fit }; paint();
 
-    // Tooltip
-    const showTip = (i, sx, sy) => {
-      if (i < 0) { tip.hidden = true; return; }
-      const n = d.nodes[i];
-      tip.innerHTML = `<strong></strong><span></span>`; tip.firstChild.textContent = n.n; tip.lastChild.textContent = n.c + (n.d ? " · disabled" : "") + (n.l ? " · " + n.l.replace(/\n/g, " ") : "");
-      tip.hidden = false;
-      const r = tip.getBoundingClientRect();
-      tip.style.left = clamp(sx + 14, 8, W - r.width - 8) + "px"; tip.style.top = clamp(sy + 16, 8, H - r.height - 8) + "px";
-    };
     const toGraph = (sx, sy) => [(sx - view.x) / view.s, (sy - view.y) / view.s];
 
     // Pointer: drag to pan, two fingers to pinch, tap a node for its name
@@ -281,7 +280,7 @@
     cv.addEventListener("pointermove", e => {
       const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
       if (!pts.has(e.pointerId)) {     // hover
-        if (e.pointerType === "mouse") { const i = hitTest(d, ...toGraph(sx, sy)); showTip(i, sx, sy); cv.style.cursor = i >= 0 ? "pointer" : "grab"; }
+
         return;
       }
       pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -292,14 +291,12 @@
       if (last && pts.size === 1) {
         const dx = e.clientX - last.x, dy = e.clientY - last.y; moved += Math.abs(dx) + Math.abs(dy);
         view = { ...view, x: view.x + dx, y: view.y + dy }; last = { x: e.clientX, y: e.clientY }; req();
-        if (moved > 4) tip.hidden = true;
       }
     });
     const up = e => {
       pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
       if (!pts.size) {
         el.classList.remove("dragging");
-        if (moved < 5) { const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, i = hitTest(d, ...toGraph(sx, sy)); showTip(i, sx, sy); }
       }
       const p = [...pts.values()][0]; last = p ? { ...p } : null;
     };
@@ -309,7 +306,6 @@
       const r = cv.getBoundingClientRect();
       const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
       zoomAt(Math.exp(-dy * (e.ctrlKey ? 0.01 : 0.0018)), e.clientX - r.left, e.clientY - r.top);
-      tip.hidden = true;
     }, { passive: false });
     cv.addEventListener("dblclick", e => { const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, k = Math.min(MAXS, view.s * 2.5) / view.s; animateTo({ s: view.s * k, x: sx - (sx - view.x) * k + (W / 2 - sx), y: sy - (sy - view.y) * k + (H / 2 - sy) }, 380); });
 
