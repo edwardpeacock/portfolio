@@ -155,7 +155,9 @@
         const im = new Image();
         im.onload = () => done({ label: s.label, src, w: im.naturalWidth, h: im.naturalHeight });
         im.onerror = () => attempt(n + 1);
-        im.src = src;
+        // Check with the server first (no-cache = revalidate), so an image replaced under the same file name shows the new
+        // version instead of an old copy the browser kept. Unchanged images answer "not modified" and are not downloaded again.
+        fetch(src, { cache: "no-cache" }).catch(() => {}).then(() => { im.src = src; });
       };
       attempt(0);
     });

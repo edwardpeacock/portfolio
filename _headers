@@ -1,0 +1,5 @@
+# Cloudflare Pages response headers.
+# Breakdown images and their README files are often replaced under the same file name,
+# so browsers must check for a newer copy every time instead of keeping an old one.
+/assets/breakdowns/*
+  Cache-Control: no-cache
