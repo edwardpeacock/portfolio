@@ -60,10 +60,13 @@
       <div class="proj-cue-row" hidden><a class="proj-cue" href="#proj-more"><span>Description &amp; breakdown</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></a></div>
       ${p.body.length ? `<section id="proj-more" class="wrap desc-block"><h2 class="desc-title">Description</h2>${p.body.map(t => `<p class="desc">${t}</p>`).join("")}</section>` : ""}
       ${specs ? `<div class="specs"><dl>${specs}</dl></div>` : ""}
+      ${p.nodeTree ? `<div id="nt-mount"></div>` : ""}
       <div id="bd-mount"></div>`;
     // Title row lines up with the video: its width follows the video's (the video is sized to fit the screen)
     const vid = root.querySelector(".wrap.wide>.video"), head = root.querySelector("header");
     if (vid && head && window.ResizeObserver) new ResizeObserver(() => head.style.setProperty("--vw", vid.offsetWidth + "px")).observe(vid);
+    // Nuke node tree (js/nodetree.js), shown between the description and the breakdown
+    if (p.nodeTree && window.mountNodeTree) window.mountNodeTree(root.querySelector("#nt-mount"), p.nodeTree, p.title);
     loadBreakdown(p, root.querySelector("#bd-mount"), ready);
   }
 
