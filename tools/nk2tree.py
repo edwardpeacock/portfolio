@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 """Turn a Nuke script (.nk) into the node-tree data the website draws (assets/nodetrees/<slug>.json).
 
-    python tools/nk2tree.py path/to/script.nk assets/nodetrees/<slug>.json
+    python tools/nk2tree.py path/to/script.nk assets/nodetrees/<slug>.json [nodetree_extra.json]
+
+nodetree_extra.json (optional, recommended) comes from running this in Nuke's Script Editor with the script open,
+and gives Nuke's exact default colour for every node type and the exact size of every node:
+
+    import nuke, json, os
+    out = {"colours": {}, "sizes": {}}
+    for n in nuke.allNodes():
+        c = n.Class()
+        if c not in out["colours"]:
+            out["colours"][c] = "0x%08x" % nuke.defaultNodeColor(c)
+        out["sizes"][n.name()] = [n.screenWidth(), n.screenHeight()]
+    path = os.path.join(os.path.expanduser("~"), "Desktop", "nodetree_extra.json")
+    json.dump(out, open(path, "w"))
+    print("Saved", path)
 
 Only the layout is kept: node class, name, position, colour, backdrop labels and which node feeds which.
 File paths, render settings, expressions and every other knob are left out, so nothing private ends up on the site.
@@ -149,7 +163,17 @@ def measure(nodes, edges):
         if below: n["h"] = max(18, min(n["h"], min(below) - 4))
 
 pending_groups = []
+def apply_extra(data, path):
+    """Exact colours / sizes exported from Nuke itself (see the top of this file)."""
+    ex = json.load(open(path))
+    data["classColours"] = {c: int(v, 16) for c, v in ex.get("colours", {}).items()}
+    sizes = ex.get("sizes", {})
+    for n in data["nodes"]:
+        if n["n"] in sizes and n["c"] != "Dot":
+            n["w"], n["h"] = sizes[n["n"]]
+
 if __name__ == "__main__":
     data = convert(sys.argv[1])
+    if len(sys.argv) > 3: apply_extra(data, sys.argv[3])
     json.dump(data, open(sys.argv[2], "w"), separators=(",", ":"))
     print(len(data["nodes"]), "nodes,", len(data["edges"]), "connections,", len(data["backdrops"]), "backdrops,", len(data["notes"]), "notes")

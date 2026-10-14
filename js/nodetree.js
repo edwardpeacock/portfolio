@@ -38,9 +38,9 @@
     d.nodes.forEach(n => {
       const dot = n.c === "Dot";
       n.w = dot ? DOT : (n.w || NODE_W); n.h = dot ? DOT : (n.h || defH(n.c));
-      n.col = n.t ? n.t >>> 8 : defColour(n.c);
+      n.col = n.t ? n.t >>> 8 : (d.classColours && d.classColours[n.c] != null ? d.classColours[n.c] >>> 8 : defColour(n.c));   // own colour, else Nuke's exact default for that type
     });
-    d.backdrops.forEach(b => { b.col = b.t ? b.t >>> 8 : 0x7f7f7f; b.area = b.w * b.h; });
+    d.backdrops.forEach(b => { b.col = b.t ? b.t >>> 8 : (d.classColours && d.classColours.BackdropNode != null ? d.classColours.BackdropNode >>> 8 : 0x7f7f7f); b.area = b.w * b.h; });
     d.backdrops.sort((a, b) => (a.z - b.z) || (b.area - a.area));
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     const grow = (x, y, w, h) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + h); };
