@@ -19,33 +19,6 @@ window.SITE = {
 };
 
 window.PROJECTS = [
-  { slug: "gramophone-vfx-shot", title: "Gramophone VFX Shot", year: "2025",
-    tags: ["CG Integration", "Set Extension"],
-    vimeo: "https://vimeo.com/1228911972", image: "", // e.g. "assets/gramophone.jpg"
-    body: ["I created a gramophone 3D model and composited it onto a pub table. Using Nuke, Maya, Substance Painter, and 3DEqualizer! I recreated reflections on the table, the wall and faked the glass to make it appear refractive."],
-    tools: [], credits: [],
-    // Fallback only: the real list is read from assets/breakdowns/gramophone-vfx-shot/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
-    breakdown: [
-      { label: "Original plate", file: "01-original-plate" },
-      { label: "Camera track", file: "02-camera-track" },
-      { label: "3D gramophone", file: "03-3d-gramophone" },
-      { label: "Reflections", file: "04-reflections" },
-      { label: "Glass refraction", file: "05-glass-refraction" },
-      { label: "Final composite", file: "06-final-composite" }
-    ] },
-  { slug: "blazing-escape", title: "Blazing Escape", year: "2026",
-    tags: ["CG Environment"],
-    vimeo: "https://vimeo.com/1176311946", image: "",
-    body: ["Blazing Escape was a concept inspired by the Mandalorian and Grogu (2026). For this project I learnt EmberGen to simulate smoke trails and explored a modelling technique by Dylan Neill to create a seemingly never ending ocean. Mountain and rock assets were sourced from FAB, the spaceship is from BigMediumSmall. (<a href='https://www.bigmediumsmall.com/modelshop-greebles' target='_blank' rel='noopener'>https://www.bigmediumsmall.com/modelshop-greebles</a>)"],
-    tools: [], credits: [],
-    // Fallback only: the real list is read from assets/breakdowns/blazing-escape/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
-    breakdown: [
-      { label: "Ocean", file: "01-ocean" },
-      { label: "Mountains and rocks", file: "02-mountains-and-rocks" },
-      { label: "Spaceship", file: "03-spaceship" },
-      { label: "Smoke trails", file: "04-smoke-trails" },
-      { label: "Final composite", file: "05-final-composite" }
-    ] },
   { slug: "alien-cube", title: "Alien Cube", year: "2026",
     tags: ["Personal project", "CG Integration"],
     vimeo: "https://vimeo.com/1234175409", image: "",
@@ -61,6 +34,39 @@ window.PROJECTS = [
       { label: "Comp fixes", file: "05-comp-fixes" },
       { label: "Final composite", file: "06-final-composite" }
     ] },
+  { slug: "blazing-escape", title: "Blazing Escape", year: "2026",
+    tags: ["CG Environment"],
+    vimeo: "https://vimeo.com/1176311946", image: "",
+    body: ["Blazing Escape was a concept inspired by the Mandalorian and Grogu (2026). For this project I learnt EmberGen to simulate smoke trails and explored a modelling technique by Dylan Neill to create a seemingly never ending ocean. Mountain and rock assets were sourced from FAB, the spaceship is from BigMediumSmall. (<a href='https://www.bigmediumsmall.com/modelshop-greebles' target='_blank' rel='noopener'>https://www.bigmediumsmall.com/modelshop-greebles</a>)"],
+    tools: [], credits: [],
+    // Fallback only: the real list is read from assets/breakdowns/blazing-escape/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
+    breakdown: [
+      { label: "Ocean", file: "01-ocean" },
+      { label: "Mountains and rocks", file: "02-mountains-and-rocks" },
+      { label: "Spaceship", file: "03-spaceship" },
+      { label: "Smoke trails", file: "04-smoke-trails" },
+      { label: "Final composite", file: "05-final-composite" }
+    ] },
+  { slug: "gramophone-vfx-shot", title: "Gramophone VFX Shot", year: "2025",
+    tags: ["CG Integration", "Set Extension"],
+    vimeo: "https://vimeo.com/1228911972", image: "", // e.g. "assets/gramophone.jpg"
+    body: ["I created a gramophone 3D model and composited it onto a pub table. Using Nuke, Maya, Substance Painter, and 3DEqualizer! I recreated reflections on the table, the wall and faked the glass to make it appear refractive."],
+    tools: [], credits: [],
+    // Fallback only: the real list is read from assets/breakdowns/gramophone-vfx-shot/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
+    breakdown: [
+      { label: "Original plate", file: "01-original-plate" },
+      { label: "Camera track", file: "02-camera-track" },
+      { label: "3D gramophone", file: "03-3d-gramophone" },
+      { label: "Reflections", file: "04-reflections" },
+      { label: "Glass refraction", file: "05-glass-refraction" },
+      { label: "Final composite", file: "06-final-composite" }
+    ] },
+  { slug: "boxer-rotoscope", title: "Boxer Rotoscope", year: "2026",
+    tags: ["Rotoscoping"],
+    vimeo: "https://vimeo.com/1232643933", image: "",
+    body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
+    tools: [], credits: [],
+    breakdown: [] },
   { slug: "millennium-vfx-shot", title: "Millennium VFX Shot", year: "2025",
     tags: ["Set Extension", "Cleanup", "CG Integration"],
     vimeo: "https://vimeo.com/1176617846", image: "",
@@ -76,12 +82,6 @@ window.PROJECTS = [
       { label: "Raw CG", file: "06-cg-raw" },
       { label: "Final Output", file: "07-my-cg-graded" }
     ] },
-  { slug: "boxer-rotoscope", title: "Boxer Rotoscope", year: "2026",
-    tags: ["Rotoscoping"],
-    vimeo: "https://vimeo.com/1232643933", image: "",
-    body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
-    tools: [], credits: [],
-    breakdown: [] },
   { slug: "the-diner", title: "The Diner", year: "2026",
     wip: true,   // still in progress: the card opens the "still cooking" page (wip.html) instead of the project page. Delete this line when it's finished.
     tags: ["Virtual Production", "Keying", "Set Extension"],
