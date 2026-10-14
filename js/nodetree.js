@@ -117,11 +117,18 @@
         const g = ctx.createLinearGradient(0, n.y, 0, n.y + Math.min(n.h, 40));
         g.addColorStop(0, shade(n.col, 1.18)); g.addColorStop(0.5, css(n.col)); g.addColorStop(1, shade(n.col, 0.8));
         ctx.fillStyle = g; ctx.fillRect(n.x, n.y, n.w, n.h);
-        const stamp = /^(Read|DeepRead)$/.test(n.c) && n.h > 40;
-        if (stamp) {   // postage stamp: the thumbnail area of a Read (the real frame isn't published)
-          const tg = ctx.createLinearGradient(0, n.y + 3, 0, n.y + n.h - 17);
-          tg.addColorStop(0, "#2a2a2a"); tg.addColorStop(1, "#141414");
-          ctx.fillStyle = tg; ctx.fillRect(n.x + 3, n.y + 3, n.w - 6, n.h - 18);
+        const stamp = n.h >= 60 && n.c !== "Group";   // nodes showing a postage stamp (Reads, Constants, PostageStamp...)
+        if (stamp) {
+          const bx = n.x + 3, by = n.y + 3, bw = n.w - 6, bh = n.h - 18;
+          const img = n.p && opt.stamp ? opt.stamp(n, bw * s) : null;   // the real frame, loaded once it's on screen and big enough to see
+          ctx.fillStyle = "#151515"; ctx.fillRect(bx, by, bw, bh);
+          if (img) {   // fitted inside the box like Nuke's postage stamp (letterboxed, never stretched)
+            const k = Math.min(bw / img.naturalWidth, bh / img.naturalHeight), iw = img.naturalWidth * k, ih = img.naturalHeight * k;
+            ctx.drawImage(img, bx + (bw - iw) / 2, by + (bh - ih) / 2, iw, ih);
+          } else {
+            const tg = ctx.createLinearGradient(0, by, 0, by + bh); tg.addColorStop(0, "#2a2a2a"); tg.addColorStop(1, "#141414");
+            ctx.fillStyle = tg; ctx.fillRect(bx, by, bw, bh);
+          }
         }
         ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "#000"; ctx.lineWidth = (i === hiSet ? 2.5 : 1) * px; ctx.strokeRect(n.x, n.y, n.w, n.h);
         if (n.d) { ctx.strokeStyle = "rgba(200,40,40,.9)"; ctx.lineWidth = 1.5 * px; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n.x + n.w, n.y + n.h); ctx.stroke(); }
@@ -217,8 +224,17 @@
     let W = 0, H = 0, dpr = 1, view = { s: 1, x: 0, y: 0 }, fit = view, hi = -1, raf = 0, anim = null;
     const MAXS = 3;
     const minS = () => fit.s * 0.6;
-    const paint = () => { raf = 0; draw(ctx, d, view, W, H, { dpr, hi, accent: col }); pct.textContent = (view.s < 0.1 ? (view.s * 100).toFixed(1) : Math.round(view.s * 100)) + "%"; };   // 100% = Nuke at 1:1
+    const paint = () => { raf = 0; draw(ctx, d, view, W, H, { dpr, accent: col, stamp: stampImg }); pct.textContent = (view.s < 0.1 ? (view.s * 100).toFixed(1) : Math.round(view.s * 100)) + "%"; };   // 100% = Nuke at 1:1
     const req = () => { if (!raf) raf = requestAnimationFrame(paint); };
+    // Postage stamps (assets/nodetrees/<slug>/<node name>.jpg): requested only once a node is drawn at least ~24px wide
+    const imgs = {};
+    function stampImg(n, screenW) {
+      const key = n.n, have = imgs[key];
+      if (have) return have.complete && have.naturalWidth ? have : null;
+      if (screenW < 24 || !d.stampDir) return null;
+      const im = new Image(); im.decoding = "async"; im.onload = req; im.src = d.stampDir + encodeURIComponent(n.n) + ".jpg";
+      imgs[key] = im; return null;
+    }
     const size = () => {
       W = el.clientWidth; H = el.clientHeight; dpr = Math.min(3, devicePixelRatio || 1);
       cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px";
@@ -265,7 +281,7 @@
     cv.addEventListener("pointermove", e => {
       const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
       if (!pts.has(e.pointerId)) {     // hover
-        if (e.pointerType === "mouse") { const i = hitTest(d, ...toGraph(sx, sy)); if (i !== hi) { hi = i; req(); } showTip(i, sx, sy); cv.style.cursor = i >= 0 ? "pointer" : "grab"; }
+        if (e.pointerType === "mouse") { const i = hitTest(d, ...toGraph(sx, sy)); showTip(i, sx, sy); cv.style.cursor = i >= 0 ? "pointer" : "grab"; }
         return;
       }
       pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -283,7 +299,7 @@
       pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
       if (!pts.size) {
         el.classList.remove("dragging");
-        if (moved < 5) { const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, i = hitTest(d, ...toGraph(sx, sy)); hi = i; req(); showTip(i, sx, sy); }
+        if (moved < 5) { const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, i = hitTest(d, ...toGraph(sx, sy)); showTip(i, sx, sy); }
       }
       const p = [...pts.values()][0]; last = p ? { ...p } : null;
     };

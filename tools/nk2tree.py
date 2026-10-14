@@ -1,7 +1,29 @@
 #!/usr/bin/env python3
 """Turn a Nuke script (.nk) into the node-tree data the website draws (assets/nodetrees/<slug>.json).
 
-    python tools/nk2tree.py path/to/script.nk assets/nodetrees/<slug>.json [nodetree_extra.json]
+    python tools/nk2tree.py path/to/script.nk assets/nodetrees/<slug>.json [nodetree_extra.json] [assets/nodetrees/<slug>]
+
+The last (optional) folder holds postage stamps named <node name>.jpg, made by running this in Nuke's Script Editor
+(with the script open and its footage loading):
+
+    import nuke, os
+    out = os.path.join(os.path.expanduser("~"), "Desktop", "nodetree_stamps")
+    if not os.path.isdir(out): os.makedirs(out)
+    frame = int(nuke.root()["frame"].value())
+    saved = 0
+    for n in nuke.allNodes():
+        k = n.knob("postage_stamp")
+        if not k or not k.value(): continue
+        r = nuke.nodes.Reformat(type="to box", box_width=320, box_height=180, box_fixed=True, resize="fit", black_outside=True)
+        r.setInput(0, n)
+        w = nuke.nodes.Write(file=os.path.join(out, n.name() + ".jpg").replace("\\", "/"), file_type="jpeg")
+        w.setInput(0, r)
+        try:
+            nuke.execute(w, frame, frame); saved += 1
+        except Exception as e:
+            print("skipped", n.name(), e)
+        nuke.delete(w); nuke.delete(r)
+    print(saved, "postage stamps saved to", out)
 
 nodetree_extra.json (optional, recommended) comes from running this in Nuke's Script Editor with the script open,
 and gives Nuke's exact default colour for every node type and the exact size of every node:
@@ -174,6 +196,14 @@ def apply_extra(data, path):
 
 if __name__ == "__main__":
     data = convert(sys.argv[1])
-    if len(sys.argv) > 3: apply_extra(data, sys.argv[3])
+    if len(sys.argv) > 3 and sys.argv[3] != "-": apply_extra(data, sys.argv[3])
+    if len(sys.argv) > 4:   # folder of postage stamps (<node name>.jpg), served from the website
+        import os
+        folder = sys.argv[4].rstrip("/\\")
+        have = {os.path.splitext(f)[0] for f in os.listdir(folder) if f.lower().endswith(".jpg")}
+        data["stampDir"] = folder.replace("\\", "/") + "/"
+        for n in data["nodes"]:
+            if n["n"] in have: n["p"] = 1
+        print(sum(1 for n in data["nodes"] if n.get("p")), "postage stamps")
     json.dump(data, open(sys.argv[2], "w"), separators=(",", ":"))
     print(len(data["nodes"]), "nodes,", len(data["edges"]), "connections,", len(data["backdrops"]), "backdrops,", len(data["notes"]), "notes")
