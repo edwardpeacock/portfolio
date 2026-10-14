@@ -30,6 +30,12 @@
   const rgb = v => [(v >>> 16) & 255, (v >>> 8) & 255, v & 255];
   const css = (v, a) => { const [r, g, b] = rgb(v); return a == null ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`; };
   const shade = (v, k) => { const [r, g, b] = rgb(v), f = x => Math.round(clamp(k > 1 ? x + (255 - x) * (k - 1) * .6 : x * k, 0, 255)); return `rgb(${f(r)},${f(g)},${f(b)})`; };
+  const fit = (ctx, t, maxW) => {
+    if (ctx.measureText(t).width <= maxW) return t;
+    let a = Math.ceil(t.length / 2), b = Math.floor(t.length / 2);
+    while (a > 4 && ctx.measureText(t.slice(0, a) + "…" + t.slice(t.length - b)).width > maxW) { a--; b--; }
+    return t.slice(0, a) + "…" + t.slice(t.length - b);
+  };
   const lum = v => { const [r, g, b] = rgb(v); return (0.299 * r + 0.587 * g + 0.114 * b) / 255; };
 
   // Prepare a tree once: sizes, colours, bounds and a label list for the backdrop chips
@@ -134,19 +140,19 @@
           // Nuke writes node names in black (white only on very dark tiles), in its plain UI font
           ctx.fillStyle = lum(n.col) > 0.22 ? "#000" : "#e6e6e6"; ctx.font = `400 11px ${NUKE_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           const ty = stamp ? n.y + n.h - (n.f ? 20 : 8) : n.y + 9.5;
-          ctx.fillText(n.n, n.x + n.w / 2, ty, n.w - 4);
+          ctx.fillText(fit(ctx, n.n, n.w * 2.2), n.x + n.w / 2, ty);
           // Read / Write: the file name on the line under the name, as Nuke shows it; then the node's own label
           const extra = [n.f, !stamp && n.l].filter(Boolean).join("\n");
           if (extra) {
             ctx.font = `400 9.5px ${NUKE_FONT}`;
             const room = stamp ? 1 : Math.max(0, Math.floor((n.h - 18) / 12));
-            extra.split("\n").slice(0, room).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, (stamp ? ty + 12 : n.y + 21) + k * 12, n.w - 4));
+            extra.split("\n").slice(0, room).forEach((t, k) => ctx.fillText(fit(ctx, t, n.w * 2.2), n.x + n.w / 2, (stamp ? ty + 12 : n.y + 21) + k * 12));
           }
         }
       }
       if (showText && n.l && n.c !== "Dot" && n.h < 30) {   // no room inside the tile: the label sits just under it
         ctx.fillStyle = "rgba(235,235,235,.85)"; ctx.font = font(9.5, 400); ctx.textAlign = "center"; ctx.textBaseline = "top";
-        n.l.split("\n").slice(0, 3).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, n.y + n.h + 3 + k * 11, 160));
+        n.l.split("\n").slice(0, 3).forEach((t, k) => ctx.fillText(fit(ctx, t, 200), n.x + n.w / 2, n.y + n.h + 3 + k * 11));
       }
     });
     // Backdrop titles last, so nodes never cover them. Kept readable when zoomed out (but never bigger than their backdrop).
