@@ -115,7 +115,38 @@ def convert(path):
             stacks.append([]); saved.append({}); depth += 1
         else:
             st.append(me if depth == 0 and isinstance(idx, int) else None)
+    measure(nodes, edges)
     return {"nodes": nodes, "edges": edges, "backdrops": backdrops, "notes": notes}
+
+def measure(nodes, edges):
+    """Work out each node's on-screen size in Nuke from how the artist lined Dots up with it.
+    Nuke draws links centre to centre, so a Dot placed level with a node sits at the node's centre line:
+    that gives the node's real height (labels, channel lines and thumbnails all make nodes taller).
+    Nodes with no such Dot get the usual height for their type from the rest of the script."""
+    from collections import Counter, defaultdict
+    hs, ws = defaultdict(Counter), defaultdict(Counter)
+    for a, b, _ in edges:
+        for dot, node in ((nodes[a], nodes[b]), (nodes[b], nodes[a])):
+            if dot["c"] != "Dot" or node["c"] == "Dot": continue
+            h = 2 * (dot["y"] + 6 - node["y"]); w = 2 * (dot["x"] + 6 - node["x"])
+            if abs(dot["x"] + 6 - (node["x"] + 40)) > 30 and 14 <= h <= 140: hs[id(node)][h] += 1      # side link: level with the node
+            if abs(dot["y"] + 6 - node["y"]) > 30 and 40 <= w <= 200: ws[id(node)][w] += 1           # link from above/below
+    byclass = defaultdict(Counter)
+    for n in nodes:
+        if hs[id(n)]: byclass[n["c"]][hs[id(n)].most_common(1)[0][0]] += 1
+    for n in nodes:
+        if n["c"] == "Dot": continue
+        if hs[id(n)]: n["h"] = hs[id(n)].most_common(1)[0][0]
+        elif byclass[n["c"]]:
+            h, cnt = byclass[n["c"]].most_common(1)[0]
+            if cnt >= 3 and cnt >= 0.6 * sum(byclass[n["c"]].values()): n["h"] = h   # only a size most of that type clearly share
+        if ws[id(n)]: n["w"] = ws[id(n)].most_common(1)[0][0]
+    # A node can never reach into a node stacked straight under it
+    for n in nodes:
+        if n["c"] == "Dot" or "h" not in n: continue
+        below = [m["y"] - n["y"] for m in nodes if m is not n and m["c"] != "Dot" and m["y"] > n["y"]
+                 and m["x"] < n["x"] + n.get("w", 80) and m["x"] + m.get("w", 80) > n["x"]]
+        if below: n["h"] = max(18, min(n["h"], min(below) - 4))
 
 pending_groups = []
 if __name__ == "__main__":

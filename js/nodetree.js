@@ -6,7 +6,10 @@
    Project data: nodeTree: "assets/nodetrees/<slug>.json" in data/site.js. */
 (function () {
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const NODE_W = 80, NODE_H = 20, DOT = 12, READ_H = 36;
+  const NODE_W = 80, NODE_H = 18, DOT = 12;
+  // Heights as Nuke draws them when the script does not tell us (most nodes come with their real size from tools/nk2tree.py)
+  const defH = c => /^(Read|DeepRead)$/.test(c) ? 78 : NODE_H;
+  const NUKE_FONT = "Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', Arial, sans-serif";
 
   // Nuke's default node colours by type (a node's own tile_color wins when it has one)
   const CAT = [
@@ -26,6 +29,7 @@
   const defColour = c => { for (const [re, col] of CAT) if (re.test(c)) return col; return 0xa0a0a0; };
   const rgb = v => [(v >>> 16) & 255, (v >>> 8) & 255, v & 255];
   const css = (v, a) => { const [r, g, b] = rgb(v); return a == null ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`; };
+  const shade = (v, k) => { const [r, g, b] = rgb(v), f = x => Math.round(clamp(k > 1 ? x + (255 - x) * (k - 1) * .6 : x * k, 0, 255)); return `rgb(${f(r)},${f(g)},${f(b)})`; };
   const lum = v => { const [r, g, b] = rgb(v); return (0.299 * r + 0.587 * g + 0.114 * b) / 255; };
 
   // Prepare a tree once: sizes, colours, bounds and a label list for the backdrop chips
@@ -33,7 +37,7 @@
     if (d._ready) return d;
     d.nodes.forEach(n => {
       const dot = n.c === "Dot";
-      n.w = dot ? DOT : NODE_W; n.h = dot ? DOT : (/^(Read|Write)$/.test(n.c) ? READ_H : NODE_H);
+      n.w = dot ? DOT : (n.w || NODE_W); n.h = dot ? DOT : (n.h || defH(n.c));
       n.col = n.t ? n.t >>> 8 : defColour(n.c);
     });
     d.backdrops.forEach(b => { b.col = b.t ? b.t >>> 8 : 0x7f7f7f; b.area = b.w * b.h; });
@@ -66,7 +70,7 @@
     opt = opt || {};
     const s = view.s, px = 1 / s;   // px = one screen pixel in graph units
     ctx.setTransform(opt.dpr, 0, 0, opt.dpr, 0, 0);
-    ctx.fillStyle = opt.bg || "#2b2b2b"; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = opt.bg || "#323232"; ctx.fillRect(0, 0, W, H);
     ctx.setTransform(opt.dpr * s, 0, 0, opt.dpr * s, opt.dpr * view.x, opt.dpr * view.y);
     const vx0 = -view.x / s, vy0 = -view.y / s, vx1 = vx0 + W / s, vy1 = vy0 + H / s;
     const vis = (x, y, w, h) => x + w >= vx0 && y + h >= vy0 && x <= vx1 && y <= vy1;
@@ -109,18 +113,31 @@
         ctx.fillStyle = css(n.col); ctx.beginPath(); ctx.arc(n.x + DOT / 2, n.y + DOT / 2, DOT / 2 - 1, 0, 7); ctx.fill();
         ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "#111"; ctx.lineWidth = (i === hiSet ? 2 : 1) * px; ctx.stroke();
       } else {
-        ctx.fillStyle = css(n.col); ctx.fillRect(n.x, n.y, n.w, n.h);
-        if (n.c === "Read" || n.c === "Write") { ctx.fillStyle = "rgba(0,0,0,.18)"; ctx.fillRect(n.x + 3, n.y + 3, n.w - 6, n.h - 17); }
-        ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "rgba(0,0,0,.75)"; ctx.lineWidth = (i === hiSet ? 2.5 : 1) * px; ctx.strokeRect(n.x, n.y, n.w, n.h);
+        // Nuke's "Shade Nodes" look: each tile has a soft vertical gradient, lighter at the top
+        const g = ctx.createLinearGradient(0, n.y, 0, n.y + Math.min(n.h, 40));
+        g.addColorStop(0, shade(n.col, 1.18)); g.addColorStop(0.5, css(n.col)); g.addColorStop(1, shade(n.col, 0.8));
+        ctx.fillStyle = g; ctx.fillRect(n.x, n.y, n.w, n.h);
+        const stamp = /^(Read|DeepRead)$/.test(n.c) && n.h > 40;
+        if (stamp) {   // postage stamp: the thumbnail area of a Read (the real frame isn't published)
+          const tg = ctx.createLinearGradient(0, n.y + 3, 0, n.y + n.h - 17);
+          tg.addColorStop(0, "#2a2a2a"); tg.addColorStop(1, "#141414");
+          ctx.fillStyle = tg; ctx.fillRect(n.x + 3, n.y + 3, n.w - 6, n.h - 18);
+        }
+        ctx.strokeStyle = i === hiSet ? (opt.accent || "#7cc4bd") : "#000"; ctx.lineWidth = (i === hiSet ? 2.5 : 1) * px; ctx.strokeRect(n.x, n.y, n.w, n.h);
         if (n.d) { ctx.strokeStyle = "rgba(200,40,40,.9)"; ctx.lineWidth = 1.5 * px; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n.x + n.w, n.y + n.h); ctx.stroke(); }
         if (showText) {
-          ctx.fillStyle = lum(n.col) > 0.55 ? "#111" : "#f2f2f2"; ctx.font = font(10.5); ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          const ty = n.c === "Read" || n.c === "Write" ? n.y + n.h - 7 : n.y + n.h / 2 + .5;
-          ctx.fillText(n.n.length > 15 ? n.n.slice(0, 14) + "…" : n.n, n.x + n.w / 2, ty, n.w - 4);
+          // Nuke writes node names in black (white only on very dark tiles), in its plain UI font
+          ctx.fillStyle = lum(n.col) > 0.22 ? "#000" : "#e6e6e6"; ctx.font = `400 11px ${NUKE_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          const ty = stamp ? n.y + n.h - 8 : n.y + 9.5;
+          ctx.fillText(n.n, n.x + n.w / 2, ty, n.w - 4);
+          if (n.l && !stamp) {   // the node's label, inside the tile under its name, as in Nuke
+            ctx.font = `400 10px ${NUKE_FONT}`;
+            n.l.split("\n").slice(0, Math.max(0, Math.floor((n.h - 18) / 12))).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, n.y + 21 + k * 12, n.w - 4));
+          }
         }
       }
       ctx.globalAlpha = 1;
-      if (showText && n.l && n.c !== "Dot") {   // a node's own label sits under it, as in Nuke
+      if (showText && n.l && n.c !== "Dot" && n.h < 30) {   // no room inside the tile: the label sits just under it
         ctx.fillStyle = "rgba(235,235,235,.85)"; ctx.font = font(9.5, 400); ctx.textAlign = "center"; ctx.textBaseline = "top";
         n.l.split("\n").slice(0, 3).forEach((t, k) => ctx.fillText(t, n.x + n.w / 2, n.y + n.h + 3 + k * 11, 160));
       }
@@ -132,7 +149,7 @@
       const size = Math.max(b.fs || 14, 11 * px), lines = b.l.split("\n").filter((t, k, a) => t || k < a.length - 1);
       ctx.save(); ctx.beginPath(); ctx.rect(b.x, b.y, b.w, b.h); ctx.clip();
       ctx.fillStyle = lum(b.col) > 0.6 ? "rgba(0,0,0,.85)" : "rgba(255,255,255,.92)";
-      ctx.font = font(size, 600); ctx.textAlign = "left"; ctx.textBaseline = "top";
+      ctx.font = `400 ${size}px ${NUKE_FONT}`; ctx.textAlign = "left"; ctx.textBaseline = "top";
       lines.slice(0, s * size < 13 ? 1 : 12).forEach((t, k) => ctx.fillText(t, b.x + size * .45, b.y + size * .35 + k * size * 1.2));
       ctx.restore();
     });
@@ -149,6 +166,8 @@
   const cache = {};
   const load = url => cache[url] || (cache[url] = fetch(url, { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error("missing"); return r.json(); }).then(prepare));
   const accent = () => getComputedStyle(document.documentElement).getPropertyValue("--accent-hi").trim() || "#7cc4bd";
+
+  window.NodeTreeRender = { draw, prepare };   // used for testing / other pages
 
   // ---------- Preview on the project page ----------
   window.mountNodeTree = function (mount, url, title) {
