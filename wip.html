@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Still cooking | Edward Peacock</title>
+<meta name="description" content="This project is still being finished. Check back soon!">
+<meta name="robots" content="noindex">
+<meta property="og:site_name" content="Edward Peacock">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta name="theme-color" content="#111114">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=39">
+</head>
+<body class="wip-page">
+<div id="site-header"></div>
+<main class="wip">
+<section class="wrap wip-box">
+<p class="wip-eyebrow" id="wip-eyebrow">Work in progress</p>
+<h1>Kitchen’s still cooking.</h1>
+<p class="lede desc">This shot is on the stove right now. Keys are being pulled, spill is being suppressed, and an alarming amount of coffee is being drunk. Good comps take a few more renders, and this one is going to be worth the wait.</p>
+<div class="wip-render" aria-hidden="true">
+  <div class="wip-bar"><i></i></div>
+  <p class="wip-status"><span>Rendering…</span><span class="wip-pct">87%</span></p>
+  <p class="wip-eta">Estimated time remaining: one more coffee</p>
+</div>
+<div class="actions"><a class="btn" href="work.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span>See the rest of the menu</span></a></div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/site.js?v=39"></script>
+<script src="js/protect.js?v=39"></script>
+<script src="js/layout.js?v=39"></script>
+<script src="js/particles.js?v=39"></script>
+<script>
+/* "Still cooking" page for unfinished projects (wip: true in data/site.js). Shows the project's name if one is given (wip.html?p=the-diner). */
+(function () {
+  var slug = new URLSearchParams(location.search).get("p");
+  var p = (window.PROJECTS || []).filter(function (x) { return x.slug === slug; })[0];
+  if (p) { document.getElementById("wip-eyebrow").textContent = p.title + " · Work in progress"; document.title = p.title + " is still cooking | Edward Peacock"; }
+})();
+</script>
+</body>
+</html>

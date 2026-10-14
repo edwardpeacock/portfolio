@@ -9,7 +9,7 @@
   const grid = document.getElementById("work-grid");
   if (grid) {
     const list = P.slice(0, +grid.dataset.limit || P.length);
-    grid.innerHTML = list.map(p => `<a class="card" href="project.html?p=${p.slug}">
+    grid.innerHTML = list.map(p => `<a class="card" href="${p.wip ? "wip.html?p=" + p.slug : "project.html?p=" + p.slug}">
       <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>
       <h3>${p.title}</h3><p class="desc meta">${[...p.tags, p.year].join(", ")}</p></a>`).join("");
     grid.querySelectorAll(".thumb[data-vimeo]").forEach(t => window.vimeo.thumb(t.dataset.vimeo).then(u => {
@@ -47,6 +47,7 @@
     setTimeout(ready, 2500);   // failsafe
     if (i < 0) { ready(); root.innerHTML = `<section class="wrap"><h1>Not found</h1><p class="lede"><a href="work.html">Back to all work</a></p></section>`; return; }
     const p = P[i];
+    if (p.wip) { location.replace("wip.html?p=" + p.slug); return; }   // unfinished project: "still cooking" page
     document.title = `${p.title} · ${window.SITE.name}`;
     const md = document.querySelector('meta[name="description"]');
     if (md && p.body[0]) {
