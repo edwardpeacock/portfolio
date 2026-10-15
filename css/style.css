@@ -746,3 +746,15 @@ main.wip{display:flex;align-items:center;justify-content:center;min-height:calc(
 .nt-tip strong{font-weight:600;color:#fff}
 .nt-tip span{font:400 .75rem/1.35 var(--mono);color:var(--muted)}
 .nt-viewer .bdv-top{background:linear-gradient(rgba(20,20,22,.92),rgba(20,20,22,.6) 70%,transparent)}
+
+/* ---------- v49: phone home, under the showreel ----------
+   Location + availability line up with the name's left edge, and share one row with the scroll arrow
+   (info left, arrow right, vertically centred), instead of a floating centred block with the arrow below it. */
+@media(max-width:760px){
+  .home-stage .stage-text{flex-direction:row;align-items:center;justify-content:space-between;text-align:left;gap:1rem;padding:1.6rem var(--pad) .25rem}
+  .home-stage .stage-text .stage-status{align-items:flex-start;gap:.5rem;font-size:.84rem;letter-spacing:.02em;min-width:0}
+  .home-stage .stage-text .stage-status span{gap:.6rem}
+  .home-stage .stage-text .stage-status svg{width:17px;height:17px}
+  .home-stage .stage-text .cue-arrow{align-self:center;flex:none;width:3.4rem;height:3.4rem;margin:0}
+  .home-stage .stage-text .cue-arrow svg{width:26px;height:26px}
+}
