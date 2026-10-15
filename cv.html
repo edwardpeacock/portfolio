@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CV | Edward Peacock</title>
 <meta name="theme-color" content="#111114">
+<meta name="robots" content="noindex">
 <link rel="icon" href="favicon.ico" sizes="any">
 <!--
   CV: put your PDF in the assets folder named exactly  cv.pdf  (assets/cv.pdf), then commit and push.
@@ -22,17 +23,7 @@
 </style>
 </head>
 <body>
-<main><div class="msg" id="msg"><h1>Edward Peacock — CV</h1><p>My CV is on its way. In the meantime, email me at <a href="mailto:epeacockvfx@gmail.com">epeacockvfx@gmail.com</a>.</p></div></main>
-<script>
-(function () {
-  var pdf = "assets/cv.pdf";
-  var show = function () { document.getElementById("msg").style.display = "block"; };
-  // Check the PDF really exists (some hosts answer missing files with the home page instead of an error)
-  fetch(pdf, { method: "HEAD", cache: "no-store" }).then(function (r) {
-    var type = r.headers.get("content-type") || "";
-    if (r.ok && type.indexOf("pdf") !== -1) location.replace(pdf); else show();
-  }).catch(show);
-})();
-</script>
+<main><div class="msg" id="msg"><h1>Edward Peacock — CV</h1><p>My CV is on its way. In the meantime, email me at <a id="cv-mail" href="#">my email address</a>.</p></div></main>
+<script src="js/cv.js"></script>
 </body>
 </html>

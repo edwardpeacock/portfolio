@@ -1,0 +1,23 @@
+# Search engines are welcome: the site should show up when people search for Edward Peacock.
+User-agent: *
+Allow: /
+Disallow: /tools/
+
+# AI training crawlers are asked not to collect the work on this site.
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: anthropic-ai
+User-agent: ClaudeBot
+User-agent: Bytespider
+User-agent: PerplexityBot
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Amazonbot
+User-agent: Diffbot
+User-agent: omgili
+User-agent: ImagesiftBot
+Disallow: /
+
+Sitemap: https://epeacockvfx.com/sitemap.xml

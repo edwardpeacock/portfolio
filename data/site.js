@@ -3,9 +3,10 @@ window.SITE = {
   name: "Edward Peacock",
   role: "VFX Compositor",
   place: "United Kingdom",
-  email: "epeacockvfx@gmail.com",
+  emailParts: ["epeacockvfx", "gmail.com"],   // your email, split so bots reading the page source can't harvest it (joined back together in the browser)
   showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
-  showreelLoop: "assets/showreel-loop.mp4",   // silent looping clip shown on the home page; clicking play opens the Vimeo showreel above
+  showreelLoop: "assets/showreel-loop.mp4",
+  showreelLoopPhone: "assets/showreel-loop-phone.mp4",   // smaller copy of the loop used on phones (1.5 MB instead of 6 MB)   // silent looping clip shown on the home page; clicking play opens the Vimeo showreel above
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/edwardpeacock/" },
     { label: "Instagram", url: "https://www.instagram.com/epeacock.vfx/" }
@@ -90,3 +91,6 @@ window.PROJECTS = [
     tools: [], credits: [],
     breakdown: [] }
 ];
+
+// Joined email address for the rest of the site (see emailParts above)
+window.SITE.email = window.SITE.emailParts.join("@");

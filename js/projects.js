@@ -1,7 +1,7 @@
 /* Renders project cards (#work-grid, optional data-limit) and the project detail page (#project). */
 (function () {
   const P = window.PROJECTS;
-  const EXTS = ["jpg", "png", "webp", "jpeg", "tif", "tiff", "JPG", "JPEG", "PNG"];
+  const EXTS = ["jpg", "jpeg", "png", "webp", "tif", "tiff", "JPG", "JPEG", "PNG"];
   const pad = n => String(n).padStart(2, "0");
   const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   const media = p => p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="ph" aria-hidden="true"></div>`;
@@ -155,12 +155,18 @@
           decodeTiff(src).then(t => done({ label: s.label, src: t.src, w: t.w, h: t.h })).catch(err => { dbg(src + " FAILED: " + (err && err.message || err)); attempt(n + 1); });
           return;
         }
-        const im = new Image();
-        im.onload = () => done({ label: s.label, src, w: im.naturalWidth, h: im.naturalHeight });
-        im.onerror = () => attempt(n + 1);
-        // Check with the server first (no-cache = revalidate), so an image replaced under the same file name shows the new
-        // version instead of an old copy the browser kept. Unchanged images answer "not modified" and are not downloaded again.
-        fetch(src, { cache: "no-cache" }).catch(() => {}).then(() => { im.src = src; });
+        // One request per guess. no-cache = check with the server, so an image replaced under the same file name shows the new
+        // version (unchanged images answer "not modified" and aren't downloaded again). A missing file moves on to the next type.
+        fetch(src, { cache: "no-cache" }).then(r => {
+          const type = r.headers.get("content-type") || "";
+          if (!r.ok || !/^image\//.test(type)) return attempt(n + 1);
+          return r.blob().then(b => {
+            const url = URL.createObjectURL(b), im = new Image();
+            im.onload = () => done({ label: s.label, src: url, w: im.naturalWidth, h: im.naturalHeight });
+            im.onerror = () => attempt(n + 1);
+            im.src = url;
+          });
+        }).catch(() => attempt(n + 1));
       };
       attempt(0);
     });

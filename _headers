@@ -1,5 +1,24 @@
-# Cloudflare Pages response headers.
+# Cloudflare Pages response headers (applied to every page and file of the site).
+
+/*
+  # Security: what the browser may load, and protections against clickjacking, sniffing and data leaks
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://i.vimeocdn.com https://vumbnail.com; media-src 'self' blob:; connect-src 'self' https://vimeo.com https://cdn.jsdelivr.net; frame-src https://player.vimeo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+
 # Breakdown images and their README files are often replaced under the same file name,
 # so browsers must check for a newer copy every time instead of keeping an old one.
 /assets/breakdowns/*
   Cache-Control: no-cache
+
+# Node tree data and postage stamps can be replaced under the same name too
+/assets/nodetrees/*
+  Cache-Control: no-cache
+
+# The converter script isn't part of the website
+/tools/*
+  X-Robots-Tag: noindex
