@@ -53,11 +53,13 @@
     const box = pop.querySelector(".reel-pop-box");
     ratio(url).then(r => { if (r) box.style.setProperty("--ar", r); });
     document.documentElement.style.overflow = "hidden";
+    const loop = document.querySelector(".home-stage video.loop"); if (loop) loop.pause();   // nothing moving behind the player
     requestAnimationFrame(() => pop.classList.add("on"));
     const close = () => {
       removeEventListener("keydown", key);
       pop.classList.remove("on"); document.documentElement.style.overflow = "";
       box.innerHTML = "";                       // stops the video
+      if (loop) { const go = loop.play(); if (go && go.catch) go.catch(() => {}); }
       setTimeout(() => pop.remove(), 200);
       if (opener) opener.focus();
     };

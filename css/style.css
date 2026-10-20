@@ -815,3 +815,46 @@ body.leaving{opacity:1;transition:none}
 .reel-pop-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
 .reel-pop-close{position:absolute;top:1rem;right:1rem;display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.1rem .6rem .9rem;border-radius:99px;border:1px solid var(--btn-line);background:var(--btn);color:#fff;font:500 .95rem/1 var(--body);cursor:pointer;transition:background .2s ease!important}
 .reel-pop-close:hover,.reel-pop-close:focus-visible{background:var(--btn-hi)}
+
+
+/* ---------- v56 ---------- */
+/* Showreel pop-up: solid black covers the whole site (no banner showing around the player) */
+.reel-pop{background:#000}
+
+/* Home banner: the bottom fades softly into the page instead of ending on a hard edge (the seam) */
+.home-stage #reel.video{background:transparent}
+.home-stage #reel{-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+@media(max-width:760px){.home-stage #reel{-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent)}}
+
+/* Home (phones): a clear button under the two projects shown, so it's obvious there are more */
+.more-work{display:none}
+@media(max-width:760px){
+  .more-work{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.25rem;padding:1rem 1.25rem;border:1px solid var(--btn-line);border-radius:var(--radius);background:var(--btn);color:var(--text);font:500 1rem/1.2 var(--body)}
+  .more-work:active{background:var(--btn-hi)}
+  .more-work svg{color:var(--accent-hi);flex:none}
+}
+
+/* About me: "Read more" (phones only) */
+.about-toggle{display:none}
+@media(max-width:760px){
+  .about-more{display:none}
+  .open .about-more{display:block}
+  .about-toggle{display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;padding:.45rem 0;border:0;background:none;color:var(--accent-hi);font:500 .95rem/1.2 var(--body);cursor:pointer}
+  .open .about-toggle svg{transform:rotate(180deg)}
+}
+
+/* About me on phones: fits on one screen with "Read more" closed (less empty space under the header, a smaller photo,
+   tighter spacing round the software strip and the contact buttons) */
+@media(max-width:760px){
+  .info-page main{padding-top:calc(var(--brand-h, 5.9rem) + .75rem)}
+  .info-page .split-right h1{font-size:2rem;margin-bottom:.15rem}
+  .info-page .split-right h1::after{margin-top:.45rem}
+  .info-page .split{gap:.75rem}
+  .info-page .portrait{width:min(126px,36%)}
+  .info-page .split .prose p{font-size:.93rem;line-height:1.48}
+  .info-page .about-toggle{margin-top:.35rem;padding:.3rem 0}
+  .info-page .marquee{padding-block:.6rem}
+  .info-page .info-contact{padding-top:.4rem!important}
+  .info-page .contact-lede{font-size:1.02rem!important;line-height:1.35}
+  .info-page .actions{margin-top:.75rem}
+}

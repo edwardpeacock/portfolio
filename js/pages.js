@@ -12,8 +12,22 @@
     portrait.setAttribute("aria-label", `Portrait of ${S.name} holding a Canon camera`);
     ["contextmenu", "dragstart", "selectstart"].forEach(ev => portrait.addEventListener(ev, e => e.preventDefault()));
   }
+  // Home (phones): "See all 6 projects" under the two cards shown there
+  const more = $("more-work");
+  if (more) { const n = (window.PROJECTS || []).length; more.querySelector("span").textContent = `See all ${n} projects`; }
+  // About me: first paragraph always shown; on phones the rest folds away behind "Read more" (desktop shows everything)
   const about = $("about-text");
-  if (about) about.innerHTML = S.about.map(t => `<p>${t}</p>`).join("");
+  if (about) {
+    const [first, ...rest] = S.about;
+    about.innerHTML = `<p>${first}</p>` + (rest.length ? `<div class="about-more" id="about-more">${rest.map(t => `<p>${t}</p>`).join("")}</div>
+      <button type="button" class="about-toggle" aria-expanded="false" aria-controls="about-more"><span>Read more</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>` : "");
+    const tog = about.querySelector(".about-toggle");
+    if (tog) tog.addEventListener("click", () => {
+      const open = about.classList.toggle("open");
+      tog.setAttribute("aria-expanded", String(open));
+      tog.querySelector("span").textContent = open ? "Read less" : "Read more";
+    });
+  }
   // Software strip: two identical halves, slid right by half its width, loop seamlessly (see .marquee in style.css)
   const skills = $("skills");
   if (skills) {
