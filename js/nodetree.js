@@ -203,7 +203,7 @@
         const W = btn.clientWidth, H = btn.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
         if (!W || !H) return;
         cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px";
-        draw(ctx, d, fitView(d, W, H, 18), W, H, { dpr, bg: "#232326", accent: accent() });
+        draw(ctx, d, fitView(d, W, H, 18), W, H, { dpr, bg: "#1d1d1e", accent: accent() });
       };
       paint(); addEventListener("resize", paint);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);

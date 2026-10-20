@@ -82,8 +82,7 @@ window.PROJECTS = [
       { label: "Raw CG", file: "06-cg-raw" },
       { label: "Final Output", file: "07-my-cg-graded" }
     ] },
-  { slug: "the-diner", title: "The Diner", year: "2026",
-    wip: true,   // still in progress: the card opens the "still cooking" page (wip.html) instead of the project page. Delete this line when it's finished.
+  { slug: "the-diner", title: "The Diner (WIP)", year: "2026",
     tags: ["Virtual Production", "Keying", "Set Extension"],
     vimeo: "https://vimeo.com/1194709999", image: "",
     body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.

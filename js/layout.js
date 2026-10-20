@@ -44,7 +44,6 @@
   const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
   if (footer) footer.innerHTML = `<div class="wrap foot">
     <p>${S.name}, ${S.role}</p>
-    <button class="sound-btn" type="button" aria-pressed="false"></button>
     <div class="foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div></div>`;
 
   // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)
@@ -52,93 +51,17 @@
   if (st) st.innerHTML = statusHTML;
 })();
 
-/* Click sounds (synthesised mouse click, OFF by default, toggled in the footer), page fade, video fitting. */
+/* Same-page links glide back to the top instead of reloading; video fitting. */
 (function () {
-  // Mouse-pointer icon (not a speaker) so it reads as interface clicks, not the Vimeo audio
-  const icon = on => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3l7 17 2.5-7.5L21 10z"/>${on ? '' : '<line x1="3" y1="21" x2="21" y2="3"/>'}</svg>`;
-  // Off unless the visitor has switched them on (new storage key, so everyone starts with them off)
-  let muted = true;
-  try { muted = localStorage.getItem("clickSounds") !== "on"; } catch (e) {}
-
-  // Synthesised microswitch click: a sharp "click" with a dull plastic thunk, then a lighter release click.
-  let ctx, master;
-  function audioReady() {
-    if (!ctx) {
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      master = ctx.createGain(); master.gain.value = 0.85;
-      const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 8000;
-      const comp = ctx.createDynamicsCompressor();
-      const out = ctx.createGain(); out.gain.value = 0.6; // 40% quieter than before
-      master.connect(lp); lp.connect(comp); comp.connect(out); out.connect(ctx.destination);
-    }
-    if (ctx.state === "suspended") ctx.resume();
-  }
-  function snap(at, dur, freq, q, gain) {
-    const len = Math.max(1, Math.floor(ctx.sampleRate * dur)), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 4);
-    const s = ctx.createBufferSource(); s.buffer = buf;
-    const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
-    const g = ctx.createGain(); g.gain.value = gain;
-    s.connect(f); f.connect(g); g.connect(master); s.start(at);
-  }
-  function thunk(at, f0, f1, peak, dur) {
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = "sine"; o.frequency.setValueAtTime(f0, at); o.frequency.exponentialRampToValueAtTime(f1, at + dur);
-    g.gain.setValueAtTime(0.0001, at); g.gain.linearRampToValueAtTime(peak, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-    o.connect(g); g.connect(master); o.start(at); o.stop(at + dur + 0.02);
-  }
-  function play() {
-    if (muted) return;
-    try {
-      audioReady();
-      const v = 0.96 + Math.random() * 0.08, t = ctx.currentTime + 0.005;
-      snap(t, 0.016, 3300 * v, 0.9, 0.9);      // button press: sharp click
-      snap(t, 0.005, 7000 * v, 1, 0.35);       // bright transient
-      thunk(t, 190 * v, 80, 0.3, 0.05);        // plastic body
-      snap(t + 0.09, 0.011, 3900 * v, 1, 0.45); // release click
-      thunk(t + 0.09, 240 * v, 120, 0.1, 0.035);
-    } catch (e) {}
-  }
-  const prime = () => { if (!muted) { try { audioReady(); } catch (e) {} } };
-  document.addEventListener("pointerdown", prime, { once: true });
-  document.addEventListener("keydown", prime, { once: true });
-
-  const btn = document.querySelector(".sound-btn");
-  const paint = () => {
-    if (!btn) return;
-    btn.innerHTML = icon(!muted) + `<span>Click sounds: ${muted ? "Off" : "On"}</span>`;
-    btn.title = muted ? "Turn interface click sounds on" : "Turn interface click sounds off";
-    btn.setAttribute("aria-pressed", String(!muted));
-  };
-  paint();
-
   document.addEventListener("click", e => {
-    if (btn && e.target.closest(".sound-btn")) {
-      muted = !muted;
-      try { localStorage.setItem("clickSounds", muted ? "off" : "on"); } catch (err) {}
-      paint(); play(); return;
-    }
-    const el = e.target.closest("a, button");
-    if (!el) return;
-    play();
-
-    // Fade the page out, then go to the next one
-    const a = el.closest("a[href]");
+    const a = e.target.closest("a[href]");
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target || a.hasAttribute("download")) return;
     const u = new URL(a.href, location.href);
     if (u.protocol !== location.protocol || u.host !== location.host) return;
     const norm = p => p.replace(/\/index(\.html)?$/, "/").replace(/\.html$/, "");
-    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search) {
-      // Already on this page: don't reload (that cut the click sound off); just glide back to the top. Links with a #hash use the normal in-page jump.
-      if (!u.hash) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); }
-      return;
-    }
-    e.preventDefault();
-    if (document.body.classList.contains("leaving")) return;
-    document.body.classList.add("leaving");
-    setTimeout(() => { location.href = u.href; }, 420);
+    // Already on this page: don't reload, just go back to the top. Links with a #hash use the normal in-page jump.
+    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search && !u.hash) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); }
   });
-  window.addEventListener("pageshow", e => { if (e.persisted) document.body.classList.remove("leaving"); });
 
   // Size videos so the whole frame fits on screen: measure the space above each video.
   const fit = () => {

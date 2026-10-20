@@ -4,7 +4,7 @@
    behaviour is left alone. Runs for everyone, including visitors with "reduce motion" switched on. */
 (function () {
   const root = document.documentElement;
-  const TAU = 120;                      // ms: bigger = longer, softer glide
+  const TAU = 60;                       // ms: bigger = longer, softer glide (was 120: too floaty)
   let target = scrollY, pos = scrollY, raf = 0, last = 0;
 
   const max = () => Math.max(0, root.scrollHeight - innerHeight);
@@ -26,7 +26,7 @@
   addEventListener("resize", () => { target = clamp(target); });
 
   // Slow, eased glide to a position (used by the Work page "Selected work" button). Any wheel / touch / key / click stops it.
-  const GLIDE_MIN_MS = 1500, GLIDE_MS_PER_PX = 1.6, GLIDE_MAX_MS = 2600;   // longer = slower
+  const GLIDE_MIN_MS = 700, GLIDE_MS_PER_PX = 0.8, GLIDE_MAX_MS = 1400;   // longer = slower
   let glideRaf = 0;
   const stopGlide = () => { if (glideRaf) { cancelAnimationFrame(glideRaf); glideRaf = 0; } };
   ["wheel", "touchstart", "keydown", "pointerdown"].forEach(ev => addEventListener(ev, stopGlide, { passive: true }));
