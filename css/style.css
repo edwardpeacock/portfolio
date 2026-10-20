@@ -858,3 +858,21 @@ body.leaving{opacity:1;transition:none}
   .info-page .contact-lede{font-size:1.02rem!important;line-height:1.35}
   .info-page .actions{margin-top:.75rem}
 }
+
+/* v58: About page — justified paragraphs everywhere; phones get a left-aligned layout like Work and a plain software list */
+.skills-list{display:none}
+.split .prose p{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
+@media(max-width:760px){
+  .info-page .split{text-align:left}
+  .info-page .split-right h1{text-align:left;font-size:1.75rem;letter-spacing:-.02em}
+  .info-page .split-right h1::after{margin-left:0;margin-right:auto}
+  .info-page .split-left{justify-content:flex-start;align-items:flex-start;justify-self:start}
+  .info-page .portrait{margin-left:0;margin-right:auto}
+  .info-page .marquee{display:none}
+  .info-page .portrait{width:min(112px,32%)}
+  .info-page .skills-list{display:block;padding-top:.85rem;padding-bottom:.2rem}
+  .info-page .skills-title{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#9e9ea2);margin:0 0 .45rem}
+  .info-page #skills-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:.3rem .75rem}
+  .info-page #skills-list li{font-size:.84rem;white-space:nowrap;line-height:1.35;padding-left:.8rem;position:relative}
+  .info-page #skills-list li::before{content:"";position:absolute;left:0;top:.55em;width:.3rem;height:.3rem;border-radius:50%;background:var(--accent,#7cc4bd)}
+}

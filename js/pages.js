@@ -29,6 +29,9 @@
     });
   }
   // Software strip: two identical halves, slid right by half its width, loop seamlessly (see .marquee in style.css)
+  // Phones: the same software as a plain list (the scrolling strip only fits about three names on a phone)
+  const list = $("skills-list");
+  if (list) list.innerHTML = S.skills.map(s => `<li>${s}</li>`).join("");
   const skills = $("skills");
   if (skills) {
     const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
