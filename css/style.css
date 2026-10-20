@@ -920,3 +920,18 @@ body.leaving{opacity:1;transition:none}
 .split .prose p{text-wrap:pretty}
 @media(max-width:760px){.info-page .split .prose p{text-align:left}}
 @media(min-width:981px){.work-page .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* v63: Work page on computers — bigger cards (tighter gaps), smaller caption text with the tags/year to the right of the title */
+@media(min-width:981px){
+  .work-page .grid{column-gap:1.25rem;row-gap:2.25rem}
+  .work-page .card{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:baseline;column-gap:1rem;text-align:left}
+  .work-page .card .thumb{grid-column:1/-1}
+  .work-page .card h3{font-size:1.15rem;margin-top:.8rem}
+  .work-page .card p.desc.meta{font-size:.72rem;text-align:right;margin:0;max-width:none;justify-self:end;text-wrap:balance}
+}
+/* About (computers too): the gap after the first paragraph matches the gap between the others */
+.prose p+.about-more>p:first-child{margin-top:1.4em}
+@media(min-width:981px) and (min-height:640px){.prose p+.about-more>p:first-child{margin-top:1em}}
+@media(max-width:760px){.prose p+.about-more>p:first-child{margin-top:.8em}}
+/* Home on phones: a slightly shorter banner, so less of the sides of the reel is cropped */
+@media(max-width:760px){.home-stage #reel.video{height:calc(var(--header-h) + 64vw)}}
