@@ -896,3 +896,15 @@ body.leaving{opacity:1;transition:none}
   .info-page #skills-list li::before{position:static;flex:none}
 }
 @media(max-width:760px) and (min-height:700px){.info-page .info-contact{padding-top:1.1rem!important}}
+
+/* v60: About on phones — the page grows when "Read more" opens (Safari was squeezing it and pushing the title up under the header),
+   an even gap under the photo + software row, a proper gap between paragraphs, and room at the bottom for Safari's toolbar */
+@media(max-width:760px){
+  .info-page main.fill{flex:1 0 auto;justify-content:flex-start}
+  .info-page main.fill>.split{margin-top:auto}
+  .info-page main.fill>section:last-child{margin-bottom:auto}
+  .info-page .split .prose{margin-top:.7rem}
+  .info-page .prose p+.about-more>p:first-child{margin-top:.8em}
+  .info-page main.fill:has(#about-text.open){padding-bottom:4.5rem}
+  .info-page #about-text.open .about-toggle{margin-top:.6rem}
+}
