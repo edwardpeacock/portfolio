@@ -908,3 +908,10 @@ body.leaving{opacity:1;transition:none}
   .info-page main.fill:has(#about-text.open){padding-bottom:4.5rem}
   .info-page #about-text.open .about-toggle{margin-top:.6rem}
 }
+/* v61: phones — no "Like what you see?" line on About; more room under the "About me" title */
+@media(max-width:760px){
+  .info-page .info-contact{display:none}
+  .info-page .split{row-gap:1.6rem}
+  .info-page .split .prose{margin-top:0}
+  .info-page .actions{margin-top:1.75rem}
+}
