@@ -43,7 +43,6 @@
   const mid = Math.ceil(socialBtns.length / 2);
   const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
   if (footer) footer.innerHTML = `<div class="wrap foot">
-    <p>${S.name}, ${S.role}</p>
     <div class="foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div></div>`;
 
   // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)

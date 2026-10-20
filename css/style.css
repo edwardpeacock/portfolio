@@ -935,3 +935,14 @@ body.leaving{opacity:1;transition:none}
 @media(max-width:760px){.prose p+.about-more>p:first-child{margin-top:.8em}}
 /* Home on phones: a slightly shorter banner, so less of the sides of the reel is cropped */
 @media(max-width:760px){.home-stage #reel.video{height:calc(var(--header-h) + 64vw)}}
+
+/* v64: footer is just the contact info (the name/role line is gone everywhere); on computers a thin line sits above it */
+@media(min-width:761px){
+  :root{--foot-row-h:7.5rem}
+  .foot{grid-template-columns:1fr;grid-template-rows:auto auto;grid-template-areas:"rule" "contact";row-gap:1.5rem}
+}
+/* Work page on narrower computers: the tags don't fit beside the title, so they sit just under it */
+@media(min-width:981px) and (max-width:1300px){
+  .work-page .card{grid-template-columns:minmax(0,1fr)}
+  .work-page .card p.desc.meta{text-align:left;justify-self:start;margin-top:.25rem}
+}
