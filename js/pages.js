@@ -18,7 +18,9 @@
   // About me: first paragraph always shown; on phones the rest folds away behind "Read more" (desktop shows everything)
   const about = $("about-text");
   if (about) {
-    const [first, ...rest] = S.about;
+    // keep the last two words of each paragraph together so a single word never sits alone on the last line
+    const keep = t => t.replace(/ (\S+)$/, "\u00a0$1");
+    const [first, ...rest] = S.about.map(keep);
     about.innerHTML = `<p>${first}</p>` + (rest.length ? `<div class="about-more" id="about-more">${rest.map(t => `<p>${t}</p>`).join("")}</div>
       <button type="button" class="about-toggle" aria-expanded="false" aria-controls="about-more"><span>Read more</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>` : "");
     const tog = about.querySelector(".about-toggle");

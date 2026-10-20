@@ -915,3 +915,8 @@ body.leaving{opacity:1;transition:none}
   .info-page .split .prose{margin-top:0}
   .info-page .actions{margin-top:1.75rem}
 }
+
+/* v62: About text — never a lone word on the last line (also helped by a non-breaking space in js/pages.js); phones left-aligned. Work page: 3 per row on computers */
+.split .prose p{text-wrap:pretty}
+@media(max-width:760px){.info-page .split .prose p{text-align:left}}
+@media(min-width:981px){.work-page .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
