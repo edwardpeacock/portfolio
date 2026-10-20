@@ -876,3 +876,23 @@ body.leaving{opacity:1;transition:none}
   .info-page #skills-list li{font-size:.84rem;white-space:nowrap;line-height:1.35;padding-left:.8rem;position:relative}
   .info-page #skills-list li::before{content:"";position:absolute;left:0;top:.55em;width:.3rem;height:.3rem;border-radius:50%;background:var(--accent,#7cc4bd)}
 }
+
+/* v59: About on phones — title, then photo beside the software list, then the text; no hyphenation in the justified text */
+.split .prose p{hyphens:manual;-webkit-hyphens:manual}
+@media(max-width:760px){
+  .info-page .split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:1.25rem;row-gap:.9rem;justify-items:stretch}
+  .info-page .split-right h1{grid-row:1;grid-column:1/-1;font-size:2rem;margin-bottom:0}
+  .info-page .split-left{grid-row:2;grid-column:1;width:100%;max-width:none}
+  .info-page .portrait{width:100%;margin:0}
+  .info-page .skills-list{grid-row:2;grid-column:2;display:flex;flex-direction:column;justify-content:center;padding:0 0 0 1rem;border-left:1px solid var(--line)}
+  .info-page .skills-title{margin:0 0 .6rem}
+  .info-page #skills-list{display:flex;flex-direction:column;gap:.4rem}
+  .info-page #skills-list li{font-size:.95rem}
+  .info-page .split .prose{grid-row:3;grid-column:1/-1}
+}
+@media(max-width:760px){.info-page .skills-list{align-self:stretch}}
+@media(max-width:760px){
+  .info-page #skills-list li{display:flex;align-items:center;gap:.5rem;padding-left:0}
+  .info-page #skills-list li::before{position:static;flex:none}
+}
+@media(max-width:760px) and (min-height:700px){.info-page .info-contact{padding-top:1.1rem!important}}
