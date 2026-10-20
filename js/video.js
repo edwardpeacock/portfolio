@@ -10,7 +10,9 @@
     return m ? { id: m[1], hash: m[2] || new URLSearchParams((url.split("?")[1] || "")).get("h") } : null;
   }
 
-  const json = u => fetch(u).then(r => (r.ok ? r.json() : null)).then(d => (d && d.thumbnail_url) || null).catch(() => null);
+  const meta = new Map();   // url -> oEmbed data (thumbnail + the video's real width / height)
+  const oe = u => fetch(u).then(r => (r.ok ? r.json() : null)).catch(() => null);
+  const json = u => oe(u).then(d => (d && d.thumbnail_url) || null);
   const loads = u => new Promise(ok => { const im = new Image(); im.onload = () => ok(u); im.onerror = () => ok(null); im.src = u; });
 
   // Tries, in order: Vimeo's oEmbed for the normal link, oEmbed for the player link, then a public thumbnail service.
@@ -25,6 +27,44 @@
         .then(u => u || loads("https://vumbnail.com/" + v.id + ".jpg")));
     }
     return cache.get(url);
+  }
+
+  // The video's real shape (e.g. 1.9:1 for a scope shot), so the player can be cropped to it: no letterbox bars
+  function ratio(url) {
+    const v = parse(url);
+    if (!v) return Promise.resolve(null);
+    if (!meta.has(url)) {
+      const h = v.hash ? "/" + v.hash : "";
+      meta.set(url, oe("https://vimeo.com/api/oembed.json?url=" + encodeURIComponent("https://vimeo.com/" + v.id + h))
+        .then(d => (d && d.width && d.height ? d.width / d.height : null)));
+    }
+    return meta.get(url);
+  }
+  const embed = (v, extra) => `https://player.vimeo.com/video/${v.id}?${v.hash ? "h=" + v.hash + "&" : ""}autoplay=1&dnt=1&title=0&byline=0&portrait=0&transparent=0${extra || ""}`;
+
+  // ---------- Home page: the showreel opens in a pop-up player ----------
+  function openReel(v, url, opener) {
+    if (document.querySelector(".reel-pop")) return;
+    const pop = document.createElement("div");
+    pop.className = "reel-pop"; pop.setAttribute("role", "dialog"); pop.setAttribute("aria-modal", "true"); pop.setAttribute("aria-label", "Showreel");
+    pop.innerHTML = `<div class="reel-pop-box"><iframe src="${embed(v)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Showreel"></iframe></div>
+      <button type="button" class="reel-pop-close" aria-label="Close showreel"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Close</span></button>`;
+    document.body.appendChild(pop);
+    const box = pop.querySelector(".reel-pop-box");
+    ratio(url).then(r => { if (r) box.style.setProperty("--ar", r); });
+    document.documentElement.style.overflow = "hidden";
+    requestAnimationFrame(() => pop.classList.add("on"));
+    const close = () => {
+      removeEventListener("keydown", key);
+      pop.classList.remove("on"); document.documentElement.style.overflow = "";
+      box.innerHTML = "";                       // stops the video
+      setTimeout(() => pop.remove(), 200);
+      if (opener) opener.focus();
+    };
+    const key = e => { if (e.key === "Escape") close(); };
+    addEventListener("keydown", key);
+    pop.addEventListener("click", e => { if (!box.contains(e.target)) close(); });   // click anywhere outside the player closes it
+    pop.querySelector(".reel-pop-close").focus();
   }
 
   function setup(el) {
@@ -42,12 +82,14 @@
       const go = vid.play(); if (go && go.catch) go.catch(() => {});
     } else if (el.dataset.poster) el.style.backgroundImage = `url(${el.dataset.poster})`;
     else thumb(el.dataset.vimeo).then(u => { if (u) el.style.backgroundImage = `url(${u})`; });
-    el.querySelector(".play").addEventListener("click", () => {
+    // Crop the player to the video's own shape once Vimeo tells us what it is (project pages)
+    if (!el.hasAttribute("data-home")) ratio(el.dataset.vimeo).then(r => { if (r && Math.abs(r - 16 / 9) > 0.01) { el.style.aspectRatio = String(r); el.classList.add("custom-ar"); dispatchEvent(new Event("resize")); } });
+    el.querySelector(".play").addEventListener("click", e => {
+      if (el.hasAttribute("data-home")) return openReel(v, el.dataset.vimeo, e.currentTarget);   // home: pop-up player, the loop keeps running behind
       el.classList.add("playing");
       const stage = el.closest(".home-stage"); if (stage) stage.classList.add("playing");   // home page: shrink the full-screen frame so the player controls fit
       dispatchEvent(new Event("resize"));
-      const q = (v.hash ? "h=" + v.hash + "&" : "") + "autoplay=1&dnt=1&title=0&byline=0&portrait=0";
-      el.innerHTML = `<iframe src="https://player.vimeo.com/video/${v.id}?${q}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video player"></iframe>`;
+      el.innerHTML = `<iframe src="${embed(v)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video player"></iframe>`;
     });
   }
 

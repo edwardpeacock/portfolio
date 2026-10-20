@@ -4,7 +4,11 @@
    behaviour is left alone. Runs for everyone, including visitors with "reduce motion" switched on. */
 (function () {
   const root = document.documentElement;
-  const TAU = 60;                       // ms: bigger = longer, softer glide (was 120: too floaty)
+  // ms: bigger = longer, softer glide. The site uses a short, natural glide; the breakdown section keeps the long, smooth one
+  // so its image wipes glide as you scroll through it.
+  const TAU_SITE = 60, TAU_BREAKDOWN = 120;
+  let TAU = TAU_SITE;
+  const inBreakdown = () => { const t = document.querySelector(".bd-track"); if (!t) return false; const r = t.getBoundingClientRect(); return r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15; };
   let target = scrollY, pos = scrollY, raf = 0, last = 0;
 
   const max = () => Math.max(0, root.scrollHeight - innerHeight);
@@ -26,7 +30,7 @@
   addEventListener("resize", () => { target = clamp(target); });
 
   // Slow, eased glide to a position (used by the Work page "Selected work" button). Any wheel / touch / key / click stops it.
-  const GLIDE_MIN_MS = 700, GLIDE_MS_PER_PX = 0.8, GLIDE_MAX_MS = 1400;   // longer = slower
+  const GLIDE_MIN_MS = 1500, GLIDE_MS_PER_PX = 1.6, GLIDE_MAX_MS = 2600;   // longer = slower (the smooth arrow-button glide)
   let glideRaf = 0;
   const stopGlide = () => { if (glideRaf) { cancelAnimationFrame(glideRaf); glideRaf = 0; } };
   ["wheel", "touchstart", "keydown", "pointerdown"].forEach(ev => addEventListener(ev, stopGlide, { passive: true }));
@@ -57,6 +61,7 @@
     e.preventDefault();
     const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
     if (!raf) pos = target = scrollY;
+    TAU = inBreakdown() ? TAU_BREAKDOWN : TAU_SITE;
     target = clamp(target + d);
     if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
   }, { passive: false });

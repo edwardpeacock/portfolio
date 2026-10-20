@@ -796,3 +796,22 @@ body.leaving{opacity:1;transition:none}
 
 /* Footer: the click-sound toggle is gone, so the name simply sits on the left */
 .sound-btn{display:none!important}
+
+
+/* ---------- v55: clearer play button, no letterbox bars, showreel pop-up ---------- */
+/* Play button: smaller, solid light disc with a dark triangle so it reads as the thing to click. Hover: a gentle lift only. */
+.video .play svg,.home-stage #reel .play svg{width:64px;height:64px;padding:20px;color:#0b0b0c;background:#f2f2f0;border:0;box-shadow:0 6px 22px rgba(0,0,0,.45);transition:transform .25s ease,background .25s ease!important}
+.video .play:hover svg,.video .play:focus-visible svg{background:#fff;transform:scale(1.06)}
+.video .play:focus-visible{outline:none}
+.video .play:focus-visible svg{outline:2px solid var(--accent-hi);outline-offset:3px}
+@media(max-width:760px){.video .play svg,.home-stage #reel .play svg{width:56px;height:56px;padding:17px}}
+/* Players are cropped to the video's own shape (set from Vimeo in js/video.js); black behind just in case */
+.video,.video iframe{background-color:#000}
+.video.custom-ar{height:auto}
+/* Showreel pop-up (home page) */
+.reel-pop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:4.5rem 1rem 1.5rem;background:rgba(0,0,0,.86);opacity:0;transition:opacity .2s ease!important}
+.reel-pop.on{opacity:1}
+.reel-pop-box{--ar:1.7778;position:relative;width:min(92vw,1600px,calc((100vh - 7rem) * var(--ar)));width:min(92vw,1600px,calc((100svh - 7rem) * var(--ar)));aspect-ratio:var(--ar);background:#000;border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.reel-pop-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.reel-pop-close{position:absolute;top:1rem;right:1rem;display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.1rem .6rem .9rem;border-radius:99px;border:1px solid var(--btn-line);background:var(--btn);color:#fff;font:500 .95rem/1 var(--body);cursor:pointer;transition:background .2s ease!important}
+.reel-pop-close:hover,.reel-pop-close:focus-visible{background:var(--btn-hi)}
