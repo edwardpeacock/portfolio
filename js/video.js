@@ -79,6 +79,9 @@
       vid.className = "loop"; vid.src = el.dataset.loop;
       vid.muted = vid.loop = vid.autoplay = vid.playsInline = true;
       vid.setAttribute("muted", ""); vid.setAttribute("playsinline", ""); vid.setAttribute("aria-hidden", "true");
+      // no "Save video as" / "Open video in new tab" / picture-in-picture / cast (right-click is also blocked in js/protect.js)
+      vid.disablePictureInPicture = true; vid.setAttribute("disablepictureinpicture", ""); vid.setAttribute("disableremoteplayback", "");
+      vid.setAttribute("controlslist", "nodownload noplaybackrate noremoteplayback"); vid.draggable = false;
       vid.addEventListener("error", () => vid.remove());
       el.prepend(vid);
       const go = vid.play(); if (go && go.catch) go.catch(() => {});

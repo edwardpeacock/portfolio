@@ -946,3 +946,38 @@ body.leaving{opacity:1;transition:none}
   .work-page .card{grid-template-columns:minmax(0,1fr)}
   .work-page .card p.desc.meta{text-align:left;justify-self:start;margin-top:.25rem}
 }
+
+/* v65: header video — no long-press menu on phones, can't be dragged out */
+.home-stage #reel,.home-stage #reel video{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+
+/* v65: Work page — sans-serif labels instead of the monospace ones */
+.work-page .work-count{font-family:var(--body);font-weight:500;font-size:.78rem;letter-spacing:.16em}
+.work-page .card p.desc.meta{font-family:var(--body);letter-spacing:.01em}
+.work-page .foot-title{font-family:var(--body);font-size:.72rem;letter-spacing:.18em}
+
+/* v65: Work page on computers — one clean header row (title left, count right, a hairline under both), the arrow is gone
+   (the grid starts right below it), and the grid sits closer so both rows of projects are on screen together */
+@media(min-width:981px){
+  .work-page main{padding-top:calc(var(--header-h) - .5rem)}
+  .work-page .hero.wrap{padding-bottom:0;row-gap:0;align-items:end}
+  .work-page .hero h1{margin:0}
+  .work-page .work-count{align-self:end;padding-bottom:1.15rem}
+  .work-page .hero .work-cue{display:none}
+  .work-page .hero.wrap::after{content:"";grid-column:1/-1;height:1px;margin-top:1.4rem;background:linear-gradient(90deg,var(--line) 0%,var(--line) 70%,transparent)}
+  .work-page main>section.wrap:not(.hero){padding-top:2rem!important}
+  .work-page .grid{column-gap:1.5rem;row-gap:2.5rem}
+  .work-page .card h3{font-size:1.1rem;font-weight:600;letter-spacing:-.005em;margin-top:.85rem}
+  .work-page .card p.desc.meta{font-size:.8rem;color:var(--muted)}
+}
+@media(min-width:981px){
+  /* the title's accent underline becomes the start of the hairline, so there's one line instead of two */
+  .work-page .hero h1::after{display:none}
+  .work-page .hero.wrap::after{height:2px;margin-top:1.1rem;background:linear-gradient(90deg,var(--accent) 0 3rem,transparent 3rem),linear-gradient(90deg,var(--line),var(--line) 70%,transparent) 0 100%/100% 1px no-repeat}
+  .work-page .work-count{padding-bottom:.55rem}
+  /* captions: title and tags line up along the top, whether or not the tags need two lines */
+  .work-page .card{align-items:start}
+  .work-page .card h3{line-height:1.3}
+  .work-page .card p.desc.meta{font-size:.75rem;line-height:1.5;margin-top:calc(.85rem + 3px)}
+}
+@media(min-width:981px) and (max-width:1300px){.work-page .card p.desc.meta{margin-top:.2rem}}
+@media(min-width:981px){.work-page .card{align-content:start}}
