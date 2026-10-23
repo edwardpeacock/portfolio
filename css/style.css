@@ -981,3 +981,14 @@ body.leaving{opacity:1;transition:none}
 }
 @media(min-width:981px) and (max-width:1300px){.work-page .card p.desc.meta{margin-top:.2rem}}
 @media(min-width:981px){.work-page .card{align-content:start}}
+
+/* v66: Work page on computers — both rows of projects, names included, fit on screen without scrolling.
+   The grid's width is worked out from the screen height (16:9 thumbnails + caption + gaps), and the title row matches it. */
+@media(min-width:981px){
+  .work-page{--wk-top:19.5rem;--wk-bottom:1.5rem;--wk-cap:3.4rem;--wk-rg:2rem;--wk-cg:1.5rem;
+    --wk-card:calc((100vh - var(--wk-top) - var(--wk-bottom) - var(--wk-rg) - 2 * var(--wk-cap)) / 2 * 16 / 9);
+    --wk-card:calc((100svh - var(--wk-top) - var(--wk-bottom) - var(--wk-rg) - 2 * var(--wk-cap)) / 2 * 16 / 9)}
+  .work-page .hero.wrap{padding-top:1.75rem}
+  .work-page main>section.wrap{max-width:min(1600px,max(1100px,calc(3 * var(--wk-card) + 2 * var(--wk-cg) + 2 * var(--pad))))}
+  .work-page .grid{column-gap:var(--wk-cg);row-gap:var(--wk-rg)}
+}
