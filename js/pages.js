@@ -12,9 +12,13 @@
     portrait.setAttribute("aria-label", `Portrait of ${S.name} holding a Canon camera`);
     ["contextmenu", "dragstart", "selectstart"].forEach(ev => portrait.addEventListener(ev, e => e.preventDefault()));
   }
-  // Home (phones): "See all 6 projects" under the two cards shown there
+  // Home: "See all 6 projects" button under the cards shown there (2 on phones, 4 on computers)
   const more = $("more-work");
-  if (more) { const n = (window.PROJECTS || []).length; more.querySelector("span").textContent = `See all ${n} projects`; }
+  const nAll = (window.PROJECTS || []).length;
+  if (more) more.querySelector("span").textContent = `See all ${nAll} projects`;
+  // Home (computers): the link beside "VFX Projects" says how many there are too
+  const headLink = document.querySelector("#work .section-head a");
+  if (headLink && nAll) headLink.textContent = `See all ${nAll} projects`;
   // About me: first paragraph always shown; on phones the rest folds away behind "Read more" (desktop shows everything)
   const about = $("about-text");
   if (about) {

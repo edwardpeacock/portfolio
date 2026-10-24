@@ -992,3 +992,11 @@ body.leaving{opacity:1;transition:none}
   .work-page main>section.wrap{max-width:min(1600px,max(1100px,calc(3 * var(--wk-card) + 2 * var(--wk-cg) + 2 * var(--pad))))}
   .work-page .grid{column-gap:var(--wk-cg);row-gap:var(--wk-rg)}
 }
+
+/* v67: Home on computers — the "See all 6 projects" button also shows under the four cards, so it's clear there's more */
+@media(min-width:761px){
+  .more-work{display:flex;width:fit-content;align-items:center;gap:.65rem;margin:2.5rem auto 0;padding:.95rem 1.6rem;border:1px solid var(--btn-line);border-radius:99px;background:var(--btn);color:var(--text);font:500 1.02rem/1.2 var(--body);transition:background .25s ease,border-color .25s ease!important}
+  .more-work:hover,.more-work:focus-visible{background:var(--btn-hi);border-color:rgba(255,255,255,.28)}
+  .more-work svg{color:var(--accent-hi);flex:none;transition:transform .25s ease!important}
+  .more-work:hover svg{transform:translateX(3px)}
+}
