@@ -1,0 +1,28 @@
+/* The current site header, on its own: used by the About page, which otherwise keeps its original (pre-redesign) look from style.css.
+   Kept in step with the header rules in redesign.css. */
+#site-header{--hf:"Instrument Sans",system-ui,sans-serif;--hh:4.5rem;background:rgba(5,5,5,.92);border-bottom:1px solid transparent;font-family:var(--hf);transition:border-color .3s ease!important}
+#site-header .hdr-blur{display:none!important}
+body.scrolled #site-header{border-bottom-color:#262626}
+#site-header .bar{height:var(--hh);padding:0 clamp(1.15rem,2.6vw,2.25rem)!important;align-items:center}
+#site-header .brand,.scrolled #site-header .brand{--brand-size:1.12rem!important;flex-direction:row;align-items:center;font-family:var(--hf)}
+#site-header .brand-line{align-items:baseline}
+#site-header .brand-name{font-weight:700;letter-spacing:-.01em;color:#f4f4f2}
+#site-header .brand-tail,.scrolled #site-header .brand-tail{opacity:1!important;max-width:30em;padding-left:.55em;filter:none!important}
+#site-header .brand-sep{display:none}
+#site-header .brand-role{font-weight:400;font-size:var(--brand-size);color:#8f8f8c;filter:none!important;opacity:1!important}
+#site-header .home-btn{display:none!important}
+#site-header nav{gap:1.9rem;align-items:center}
+#site-header nav a{font:500 .95rem/1 var(--hf);letter-spacing:0;text-transform:none;border:0;padding:.35rem 0;color:#8f8f8c}
+#site-header nav a:hover{color:#f4f4f2}
+#site-header nav a[aria-current]{color:#f4f4f2;font-weight:500;text-decoration:underline;text-decoration-color:#7cc4bd;text-decoration-thickness:2px;text-underline-offset:.55em}
+#site-header .menu-btn{font:500 1rem/1 var(--hf);text-transform:none;letter-spacing:0}
+@media(max-width:760px){
+  #site-header{--hh:4.25rem}
+  #site-header .brand,.scrolled #site-header .brand{--brand-size:1.05rem!important}
+  #site-header .brand-line{flex-direction:row}
+  #site-header .brand-tail{padding-left:.5em}
+  #site-header nav{background:#050505;align-items:flex-start;gap:0}
+  #site-header nav a{font:500 2.2rem/1.25 var(--hf);letter-spacing:-.02em;padding:.2rem 0}
+  #site-header nav a[aria-current]{text-decoration:none}
+}
+@media(max-width:400px){#site-header .brand-tail{display:none}}

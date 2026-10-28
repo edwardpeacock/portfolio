@@ -40,8 +40,8 @@
   if (list) list.innerHTML = S.skills.map(s => `<li>${s}</li>`).join("");
   const skills = $("skills");
   if (skills) {
-    // Redesign: a plain, still line of software (no scrolling strip)
-    skills.innerHTML = `<div class="wrap sw"><h2>Software</h2><ul>${S.skills.map(s => `<li>${s}</li>`).join("")}</ul></div>`;
+    const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
+    skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
   }
   // Work page: "6 Projects" beside the title. The number is counted from the PROJECTS list in data/site.js.
   const wc = $("work-count");
