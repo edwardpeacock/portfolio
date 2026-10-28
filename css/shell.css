@@ -60,14 +60,19 @@ body.scrolled #site-header{border-bottom-color:#262626}
 @media(min-width:981px){
   .info-page main.fill{padding-top:calc(4.5rem + clamp(1rem,5.5vh,3.5rem))}
   .info-page .marquee{padding-block:clamp(.6rem,2.2vh,1.75rem)!important;margin-top:clamp(.25rem,1.2vh,1rem)!important}
-  .info-page #site-footer{margin-top:clamp(1rem,3.5vh,3rem)}
-  .info-page .ft{padding-block:clamp(1.2rem,4vh,3.5rem)}
 }
 /* Software strip: a soft teal glow */
 .info-page .marquee li{text-shadow:0 0 8px rgba(124,196,189,.55),0 0 22px rgba(124,196,189,.25)}
 @media(min-width:981px) and (max-height:740px){
   .info-page .split-right h1{margin-bottom:2rem}
   .info-page .split .prose p{font-size:.9rem;line-height:1.5}
-  .info-page .ft-big{font-size:1.35rem}
-  .info-page .ft-small{margin-top:.35rem}
 }
+
+/* About on computers: the footer is the same size as on every other page; the page fills the screen above it and the
+   software strip sits in the middle of the space under the text (equal gap above and below it) */
+@media(min-width:981px){
+  .info-page main.fill{flex:1 0 auto;display:flex;flex-direction:column;padding-bottom:0}
+  .info-page main.fill>.marquee{margin-block:auto!important}
+  .info-page #site-footer{margin-top:0}
+}
+@media(min-width:981px) and (max-height:680px){.info-page main.fill{padding-top:calc(4.5rem + 1.25rem)}}
