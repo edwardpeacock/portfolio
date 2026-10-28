@@ -351,3 +351,12 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 /* Footer: four columns (Email, Socials, Location, Availability) */
 .ft-cols{grid-template-columns:repeat(4,minmax(0,auto))}
 @media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr}.ft-col:first-child,.ft-col:last-child{grid-column:auto}.ft-col:first-child{grid-column:1/-1}}
+
+/* v83: home reel button as plain text with the play icon (no outline box) */
+.home-stage #reel .play{border:0!important;background:none!important;padding:.4rem 0!important;gap:.6rem;right:2.4rem;bottom:2.1rem;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.home-stage #reel .play svg{width:18px!important;height:18px!important;color:#fff;filter:drop-shadow(0 1px 6px rgba(0,0,0,.6))}
+.home-stage #reel .play .play-label{font-size:1.2rem;font-weight:500;color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,0);text-decoration-thickness:1px;text-underline-offset:.3em;transition:text-decoration-color .2s ease,color .2s ease!important}
+.home-stage #reel .play:hover,.home-stage #reel .play:focus-visible{background:none!important;color:#fff}
+.home-stage #reel .play:hover .play-label,.home-stage #reel .play:focus-visible .play-label{color:var(--accent-hi);text-decoration-color:var(--accent-hi)}
+.home-stage #reel .play:hover svg,.home-stage #reel .play:focus-visible svg{color:var(--accent-hi)}
+@media(max-width:760px){.home-stage #reel .play{right:1rem;bottom:.9rem}.home-stage #reel .play .play-label{font-size:1.05rem}}
