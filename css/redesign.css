@@ -334,3 +334,16 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .card:hover .thumb.previewing video.preview{opacity:1}
 .home-stage #reel .play,.home-stage #reel .play .play-label{color:#fff}
 .home-stage #reel .play:hover,.home-stage #reel .play:hover .play-label{color:#050505}
+
+/* v77 */
+/* Sharp corners on thumbnails and videos again */
+.video,.thumb,.bd-stage,.bd-viewer,.home-stage #reel.video,.reel-pop-box{border-radius:0!important}
+/* Showreel: no visible edge at the bottom; the clip itself fades out into the page instead of ending in a hard line */
+.home-stage #reel.video{background:transparent}
+.home-stage #reel video.loop{-webkit-mask-image:linear-gradient(#000 55%,transparent 90%);mask-image:linear-gradient(#000 55%,transparent 90%)}
+.home-stage .stage-text{background:none}
+/* Reel bottom: blend into the exact page colour so there's no edge (the overlay sits under the text and the play button) */
+.home-stage .stage-text{background:linear-gradient(rgba(5,5,5,0) 0%,rgba(5,5,5,.6) 55%,#050505 100%)}
+.home-stage #reel .play{z-index:3}
+@media(max-width:760px){.home-stage .stage-text{background:none}}
+@media(max-width:760px){.home-stage #reel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(rgba(5,5,5,0),#050505);pointer-events:none;z-index:1}}
