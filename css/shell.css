@@ -1,5 +1,8 @@
-/* The current site header, on its own: used by the About page, which otherwise keeps its original (pre-redesign) look from style.css.
-   Kept in step with the header rules in redesign.css. */
+/* The current site "shell" on its own: header, footer, font and background. Used by the About page, which otherwise keeps its
+   original (pre-redesign) layout from style.css. Keep the header and footer rules here in step with redesign.css. */
+:root{--bg:#050505;--text:#f4f4f2;--muted:#8f8f8c;--line:#262626;
+  --head:"Instrument Sans",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif;--display:"Instrument Sans",system-ui,sans-serif;--mono:"Instrument Sans",system-ui,sans-serif}
+html,body{background:#050505}
 #site-header{--hf:"Instrument Sans",system-ui,sans-serif;--hh:4.5rem;background:rgba(5,5,5,.92);border-bottom:1px solid transparent;font-family:var(--hf);transition:border-color .3s ease!important}
 #site-header .hdr-blur{display:none!important}
 body.scrolled #site-header{border-bottom-color:#262626}
@@ -26,3 +29,18 @@ body.scrolled #site-header{border-bottom-color:#262626}
   #site-header nav a[aria-current]{text-decoration:none}
 }
 @media(max-width:400px){#site-header .brand-tail{display:none}}
+
+/* Footer (same as the other pages) */
+#site-footer{background:transparent;color:#f4f4f2;border-top:1px solid #262626;margin-top:5rem;font-family:var(--body)}
+.ft{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:3rem;align-items:start;padding-block:3.5rem;padding-inline:clamp(1.15rem,2.6vw,2.25rem)}
+.ft-say{margin:0}
+.ft-big{margin:0;font:500 clamp(1.4rem,2.2vw,1.9rem)/1.2 var(--head);letter-spacing:-.02em;color:#f4f4f2}
+.ft-small{margin:.6rem 0 0;font:400 1rem/1.5 var(--body);color:#8f8f8c}
+.ft-cols{display:grid;grid-template-columns:repeat(3,minmax(0,auto));justify-content:space-between;gap:2rem}
+.ft-col h2{margin:0 0 .8rem;font:500 .82rem/1 var(--body);letter-spacing:0;text-transform:none;color:#8f8f8c}
+.ft-col a,.ft-col p{display:block;margin:0 0 .35rem;font:400 .98rem/1.4 var(--body);color:#f4f4f2}
+.ft-col a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:rgba(244,244,242,.3)}
+.ft-col a:hover{color:#7cc4bd;text-decoration-color:#7cc4bd}
+.ft-col p+p{color:#8f8f8c}
+@media(max-width:900px){.ft{grid-template-columns:1fr;gap:2.25rem;padding-block:3rem}}
+@media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr;justify-content:start;gap:1.75rem 1.5rem}.ft-col:first-child,.ft-col:last-child{grid-column:1/-1}}
