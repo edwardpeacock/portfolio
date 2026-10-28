@@ -85,7 +85,7 @@ window.PROJECTS = [
     ] },
   { slug: "the-diner", title: "The Diner (WIP)", year: "2026",
     tags: ["Virtual Production", "Keying", "Set Extension"],
-    vimeo: "https://vimeo.com/1194709999", image: "",
+    vimeo: "https://vimeo.com/1194709999", image: "", preview: "assets/previews/the-diner.mp4",
     body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
     tools: [], credits: [],
     breakdown: [] }

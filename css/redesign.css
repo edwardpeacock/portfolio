@@ -347,3 +347,7 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .home-stage #reel .play{z-index:3}
 @media(max-width:760px){.home-stage .stage-text{background:none}}
 @media(max-width:760px){.home-stage #reel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(rgba(5,5,5,0),#050505);pointer-events:none;z-index:1}}
+
+/* Footer: four columns (Email, Socials, Location, Availability) */
+.ft-cols{grid-template-columns:repeat(4,minmax(0,auto))}
+@media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr}.ft-col:first-child,.ft-col:last-child{grid-column:auto}.ft-col:first-child{grid-column:1/-1}}

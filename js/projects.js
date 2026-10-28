@@ -21,7 +21,7 @@
     }));
     // Hover previews (mouse/trackpad only): a short silent clip plays over the thumbnail while the pointer is on the card.
     // The clip is only downloaded the first time someone hovers that card.
-    if (matchMedia("(hover:hover) and (pointer:fine)").matches) grid.querySelectorAll(".thumb[data-preview]").forEach(t => {
+    if (matchMedia("(any-hover:hover)").matches) grid.querySelectorAll(".thumb[data-preview]").forEach(t => {
       const card = t.closest(".card");
       let vid = null;
       card.addEventListener("mouseenter", () => {
@@ -31,7 +31,8 @@
           vid.muted = vid.loop = vid.playsInline = true; vid.preload = "auto";
           vid.setAttribute("muted", ""); vid.setAttribute("playsinline", ""); vid.setAttribute("aria-hidden", "true");
           vid.disablePictureInPicture = true; vid.setAttribute("controlslist", "nodownload");
-          vid.addEventListener("playing", () => t.classList.add("previewing"));
+          const on = () => { if (card.matches(":hover")) t.classList.add("previewing"); };
+          vid.addEventListener("playing", on); vid.addEventListener("timeupdate", on);
           vid.addEventListener("error", () => { vid.remove(); vid = null; });
           t.appendChild(vid);
         }
