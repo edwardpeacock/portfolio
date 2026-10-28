@@ -249,16 +249,6 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 
 /* Showreel: no greeting on top; the location line, and thin corner marks like a viewer's frame guides */
 .home-stage{position:relative}
-.frame-marks{position:absolute;pointer-events:none;z-index:2;
-  top:calc(var(--header-h) + 1.1rem);left:calc(var(--pad) + 1.1rem);right:calc(var(--pad) + 1.1rem);
-  height:calc(min(calc(100svh - var(--header-h) - 6.5rem),56.25vw) - 2.2rem);
-  --c:rgba(255,255,255,.55);--l:18px;
-  background:
-    linear-gradient(var(--c),var(--c)) 0 0/var(--l) 1px,linear-gradient(var(--c),var(--c)) 0 0/1px var(--l),
-    linear-gradient(var(--c),var(--c)) 100% 0/var(--l) 1px,linear-gradient(var(--c),var(--c)) 100% 0/1px var(--l),
-    linear-gradient(var(--c),var(--c)) 0 100%/var(--l) 1px,linear-gradient(var(--c),var(--c)) 0 100%/1px var(--l),
-    linear-gradient(var(--c),var(--c)) 100% 100%/var(--l) 1px,linear-gradient(var(--c),var(--c)) 100% 100%/1px var(--l);
-  background-repeat:no-repeat}
 .home-stage .stage-text{padding:5rem 2.4rem 2.3rem;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.45))}
 .home-stage .stage-text .stage-status{margin:0;font:500 1.05rem/1.4 var(--body);color:#fff}
 .home-stage #reel .play{right:2.4rem;bottom:2.1rem}
@@ -297,7 +287,6 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .ft-col p+p{color:var(--muted)}
 
 @media(max-width:760px){
-  .frame-marks{top:calc(var(--header-h) + .7rem);left:calc(var(--pad) + .7rem);right:calc(var(--pad) + .7rem);height:calc(62vw - 1.4rem);--l:12px}
   .home-stage .stage-text{padding:1.2rem 0 0;background:none}
   .home-stage .stage-text .stage-status{font-size:1rem;color:var(--text)}
   .section-head h2{font-size:1.3rem}
@@ -309,3 +298,10 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 @media(max-width:760px){.card p.desc.meta{margin-top:.15rem}}
 @media(max-width:900px){.ft{grid-template-columns:1fr;gap:2.25rem;padding-block:3rem}}
 @media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr}.ft-col:first-child,.ft-col:last-child{grid-column:1/-1}}
+
+/* v73: greeting back on the reel (Instrument Sans weights), no corner marks; Work page count bigger and white */
+.hero-title{font-weight:400;font-size:clamp(2rem,3.4vw,3.1rem);letter-spacing:-.025em}
+.hero-title strong{font-weight:600}
+.home-stage .stage-text .stage-status{margin-top:.6rem;font-weight:400;font-size:1rem;color:rgba(255,255,255,.8)}
+.work-page .work-count{font:500 1.2rem/1.3 var(--body)!important;color:var(--text)!important;letter-spacing:-.01em!important}
+@media(max-width:760px){.hero-title{font-size:1.9rem}.home-stage .stage-text .stage-status{color:var(--muted)}}

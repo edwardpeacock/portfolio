@@ -43,7 +43,7 @@
   const mid = Math.ceil(socialBtns.length / 2);
   const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
   if (footer) footer.innerHTML = `<div class="wrap ft">
-    <div class="ft-say"><p class="ft-big">Got a shot that needs compositing?</p><p class="ft-small">Send me an email and let’s talk about it.</p></div>
+    <div class="ft-say"><p class="ft-big">Have a project in mind?</p><p class="ft-small">Send me an email and let’s talk about it.</p></div>
     <div class="ft-cols">
       <div class="ft-col"><h2>Email</h2><a href="mailto:${S.email}">${S.email}</a></div>
       <div class="ft-col"><h2>Socials</h2>${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join("")}</div>

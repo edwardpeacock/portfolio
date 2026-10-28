@@ -43,9 +43,9 @@
     // Redesign: a plain, still line of software (no scrolling strip)
     skills.innerHTML = `<div class="wrap sw"><h2>Software</h2><ul>${S.skills.map(s => `<li>${s}</li>`).join("")}</ul></div>`;
   }
-  // Work page: "My work - 7 projects". The number is counted from the PROJECTS list in data/site.js.
+  // Work page: "6 Projects" beside the title. The number is counted from the PROJECTS list in data/site.js.
   const wc = $("work-count");
-  if (wc) { const n = (window.PROJECTS || []).length; wc.textContent = `My work — ${n} ${n === 1 ? "project" : "projects"}`; }
+  if (wc) { const n = (window.PROJECTS || []).length; wc.textContent = `${n} ${n === 1 ? "Project" : "Projects"}`; }
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
