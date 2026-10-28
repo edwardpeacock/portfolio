@@ -43,11 +43,11 @@
   const mid = Math.ceil(socialBtns.length / 2);
   const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
   if (footer) footer.innerHTML = `<div class="wrap ft">
-    <p class="ft-say">Like what you see?<br>Let’s work together.</p>
+    <div class="ft-say"><p class="ft-big">Got a shot that needs compositing?</p><p class="ft-small">Send me an email and let’s talk about it.</p></div>
     <div class="ft-cols">
-      <div class="ft-col"><h2>Contact</h2><a href="mailto:${S.email}">${S.email}</a></div>
-      <div class="ft-col"><h2>Follow</h2>${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join("")}</div>
-      <div class="ft-col"><h2>Based in</h2><p>London, UK</p><p>Available for Compositor roles</p></div>
+      <div class="ft-col"><h2>Email</h2><a href="mailto:${S.email}">${S.email}</a></div>
+      <div class="ft-col"><h2>Socials</h2>${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join("")}</div>
+      <div class="ft-col"><h2>Location</h2><p>London, UK</p><p>Currently looking for junior compositing roles</p></div>
     </div></div>`;
 
   // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)
