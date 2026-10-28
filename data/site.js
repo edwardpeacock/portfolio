@@ -15,6 +15,7 @@ window.SITE = {
     "This involved delving deep into 2D compositing, practicing the 2D VFX pipeline whilst working with industry standard software and always thinking professionally. I also have experience in the 3D pipeline, from modelling to UV unwrapping and texturing.",
     "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
+  homeOrder: ["blazing-escape", "boxer-rotoscope", "gramophone-vfx-shot", "alien-cube"],   // the projects shown on the home page, in order (big, small, small, big)
   skills: ["Nuke", "Blender", "Autodesk Maya", "3DEqualizer", "SynthEyes", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 

@@ -8,7 +8,9 @@
 
   const grid = document.getElementById("work-grid");
   if (grid) {
-    const list = P.slice(0, +grid.dataset.limit || P.length);
+    // Home page: the projects named in SITE.homeOrder, in that order (falls back to the first few in the list)
+    const pick = grid.dataset.limit && (window.SITE.homeOrder || []).map(s => P.find(p => p.slug === s)).filter(Boolean);
+    const list = (pick && pick.length ? pick : P).slice(0, +grid.dataset.limit || P.length);
     grid.innerHTML = list.map(p => `<a class="card" href="${p.wip ? "wip.html?p=" + p.slug : "project.html?p=" + p.slug}">
       <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>
       <h3>${p.title}</h3><p class="desc meta">${[...p.tags, p.year].join(", ")}</p></a>`).join("");
@@ -19,7 +21,7 @@
     }));
   }
 
-  // "Selected work ↓" on the Work page: scroll until the last project is fully on screen (so it is clear there are more than the first few)
+  // The down arrow on the Work page: scroll until the last project is fully on screen (so it is clear there are more than the first few)
   const cue = document.querySelector(".work-cue");
   if (cue && grid) cue.addEventListener("click", e => {
     const cards = grid.querySelectorAll(".card"); if (!cards.length) return;

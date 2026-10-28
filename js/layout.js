@@ -1,7 +1,7 @@
 /* Shared header, footer, home status lines. */
 (function () {
   const S = window.SITE;
-  const links = [["index.html","Home"],["work.html","Work"],["info.html","About me"],["cv.html","CV"]];   // CV opens in a new tab (see cv.html)
+  const links = [["index.html","Home"],["work.html","Work"],["info.html","About me"],["cv.html","CV"]];   // CV: a short page asking people to email for it
   // Hosts like Cloudflare Pages serve /about.html as /about, so compare names without ".html".
   const strip = s => s.replace(/\.html$/, "");
   const page = strip(location.pathname.split("/").pop() || "index");
@@ -17,7 +17,7 @@
       <div class="brand"><div class="brand-line"><a class="brand-name" href="index.html">${S.name}</a><span class="brand-tail"><span class="brand-sep" aria-hidden="true">|</span><span class="brand-role">${S.role}</span></span></div>
         ${current === "index" ? "" : `<a class="home-btn" href="index.html" aria-label="Home"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>`}</div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
-      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}${h==="cv.html"?' target="_blank" rel="noopener"':""}>${t}</a>`).join("")}</nav></div>`;
+      <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}>${t}</a>`).join("")}</nav></div>`;
     const btn = header.querySelector(".menu-btn");
     btn.addEventListener("click", () => {
       const open = header.classList.toggle("open");

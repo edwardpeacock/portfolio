@@ -194,3 +194,17 @@ h1{font-weight:300;font-size:clamp(2.1rem,4vw,3.4rem);line-height:1.08}
 #site-header .bar,body.proj-min #site-header .bar{height:var(--header-h);padding-top:0!important;padding-bottom:0!important}
 body.proj-min{--header-h:4.5rem}
 @media(max-width:760px){body.proj-min{--header-h:4.25rem}}
+
+/* v71 */
+/* Header: "VFX Compositor" stays put and sharp when scrolling (the old blur/fade no longer applies) */
+.brand-tail,.scrolled .brand-tail,.brand-role,.scrolled .brand-role{filter:none!important;opacity:1!important}
+/* Home intro: a little wider so no line ends with a couple of stray words, and a gap before "Thanks for taking a look!" */
+.reel-desc .lede.desc{max-width:34em;text-wrap:pretty}
+.reel-desc .lede.desc+.lede.desc{margin-top:1.1em}
+/* Work page: thumbnails zoom in slightly on hover */
+.work-page .thumb img{transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .3s ease!important}
+.work-page .card:hover .thumb img,.work-page .card:focus-visible .thumb img{transform:scale(1.045);opacity:1}
+/* About: no "Software" label, just the list */
+.marquee .sw h2,.info-page .skills-title{display:none}
+/* CV page */
+.cv-page .wip-box .actions{justify-content:center;margin-top:2rem;gap:.75rem;flex-wrap:wrap}

@@ -29,7 +29,7 @@
   }, { passive: true });
   addEventListener("resize", () => { target = clamp(target); });
 
-  // Slow, eased glide to a position (used by the Work page "Selected work" button). Any wheel / touch / key / click stops it.
+  // Slow, eased glide to a position (used by the down-arrow buttons). Any wheel / touch / key / click stops it.
   const GLIDE_MIN_MS = 1500, GLIDE_MS_PER_PX = 1.6, GLIDE_MAX_MS = 2600;   // longer = slower (the smooth arrow-button glide)
   let glideRaf = 0;
   const stopGlide = () => { if (glideRaf) { cancelAnimationFrame(glideRaf); glideRaf = 0; } };

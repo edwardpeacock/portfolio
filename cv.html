@@ -5,25 +5,36 @@
 <meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CV | Edward Peacock</title>
-<meta name="theme-color" content="#0b0b0c">
+<meta name="description" content="Want Edward Peacock’s CV? Send him an email and he’ll send it over.">
 <meta name="robots" content="noindex">
+<meta property="og:site_name" content="Edward Peacock">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="favicon.ico" sizes="any">
-<!--
-  CV: put your PDF in the assets folder named exactly  cv.pdf  (assets/cv.pdf), then commit and push.
-  The "CV" link in the menu opens this page in a new tab, and it goes straight to the PDF.
-  Until the PDF is there, this page shows a short "on its way" message with your email instead of an error.
--->
-<style>
-  html,body{margin:0;height:100%;background:#0b0b0c;color:#eeece8;font:400 1.05rem/1.6 Inter,system-ui,sans-serif}
-  main{min-height:100%;display:grid;place-items:center;text-align:center;padding:2rem;box-sizing:border-box}
-  h1{margin:0 0 .5rem;font-size:1.6rem;font-weight:600}
-  p{margin:0;color:#9e9ea2}
-  a{color:#7cc4bd}
-  .msg{display:none}
-</style>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=71">
+<link rel="stylesheet" href="css/redesign.css?v=71">
 </head>
-<body>
-<main><div class="msg" id="msg"><h1>Edward Peacock — CV</h1><p>My CV is on its way. In the meantime, email me at <a id="cv-mail" href="#">my email address</a>.</p></div></main>
-<script src="js/cv.js"></script>
+<body class="wip-page cv-page">
+<div id="site-header"></div>
+<main class="wip">
+<section class="wrap wip-box">
+<p class="wip-eyebrow">CV</p>
+<h1>Want a copy of my CV?</h1>
+<p class="lede desc">Just drop me an email and I’ll send it straight over. If you’ve got a compositing role in mind, or simply want to chat about a shot, I’d love to hear from you.</p>
+<div class="actions"><a class="btn btn-mail" id="cv-mail" href="#">Email me</a><a class="btn" href="work.html">See my work</a></div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/site.js?v=71"></script>
+<script src="js/protect.js?v=71"></script>
+<script src="js/layout.js?v=71"></script>
+<script src="js/cv.js?v=71"></script>
 </body>
 </html>
