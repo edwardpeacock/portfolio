@@ -18,7 +18,7 @@
   if (more) more.querySelector("span").textContent = `See all ${nAll} projects`;
   // Home (computers): the link beside "VFX Projects" says how many there are too
   const headLink = document.querySelector("#work .section-head a");
-  if (headLink && nAll) headLink.textContent = `See all ${nAll} projects`;
+  if (headLink && nAll) headLink.textContent = `All ${nAll} projects`;
   // About me: first paragraph always shown; on phones the rest folds away behind "Read more" (desktop shows everything)
   const about = $("about-text");
   if (about) {
@@ -40,8 +40,8 @@
   if (list) list.innerHTML = S.skills.map(s => `<li>${s}</li>`).join("");
   const skills = $("skills");
   if (skills) {
-    const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
-    skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
+    // Redesign: a plain, still line of software (no scrolling strip)
+    skills.innerHTML = `<div class="wrap sw"><h2>Software</h2><ul>${S.skills.map(s => `<li>${s}</li>`).join("")}</ul></div>`;
   }
   // Work page: "Selected work - 7 projects". The number is counted from the PROJECTS list in data/site.js.
   const wc = $("work-count");

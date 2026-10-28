@@ -14,7 +14,7 @@
   const header = document.getElementById("site-header");
   if (header) {
     header.innerHTML = `<div class="hdr-blur" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="bar">
-      <div class="brand"><div class="brand-line"><span class="brand-name">${S.name}</span><span class="brand-tail"><span class="brand-sep" aria-hidden="true">|</span><span class="brand-role">${S.role}</span></span></div>
+      <div class="brand"><div class="brand-line"><a class="brand-name" href="index.html">${S.name}</a><span class="brand-tail"><span class="brand-sep" aria-hidden="true">|</span><span class="brand-role">${S.role}</span></span></div>
         ${current === "index" ? "" : `<a class="home-btn" href="index.html" aria-label="Home"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></a>`}</div>
       <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav id="nav">${links.map(([h,t]) => `<a href="${h}"${strip(h)===current?' aria-current="page"':""}${h==="cv.html"?' target="_blank" rel="noopener"':""}>${t}</a>`).join("")}</nav></div>`;
@@ -42,8 +42,13 @@
   const mailBtn = `<a class="btn btn-mail" href="mailto:${S.email}">${icoSvg(ico.Mail)}<span>${S.email}</span></a>`;
   const mid = Math.ceil(socialBtns.length / 2);
   const contactBtns = socialBtns.slice(0, mid).join("") + mailBtn + socialBtns.slice(mid).join("");
-  if (footer) footer.innerHTML = `<div class="wrap foot">
-    <div class="foot-contact"><h2 class="foot-title">Contact info</h2><div class="actions">${contactBtns}</div></div></div>`;
+  if (footer) footer.innerHTML = `<div class="wrap ft">
+    <p class="ft-say">Like what you see?<br>Let’s work together.</p>
+    <div class="ft-cols">
+      <div class="ft-col"><h2>Contact</h2><a href="mailto:${S.email}">${S.email}</a></div>
+      <div class="ft-col"><h2>Follow</h2>${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join("")}</div>
+      <div class="ft-col"><h2>Based in</h2><p>London, UK</p><p>Available for Compositor roles</p></div>
+    </div></div>`;
 
   // Home: location and availability sit at the bottom left of the showreel (copied from the header's status lines)
   const st = document.getElementById("stage-status");
