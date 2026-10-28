@@ -12,13 +12,34 @@
     const pick = grid.dataset.limit && (window.SITE.homeOrder || []).map(s => P.find(p => p.slug === s)).filter(Boolean);
     const list = (pick && pick.length ? pick : P).slice(0, +grid.dataset.limit || P.length);
     grid.innerHTML = list.map(p => `<a class="card" href="${p.wip ? "wip.html?p=" + p.slug : "project.html?p=" + p.slug}">
-      <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}>${media(p)}</div>
+      <div class="thumb"${!p.image && p.vimeo ? ` data-vimeo="${p.vimeo}"` : ""}${p.preview ? ` data-preview="${p.preview}"` : ""}>${media(p)}</div>
       <h3>${p.title}</h3><p class="desc meta">${[...p.tags, p.year].join(", ")}</p></a>`).join("");
     grid.querySelectorAll(".thumb[data-vimeo]").forEach(t => window.vimeo.thumb(t.dataset.vimeo).then(u => {
       if (!u) return;
       const img = new Image(); img.alt = ""; img.src = u;
       t.querySelector(".ph").replaceWith(img);
     }));
+    // Hover previews (mouse/trackpad only): a short silent clip plays over the thumbnail while the pointer is on the card.
+    // The clip is only downloaded the first time someone hovers that card.
+    if (matchMedia("(hover:hover) and (pointer:fine)").matches) grid.querySelectorAll(".thumb[data-preview]").forEach(t => {
+      const card = t.closest(".card");
+      let vid = null;
+      card.addEventListener("mouseenter", () => {
+        if (!vid) {
+          vid = document.createElement("video");
+          vid.className = "preview"; vid.src = t.dataset.preview;
+          vid.muted = vid.loop = vid.playsInline = true; vid.preload = "auto";
+          vid.setAttribute("muted", ""); vid.setAttribute("playsinline", ""); vid.setAttribute("aria-hidden", "true");
+          vid.disablePictureInPicture = true; vid.setAttribute("controlslist", "nodownload");
+          vid.addEventListener("playing", () => t.classList.add("previewing"));
+          vid.addEventListener("error", () => { vid.remove(); vid = null; });
+          t.appendChild(vid);
+        }
+        vid.currentTime = 0;
+        const go = vid.play(); if (go && go.catch) go.catch(() => {});
+      });
+      card.addEventListener("mouseleave", () => { t.classList.remove("previewing"); if (vid) vid.pause(); });
+    });
   }
 
   // The down arrow on the Work page: scroll until the last project is fully on screen (so it is clear there are more than the first few)

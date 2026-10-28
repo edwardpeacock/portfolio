@@ -44,3 +44,14 @@ body.scrolled #site-header{border-bottom-color:#262626}
 .ft-col p+p{color:#8f8f8c}
 @media(max-width:900px){.ft{grid-template-columns:1fr;gap:2.25rem;padding-block:3rem}}
 @media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr;justify-content:start;gap:1.75rem 1.5rem}.ft-col:first-child,.ft-col:last-child{grid-column:1/-1}}
+
+/* Footer: LinkedIn and Instagram as icons */
+.ft-icons{display:flex;gap:1rem;align-items:center}
+.ft-col .ft-icons a{display:inline-flex;margin:0;color:#f4f4f2;text-decoration:none}
+.ft-col .ft-icons a svg{width:24px;height:24px}
+.ft-col .ft-icons a:hover,.ft-col .ft-icons a:focus-visible{color:#7cc4bd}
+
+/* About content sits closer to the header (the old layout centred it in a full-height screen under a much taller header) */
+.info-page main.fill{min-height:0!important;height:auto!important;justify-content:flex-start;padding-top:calc(4.5rem + 3.5rem)}
+.info-page main.fill>.split{margin-top:0}
+@media(max-width:760px){.info-page main.fill{padding-top:calc(4.25rem + 1.75rem)}}

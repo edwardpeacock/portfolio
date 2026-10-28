@@ -9,7 +9,7 @@
 
   // Location / availability lines: shown only on the home page, at the bottom left of the showreel (not in the header)
   // One plain line, no icons. Each half stays whole, so on narrow phones it breaks at the dot rather than mid-phrase.
-  const statusHTML = `<span class="st-part">London, UK</span><span class="st-sep" aria-hidden="true"> · </span><span class="st-part">Available for Compositor roles</span>`;
+  const statusHTML = `<span class="st-part">London, UK</span><span class="st-sep" aria-hidden="true"> · </span><span class="st-part">Available for compositing roles</span>`;
 
   const header = document.getElementById("site-header");
   if (header) {
@@ -46,7 +46,7 @@
     <div class="ft-say"><p class="ft-big">Have a project in mind?</p><p class="ft-small">Send me an email and let’s talk about it.</p></div>
     <div class="ft-cols">
       <div class="ft-col"><h2>Email</h2><a href="mailto:${S.email}">${S.email}</a></div>
-      <div class="ft-col"><h2>Socials</h2>${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join("")}</div>
+      <div class="ft-col ft-socials"><h2>Socials</h2><div class="ft-icons">${S.socials.map(x => `<a href="${x.url}" target="_blank" rel="noopener" aria-label="${x.label}" title="${x.label}">${icoSvg(ico[x.label] || "")}</a>`).join("")}</div></div>
       <div class="ft-col"><h2>Location</h2><p>London, UK</p><p>Currently looking for junior compositing roles</p></div>
     </div></div>`;
 

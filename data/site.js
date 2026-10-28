@@ -22,7 +22,7 @@ window.SITE = {
 window.PROJECTS = [
   { slug: "alien-cube", title: "Alien Cube", year: "2026",
     tags: ["Personal project", "CG Integration"],
-    vimeo: "https://vimeo.com/1234175409", image: "",
+    vimeo: "https://vimeo.com/1234175409", image: "", preview: "assets/previews/alien-cube.mp4",
     nodeTree: "assets/nodetrees/alien-cube.json",   // Nuke node tree (made from the .nk with tools/nk2tree.py)
     body: ["This personal project was experimentation with tracking and rigid body simulations. In addition I wanted to test a workflow involving fixing problems in compositing without relying on backtracking to 3D."],
     tools: [], credits: [],
@@ -37,7 +37,7 @@ window.PROJECTS = [
     ] },
   { slug: "blazing-escape", title: "Blazing Escape", year: "2026",
     tags: ["CG Environment"],
-    vimeo: "https://vimeo.com/1176311946", image: "",
+    vimeo: "https://vimeo.com/1176311946", image: "", preview: "assets/previews/blazing-escape.mp4",
     body: ["Blazing Escape was a concept inspired by the Mandalorian and Grogu (2026). For this project I learnt EmberGen to simulate smoke trails and explored a modelling technique by Dylan Neill to create a seemingly never ending ocean. Mountain and rock assets were sourced from FAB, the spaceship is from BigMediumSmall. (<a href='https://www.bigmediumsmall.com/modelshop-greebles' target='_blank' rel='noopener'>https://www.bigmediumsmall.com/modelshop-greebles</a>)"],
     tools: [], credits: [],
     // Fallback only: the real list is read from assets/breakdowns/blazing-escape/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
@@ -50,7 +50,7 @@ window.PROJECTS = [
     ] },
   { slug: "gramophone-vfx-shot", title: "Gramophone VFX Shot", year: "2025",
     tags: ["CG Integration", "Set Extension"],
-    vimeo: "https://vimeo.com/1228911972", image: "", // e.g. "assets/gramophone.jpg"
+    vimeo: "https://vimeo.com/1228911972", image: "", preview: "assets/previews/gramophone-vfx-shot.mp4", // e.g. "assets/gramophone.jpg"
     body: ["I created a gramophone 3D model and composited it onto a pub table. Using Nuke, Maya, Substance Painter, and 3DEqualizer! I recreated reflections on the table, the wall and faked the glass to make it appear refractive."],
     tools: [], credits: [],
     // Fallback only: the real list is read from assets/breakdowns/gramophone-vfx-shot/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.
@@ -64,13 +64,13 @@ window.PROJECTS = [
     ] },
   { slug: "boxer-rotoscope", title: "Boxer Rotoscope", year: "2026",
     tags: ["Rotoscoping"],
-    vimeo: "https://vimeo.com/1232643933", image: "",
+    vimeo: "https://vimeo.com/1232643933", image: "", preview: "assets/previews/boxer-rotoscope.mp4",
     body: [],   // add a description here, e.g. ["What the shot was and how you approached it."]. Left empty, the Description section is hidden.
     tools: [], credits: [],
     breakdown: [] },
   { slug: "millennium-vfx-shot", title: "Millennium VFX Shot", year: "2025",
     tags: ["Set Extension", "Cleanup", "CG Integration"],
-    vimeo: "https://vimeo.com/1176617846", image: "",
+    vimeo: "https://vimeo.com/1176617846", image: "", preview: "assets/previews/millennium-vfx-shot.mp4",
     body: ["This first year university project was primarily focused on compositing. It involved multiple CG rebuilds and set extensions. All students were provided with CG barbed wire and CCTV camera; however I had more ideas and rendered my own CG from Blender. Integration was done by precise grading and took many iterations."],
     tools: [], credits: [],
     // Fallback only: the real list is read from assets/breakdowns/millennium-vfx-shot/README.txt (edit that file to rename / reorder / add steps). This list is used only if the README cannot be read.

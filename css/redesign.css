@@ -311,3 +311,26 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .cv-page .cv-mail{margin:1.6rem 0 0;text-align:center}
 .cv-page .cv-mail a{font:500 1.15rem/1.4 var(--body);color:var(--text);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.25em;text-decoration-color:rgba(244,244,242,.35)}
 .cv-page .cv-mail a:hover,.cv-page .cv-mail a:focus-visible{color:var(--accent-hi);text-decoration-color:var(--accent-hi)}
+/* v76 */
+/* Footer: LinkedIn and Instagram as icons */
+.ft-icons{display:flex;gap:1rem;align-items:center}
+.ft-col .ft-icons a{display:inline-flex;margin:0;color:var(--text);text-decoration:none}
+.ft-col .ft-icons a svg{width:24px;height:24px}
+.ft-col .ft-icons a:hover,.ft-col .ft-icons a:focus-visible{color:var(--accent-hi)}
+/* Showreel button: bigger */
+.home-stage #reel .play{padding:1rem 1.6rem 1rem 1.35rem;gap:.75rem}
+.home-stage #reel .play svg{width:17px!important;height:17px!important}
+.home-stage #reel .play .play-label{font-size:1.08rem}
+@media(max-width:760px){.home-stage #reel .play{padding:.75rem 1.1rem .75rem 1rem}.home-stage #reel .play .play-label{font-size:.98rem}}
+/* Work page count: "6 VFX shots", grey and lighter */
+.work-page .work-count{font:400 1.2rem/1.3 var(--body)!important;color:var(--muted)!important}
+/* Project cards: hover preview clip over the thumbnail, zooming with it (home and Work) */
+.thumb video.preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;
+  transition:opacity .35s ease,transform .6s cubic-bezier(.2,.7,.2,1)!important}
+.thumb.previewing video.preview{opacity:1}
+.card .thumb img{transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .3s ease!important}
+.card:hover .thumb img,.card:hover .thumb video.preview{transform:scale(1.045);opacity:1}
+.card:hover .thumb video.preview{opacity:0}
+.card:hover .thumb.previewing video.preview{opacity:1}
+.home-stage #reel .play,.home-stage #reel .play .play-label{color:#fff}
+.home-stage #reel .play:hover,.home-stage #reel .play:hover .play-label{color:#050505}

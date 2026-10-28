@@ -4,7 +4,7 @@
   const reel = $("reel");
   if (reel) {
     reel.dataset.vimeo = S.showreel; reel.classList.add("video");
-    if (reel.hasAttribute("data-home")) { reel.dataset.label = "Showreel 2026"; if (S.showreelLoop) reel.dataset.loop = S.showreelLoop; }   // home page only: looping clip instead of a thumbnail
+    if (reel.hasAttribute("data-home")) { reel.dataset.label = "Compositing Reel 2026"; if (S.showreelLoop) reel.dataset.loop = S.showreelLoop; }   // home page only: looping clip instead of a thumbnail
   }
   const portrait = $("portrait");
   if (portrait) {
@@ -43,9 +43,9 @@
     const half = `<ul>${S.skills.concat(S.skills).map(s => `<li>${s}</li>`).join("")}</ul>`;
     skills.innerHTML = `<div class="marquee-track">${half}${half.replace("<ul>", '<ul aria-hidden="true">')}</div>`;
   }
-  // Work page: "6 Projects" beside the title. The number is counted from the PROJECTS list in data/site.js.
+  // Work page: "6 VFX shots" beside the title. The number is counted from the PROJECTS list in data/site.js.
   const wc = $("work-count");
-  if (wc) { const n = (window.PROJECTS || []).length; wc.textContent = `${n} ${n === 1 ? "Project" : "Projects"}`; }
+  if (wc) { const n = (window.PROJECTS || []).length; wc.textContent = `${n} VFX ${n === 1 ? "shot" : "shots"}`; }
   const acts = $("actions");
   if (acts) {
     const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
