@@ -114,6 +114,7 @@
     });
     document.body.appendChild(box);
     touchSetup();
+    box.addEventListener("wheel", e => e.preventDefault(), { passive: false });   // no scrolling the page behind an open photo
     history.pushState({ pv: true }, "");
     document.documentElement.style.overflow = "hidden";
     document.addEventListener("keydown", key);

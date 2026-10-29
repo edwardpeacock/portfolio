@@ -55,6 +55,7 @@
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;                    // sideways gestures
     const header = document.getElementById("site-header");
     if (header && header.classList.contains("open")) return;                // mobile menu open
+    if (document.querySelector(".pv, .reel-pop")) { e.preventDefault(); return; }   // full-screen photo or showreel open: the page stays still
     for (let el = e.target; el && el !== root && el !== document.body; el = el.parentElement) {   // inner scroll areas
       if (el.nodeType === 1 && /(auto|scroll)/.test(getComputedStyle(el).overflowY) && el.scrollHeight > el.clientHeight) return;
     }
