@@ -29,6 +29,7 @@ DIR = os.path.join(ROOT, "assets", "photos")
 SMALL = os.path.join(DIR, "small")
 ORDER = os.path.join(DIR, "order.txt")
 OUT = os.path.join(DIR, "photos.json")
+LOCS = os.path.join(DIR, "locations.txt")   # "jellyfish.jpg | London Aquarium" — shown in the full-screen viewer
 ORIG = os.path.join(ROOT, "photo-originals")   # untouched camera files, same names as the web photos (details are read from these)
 EXTS = (".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp", ".tif", ".tiff")
 FULL, THUMB = 2000, 900
@@ -137,6 +138,17 @@ def main():
                 except Exception as e:
                     print("couldn't read", f, "-", e, file=sys.stderr)
 
+    # Locations typed by hand in locations.txt (blank = keep "Location TBC")
+    locs = {}
+    if os.path.exists(LOCS):
+        for line in open(LOCS, encoding="utf-8"):
+            if line.strip().startswith("#") or "|" not in line:
+                continue
+            fn, _, place = line.partition("|")
+            place = place.split("#")[0].strip()   # anything after a # is just a note
+            if place:
+                locs[web_name(fn.strip())] = place.strip()
+
     # Read order.txt (accept the original upload name too, e.g. "IMG_1234.HEIC" -> img-1234.jpg)
     entries, seen = [], set()
     if os.path.exists(ORDER):
@@ -178,7 +190,12 @@ def main():
         if prev.get("alt"):
             d["alt"] = prev["alt"]
         # Photo details: what was read from a newly uploaded original wins, then anything already filled in, then defaults
+        if n in locs:
+            d["location"] = locs[n]
         for k in META:
+            if k == "location":   # locations come only from locations.txt, so clearing a line resets it
+                d["location"] = locs.get(n) or PLACEHOLDER["location"]
+                continue
             val = FOUND.get(n, {}).get(k) or prev.get(k) or (DEFAULT_CAMERA if k == "camera" else PLACEHOLDER.get(k, ""))
             if val:
                 d[k] = val
