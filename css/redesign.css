@@ -425,3 +425,38 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 /* Photo details: the dark backing fades out to the right (and top) instead of ending in a hard edge */
 .pv-meta{padding-right:6rem;background:radial-gradient(120% 140% at 0% 100%,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 45%,rgba(0,0,0,0) 75%)}
 @media(max-width:760px){.pv-meta{padding-right:3.5rem}}
+
+/* v97 Photo viewer on phones: close X just above the photo's top-right corner; details behind an "Info" button under the photo */
+.pv-info-btn,.pv-info{display:none}
+@media(min-width:761px){.pv-top{display:contents}}
+@media(max-width:760px){
+  .pv{background:#050505;padding:3.5rem .75rem 4.5rem;align-items:center}
+  .pv-fig{width:100%;align-items:stretch;gap:0}
+  .pv-top{display:flex;justify-content:flex-end;margin-bottom:.35rem}
+  .pv-top .pv-close{position:static;font-size:2.2rem;padding:.2rem .1rem .2rem .6rem}
+  .pv-frame{justify-content:center}
+  .pv-fig img{max-height:calc(100svh - 15rem)}
+  .pv-meta{display:none!important}
+  .pv-info-btn{display:inline-flex;align-self:flex-start;align-items:center;gap:.35rem;margin-top:.9rem;padding:.35rem 0;border:0;background:none;
+    color:var(--text);font:500 .95rem/1 var(--body);cursor:pointer}
+  .pv-info-btn[hidden]{display:none}
+  .pv-info-btn svg{transition:transform .2s ease!important}
+  .pv-info-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .pv-info:not([hidden]){display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.1rem;margin:.6rem 0 0;font:400 .9rem/1.35 var(--body)}
+  .pv-info dt{color:var(--muted)}
+  .pv-info dd{margin:0;color:var(--text)}
+  .pv-cap:empty{display:none}
+}
+@media(max-width:760px){
+  /* the photo stays put when Info opens: the button and details hang in the space under it */
+  .pv-fig{position:relative}
+  .pv-below{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column}
+  .pv-fig img{max-height:calc(100svh - 19rem)}
+  .pv-close:focus{outline:none}
+}
+@media(max-width:760px){
+  /* close X and Info line up with the photo's own edges */
+  .pv-fig{width:fit-content;max-width:100%}
+  .pv.pv-tall{align-items:flex-start;padding-top:4rem}
+  .pv.pv-tall .pv-fig img{max-height:calc(100svh - 23rem)}
+}

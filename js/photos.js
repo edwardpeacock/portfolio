@@ -20,24 +20,34 @@
     box.querySelector("img").src = p.src;
     box.querySelector("img").alt = p.alt || p.caption || "Photograph by Edward Peacock";
     box.querySelector(".pv-cap").textContent = p.caption || "";
+    box.classList.toggle("pv-tall", p.h > p.w);   // upright photos sit higher on phones so the details fit under them
     // Photo details, bottom-left corner of the photo (full-screen view only)
     const line1 = [p.camera, p.settings].filter(Boolean).join(" · ");
     const line2 = [p.location, p.date].filter(Boolean).join(" · ");
     const meta = box.querySelector(".pv-meta");
     meta.innerHTML = (line1 ? `<span class="pv-cam">${esc(line1)}</span>` : "") + (line2 ? `<span>${esc(line2)}</span>` : "");
     meta.hidden = !(line1 || line2);
+    // Phones: the same details as a list under the photo, behind an "Info" button
+    const rows = [["Camera", p.camera], ["Settings", p.settings], ["Location", p.location], ["Date", p.date]].filter(r => r[1]);
+    box.querySelector(".pv-info").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("");
+    box.querySelector(".pv-info-btn").hidden = !rows.length;
   };
+  let infoOpen = false;   // stays open while flicking between photos
   const close = () => { if (!box) return; box.remove(); box = null; document.removeEventListener("keydown", key); document.documentElement.style.overflow = ""; if (opener) opener.focus(); };
   const key = e => { if (e.key === "Escape") close(); else if (e.key === "ArrowRight") show(cur + 1); else if (e.key === "ArrowLeft") show(cur - 1); };
   const open = (i, btn) => {
     opener = btn;
     box = document.createElement("div");
     box.className = "pv"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Photo");
-    box.innerHTML = `<figure class="pv-fig"><div class="pv-frame"><img alt=""><p class="pv-meta"></p></div><figcaption class="pv-cap"></figcaption></figure>
-      <button type="button" class="pv-close" aria-label="Close">&times;</button>
+    box.innerHTML = `<figure class="pv-fig"><div class="pv-top"><button type="button" class="pv-close" aria-label="Close">&times;</button></div>
+      <div class="pv-frame"><img alt=""><p class="pv-meta"></p></div><figcaption class="pv-cap"></figcaption>
+      <div class="pv-below"><button type="button" class="pv-info-btn" aria-expanded="${infoOpen}" aria-controls="pv-info"><span>Info</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <dl class="pv-info" id="pv-info"${infoOpen ? "" : " hidden"}></dl></div></figure>
       ${list.length > 1 ? `<button type="button" class="pv-nav pv-prev" aria-label="Previous photo">&#8249;</button><button type="button" class="pv-nav pv-next" aria-label="Next photo">&#8250;</button>` : ""}`;
     box.addEventListener("click", e => {
-      if (e.target.closest(".pv-close") || e.target === box) close();
+      const ib = e.target.closest(".pv-info-btn");
+      if (ib) { infoOpen = !infoOpen; ib.setAttribute("aria-expanded", String(infoOpen)); box.querySelector(".pv-info").hidden = !infoOpen; return; }
+      if (e.target.closest(".pv-close") || e.target === box || e.target.classList.contains("pv-fig")) close();
       else if (e.target.closest(".pv-prev")) show(cur - 1);
       else if (e.target.closest(".pv-next")) show(cur + 1);
     });
@@ -45,7 +55,7 @@
     document.documentElement.style.overflow = "hidden";
     document.addEventListener("keydown", key);
     show(i);
-    box.querySelector(".pv-close").focus();
+    if (matchMedia("(hover:hover)").matches) box.querySelector(".pv-close").focus();   // keyboard/mouse users; no focus box on phones
   };
   grid.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (b) open(+b.dataset.i, b); });
   });
