@@ -7,3 +7,7 @@ hillside.jpg
 red-camera.jpg
 shutters-graffiti.jpg
 graffiti-wall.jpg
+cathedral-organ.jpg
+woodland-road.jpg
+hydrangea-cottage.jpg
+forest-path.jpg

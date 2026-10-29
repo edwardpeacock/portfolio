@@ -388,3 +388,19 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .photo{margin:0}
 .photo:first-child{grid-column:span 2}
 @media(max-width:760px){.photo-grid{grid-template-columns:minmax(0,1fr);gap:1rem}.photo:first-child{grid-column:auto}}
+/* Photography grid: even 16:9 tiles (the full photo shows when opened); upright photos take two rows */
+.photo-grid{grid-auto-flow:row dense}
+.photo button{aspect-ratio:16/9}
+.photo img{height:100%;object-fit:cover}
+.photo.tall{grid-row:span 2;align-self:stretch;display:flex;flex-direction:column}
+.photo.tall button{aspect-ratio:auto;flex:1}
+@media(max-width:760px){.photo.tall{grid-row:auto}.photo.tall button{aspect-ratio:9/14}}
+/* Photography grid (computers): equal 16:9 cells; the first photo fills a 2x2 block, so rows always line up.
+   Every photo shows in full when opened. Upright photos are cropped towards their lower-middle in the grid. */
+@media(min-width:761px){
+  .photo-grid{container-type:inline-size;grid-auto-rows:calc((100cqw - 3rem) / 3 * 9 / 16);align-items:stretch}
+  .photo,.photo.tall{grid-row:auto;display:block;height:100%}
+  .photo:first-child{grid-column:span 2;grid-row:span 2}
+  .photo button,.photo.tall button{aspect-ratio:auto;height:100%}
+  .photo.tall img{object-position:50% 70%}
+}

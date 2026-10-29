@@ -118,7 +118,9 @@ def main():
             pass
     data = []
     for n, c in entries:
-        d = {"src": f"assets/photos/{n}", "thumb": f"assets/photos/small/{n}", "caption": c}
+        with Image.open(os.path.join(DIR, n)) as im:
+            w, h = im.size
+        d = {"src": f"assets/photos/{n}", "thumb": f"assets/photos/small/{n}", "caption": c, "w": w, "h": h}
         if old.get(d["src"]):
             d["alt"] = old[d["src"]]
         data.append(d)
