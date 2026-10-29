@@ -10,7 +10,7 @@ canary-wharf.jpg | Canary Wharf                 # glass towers with the Citi bui
 graffiti-wall.jpg | Manchester                  # graffiti on a weathered concrete wall
 forest-path.jpg | Aira Force, Lake District     # path through tall pine trees (upright)
 hillside.jpg | Gummer's How, Lake District      # green hillside under cloud
-hydrangea-cottage.jpg | Windermere, Lake District# cottage with hydrangeas
+hydrangea-cottage.jpg | Windermere, Lake District  # cottage with hydrangeas
 wet-hedge.jpg | North Greenwich                 # close-up of a wet hedge
 climbing-vine.jpg | The Deep, Hull              # vine on a dark rock (upright)
 woodland-road.jpg | Ambleside, Lake District    # road through woods with a 20 sign
