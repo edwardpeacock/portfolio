@@ -425,3 +425,5 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 /* Photo details: the dark backing fades out to the right (and top) instead of ending in a hard edge */
 .pv-meta{padding-right:6rem;background:radial-gradient(120% 140% at 0% 100%,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 45%,rgba(0,0,0,0) 75%)}
 @media(max-width:760px){.pv-meta{padding-right:3.5rem}}
+/* Photo details: smaller, quieter text on computers */
+@media(min-width:761px){.pv-meta{font-size:.7rem;line-height:1.35;gap:.1rem;padding:1.8rem 4.5rem .7rem .85rem}}
