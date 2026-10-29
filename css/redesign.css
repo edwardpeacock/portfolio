@@ -360,3 +360,26 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .home-stage #reel .play:hover .play-label,.home-stage #reel .play:focus-visible .play-label{color:var(--accent-hi);text-decoration-color:var(--accent-hi)}
 .home-stage #reel .play:hover svg,.home-stage #reel .play:focus-visible svg{color:var(--accent-hi)}
 @media(max-width:760px){.home-stage #reel .play{right:1rem;bottom:.9rem}.home-stage #reel .play .play-label{font-size:1.05rem}}
+
+/* v84: Work page — Photography section (masonry-style columns; photos keep their own shape) */
+.photo-section{padding-top:4.5rem!important}
+.photo-section .section-head{border-bottom:1px solid var(--line);padding-bottom:.9rem;margin-bottom:1.6rem}
+.photo-section .section-head h2{font:500 clamp(1.5rem,2.4vw,2.1rem)/1.2 var(--head);letter-spacing:-.02em}
+.photo-count{margin:0;font:400 1.05rem/1.3 var(--body);color:var(--muted)}
+.photo-grid{columns:3 260px;column-gap:1.5rem}
+.photo{break-inside:avoid;margin:0 0 1.5rem}
+.photo button{display:block;width:100%;padding:0;border:0;background:var(--panel);cursor:zoom-in;overflow:hidden}
+.photo img{display:block;width:100%;height:auto;transition:transform .6s cubic-bezier(.2,.7,.2,1)!important}
+.photo button:hover img,.photo button:focus-visible img{transform:scale(1.03)}
+.photo figcaption{margin-top:.55rem;font:400 .86rem/1.4 var(--body);color:var(--muted)}
+/* Full-screen photo viewer */
+.pv{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:4rem 4.5rem;background:rgba(5,5,5,.95)}
+.pv-fig{margin:0;display:flex;flex-direction:column;align-items:center;gap:.8rem;max-width:100%;max-height:100%}
+.pv-fig img{display:block;max-width:100%;max-height:calc(100vh - 9rem);max-height:calc(100svh - 9rem);width:auto;height:auto;object-fit:contain}
+.pv-cap{font:400 .95rem/1.4 var(--body);color:var(--muted);text-align:center}
+.pv-close,.pv-nav{position:absolute;border:0;background:none;color:var(--text);cursor:pointer;font:300 2.6rem/1 var(--body);padding:.4rem .7rem}
+.pv-close{top:1rem;right:1.25rem}
+.pv-prev{left:1rem;top:50%;transform:translateY(-50%)}
+.pv-next{right:1rem;top:50%;transform:translateY(-50%)}
+.pv-close:hover,.pv-nav:hover,.pv-close:focus-visible,.pv-nav:focus-visible{color:var(--accent-hi)}
+@media(max-width:760px){.photo-grid{columns:2 140px;column-gap:.75rem}.photo{margin-bottom:.75rem}.pv{padding:3.5rem .75rem}.pv-nav{top:auto;bottom:1rem;transform:none}}

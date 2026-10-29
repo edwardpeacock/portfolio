@@ -16,6 +16,11 @@ window.SITE = {
     "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
   homeOrder: ["blazing-escape", "boxer-rotoscope", "gramophone-vfx-shot", "alien-cube"],   // the projects shown on the home page, in order (big, small, small, big)
+  // Photography section on the Work page. Put the photos in assets/photos/ and list them here, in the order you want them shown.
+  // caption is optional (e.g. "Isle of Skye, 2025"). The section stays hidden until there is at least one photo.
+  photos: [
+    // { src: "assets/photos/skye.jpg", caption: "Isle of Skye, 2025" },
+  ],
   skills: ["Nuke", "Blender", "Autodesk Maya", "3DEqualizer", "SynthEyes", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 
