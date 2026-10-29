@@ -1,0 +1,32 @@
+[
+ {
+  "src": "assets/photos/jellyfish.jpg",
+  "thumb": "assets/photos/small/jellyfish.jpg",
+  "caption": "",
+  "alt": "A glowing purple jellyfish trailing its frilled arms against a black background"
+ },
+ {
+  "src": "assets/photos/hillside.jpg",
+  "thumb": "assets/photos/small/hillside.jpg",
+  "caption": "",
+  "alt": "Sunlit green hillside under heavy cloud, with a small house among the trees"
+ },
+ {
+  "src": "assets/photos/red-camera.jpg",
+  "thumb": "assets/photos/small/red-camera.jpg",
+  "caption": "",
+  "alt": "A hand holding a small red compact camera above grey water"
+ },
+ {
+  "src": "assets/photos/shutters-graffiti.jpg",
+  "thumb": "assets/photos/small/shutters-graffiti.jpg",
+  "caption": "",
+  "alt": "A woman in a trench coat walking past graffiti-covered shop shutters"
+ },
+ {
+  "src": "assets/photos/graffiti-wall.jpg",
+  "thumb": "assets/photos/small/graffiti-wall.jpg",
+  "caption": "",
+  "alt": "A weathered concrete wall covered in graffiti tags"
+ }
+]

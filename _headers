@@ -22,3 +22,7 @@
 # The converter script isn't part of the website
 /tools/*
   X-Robots-Tag: noindex
+
+# The photo list changes whenever photos are added, so always check for a newer copy
+/assets/photos/photos.json
+  Cache-Control: no-cache

@@ -16,16 +16,7 @@ window.SITE = {
     "I love photography trips around the UK, and have a passion for capturing the hidden beauty that lies in the most unexpected places!"
   ],
   homeOrder: ["blazing-escape", "boxer-rotoscope", "gramophone-vfx-shot", "alien-cube"],   // the projects shown on the home page, in order (big, small, small, big)
-  // Photography section on the Work page, in the order shown. Each photo: the full-size file in assets/photos/ (about 2000px),
-  // a smaller copy in assets/photos/small/ for the grid (same name), alt = a short description for screen readers,
-  // caption = optional line under the photo (e.g. "Isle of Skye, 2025"). The section is hidden if this list is empty.
-  photos: [
-    { src: "assets/photos/jellyfish.jpg", alt: "A glowing purple jellyfish trailing its frilled arms against a black background" },
-    { src: "assets/photos/hillside.jpg", alt: "Sunlit green hillside under heavy cloud, with a small house among the trees" },
-    { src: "assets/photos/red-camera.jpg", alt: "A hand holding a small red compact camera above grey water" },
-    { src: "assets/photos/shutters-graffiti.jpg", alt: "A woman in a trench coat walking past graffiti-covered shop shutters" },
-    { src: "assets/photos/graffiti-wall.jpg", alt: "A weathered concrete wall covered in graffiti tags" }
-  ],
+  // Photography (Work page): just drop photos into assets/photos/ — order and captions live in assets/photos/order.txt.
   skills: ["Nuke", "Blender", "Autodesk Maya", "3DEqualizer", "SynthEyes", "DaVinci Resolve", "EmberGen", "After Effects"]
 };
 

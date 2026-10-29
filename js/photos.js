@@ -1,9 +1,11 @@
-/* Work page: Photography section. Photos are listed in SITE.photos (data/site.js); clicking one opens it full screen.
-   Close with the X, Esc, or a click outside the photo; arrow keys move between photos. */
+/* Work page: Photography section. The photos and their order come from assets/photos/photos.json, which is rebuilt
+   automatically from whatever is in assets/photos/ (see tools/build_photos.py and assets/photos/order.txt).
+   Clicking a photo opens it full screen: close with the X, Esc, or a click outside it; arrow keys move between photos. */
 (function () {
-  const list = (window.SITE && window.SITE.photos) || [];
   const sec = document.getElementById("photography"), grid = document.getElementById("photo-grid");
-  if (!sec || !grid || !list.length) return;
+  if (!sec || !grid) return;
+  fetch("assets/photos/photos.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : []).catch(() => []).then(list => {
+  if (!Array.isArray(list) || !list.length) return;
   sec.hidden = false;
   const count = document.getElementById("photo-count");
   if (count) count.textContent = `${list.length} ${list.length === 1 ? "photo" : "photos"}`;
@@ -40,4 +42,5 @@
     box.querySelector(".pv-close").focus();
   };
   grid.addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (b) open(+b.dataset.i, b); });
+  });
 })();

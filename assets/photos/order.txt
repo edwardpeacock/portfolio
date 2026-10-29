@@ -1,0 +1,9 @@
+# Photography on the Work page — one photo per line, top = shown first.
+# Add a caption after a | if you like, e.g.:  jellyfish.jpg | London Aquarium, 2026
+# New photos you upload are added to the bottom automatically. Lines starting with # are ignored.
+
+jellyfish.jpg
+hillside.jpg
+red-camera.jpg
+shutters-graffiti.jpg
+graffiti-wall.jpg
