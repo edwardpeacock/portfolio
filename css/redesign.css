@@ -383,3 +383,8 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .pv-next{right:1rem;top:50%;transform:translateY(-50%)}
 .pv-close:hover,.pv-nav:hover,.pv-close:focus-visible,.pv-nav:focus-visible{color:var(--accent-hi)}
 @media(max-width:760px){.photo-grid{columns:2 140px;column-gap:.75rem}.photo{margin-bottom:.75rem}.pv{padding:3.5rem .75rem}.pv-nav{top:auto;bottom:1rem;transform:none}}
+/* Photography: a row-by-row grid so photos read in order (first one large, like the home page) */
+.photo-grid{columns:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;align-items:start}
+.photo{margin:0}
+.photo:first-child{grid-column:span 2}
+@media(max-width:760px){.photo-grid{grid-template-columns:minmax(0,1fr);gap:1rem}.photo:first-child{grid-column:auto}}
