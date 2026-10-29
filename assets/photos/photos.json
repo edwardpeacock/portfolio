@@ -8,76 +8,12 @@
   "alt": "A glowing purple jellyfish trailing its frilled arms against a black background"
  },
  {
-  "src": "assets/photos/hillside.jpg?v=7a3d2900",
-  "thumb": "assets/photos/small/hillside.jpg?v=7a3d2900",
+  "src": "assets/photos/tealights.jpg?v=6e96413b",
+  "thumb": "assets/photos/small/tealights.jpg?v=6e96413b",
   "caption": "",
   "w": 2000,
   "h": 1123,
-  "alt": "Sunlit green hillside under heavy cloud, with a small house among the trees"
- },
- {
-  "src": "assets/photos/red-camera.jpg?v=1904822d",
-  "thumb": "assets/photos/small/red-camera.jpg?v=1904822d",
-  "caption": "",
-  "w": 2000,
-  "h": 1123,
-  "alt": "A hand holding a small red compact camera above grey water"
- },
- {
-  "src": "assets/photos/shutters-graffiti.jpg?v=28bd322e",
-  "thumb": "assets/photos/small/shutters-graffiti.jpg?v=28bd322e",
-  "caption": "",
-  "w": 2000,
-  "h": 1123,
-  "alt": "A woman in a trench coat walking past graffiti-covered shop shutters"
- },
- {
-  "src": "assets/photos/graffiti-wall.jpg?v=6eabf842",
-  "thumb": "assets/photos/small/graffiti-wall.jpg?v=6eabf842",
-  "caption": "",
-  "w": 2000,
-  "h": 1123,
-  "alt": "A weathered concrete wall covered in graffiti tags"
- },
- {
-  "src": "assets/photos/cathedral-organ.jpg?v=a089d44d",
-  "thumb": "assets/photos/small/cathedral-organ.jpg?v=a089d44d",
-  "caption": "",
-  "w": 2000,
-  "h": 1194,
-  "alt": "A gilded pipe organ glowing in a dark cathedral, with a brass cross in the foreground"
- },
- {
-  "src": "assets/photos/woodland-road.jpg?v=3f7b4a4d",
-  "thumb": "assets/photos/small/woodland-road.jpg?v=3f7b4a4d",
-  "caption": "",
-  "w": 2000,
-  "h": 1123,
-  "alt": "A narrow road curving through dense green woodland past a pedestrian warning sign"
- },
- {
-  "src": "assets/photos/hydrangea-cottage.jpg?v=402f353d",
-  "thumb": "assets/photos/small/hydrangea-cottage.jpg?v=402f353d",
-  "caption": "",
-  "w": 2000,
-  "h": 1123,
-  "alt": "An ivy-covered cottage surrounded by blue and pink hydrangeas at the edge of a forest"
- },
- {
-  "src": "assets/photos/forest-path.jpg?v=ba837981",
-  "thumb": "assets/photos/small/forest-path.jpg?v=ba837981",
-  "caption": "",
-  "w": 1123,
-  "h": 2000,
-  "alt": "A gravel path winding between tall conifers in a shaded forest"
- },
- {
-  "src": "assets/photos/climbing-vine.jpg?v=9f7fb315",
-  "thumb": "assets/photos/small/climbing-vine.jpg?v=9f7fb315",
-  "caption": "",
-  "w": 1123,
-  "h": 2000,
-  "alt": "A vine with glossy leaves climbing a dark mossy rock"
+  "alt": "Two tealight candles burning in the dark"
  },
  {
   "src": "assets/photos/choir-stall-lamps.jpg?v=0b58ac12",
@@ -88,12 +24,12 @@
   "alt": "Small shaded lamps glowing along dark carved choir stalls"
  },
  {
-  "src": "assets/photos/wet-hedge.jpg?v=3713671d",
-  "thumb": "assets/photos/small/wet-hedge.jpg?v=3713671d",
+  "src": "assets/photos/shutters-graffiti.jpg?v=28bd322e",
+  "thumb": "assets/photos/small/shutters-graffiti.jpg?v=28bd322e",
   "caption": "",
   "w": 2000,
-  "h": 1333,
-  "alt": "Close-up of rain-wet hedge leaves, with soft light at the far end"
+  "h": 1123,
+  "alt": "A woman in a trench coat walking past graffiti-covered shop shutters"
  },
  {
   "src": "assets/photos/canary-wharf.jpg?v=3c398ff0",
@@ -104,11 +40,75 @@
   "alt": "Glass towers at Canary Wharf rising into a blue sky"
  },
  {
-  "src": "assets/photos/tealights.jpg?v=6e96413b",
-  "thumb": "assets/photos/small/tealights.jpg?v=6e96413b",
+  "src": "assets/photos/graffiti-wall.jpg?v=6eabf842",
+  "thumb": "assets/photos/small/graffiti-wall.jpg?v=6eabf842",
   "caption": "",
   "w": 2000,
   "h": 1123,
-  "alt": "Two tealight candles burning in the dark"
+  "alt": "A weathered concrete wall covered in graffiti tags"
+ },
+ {
+  "src": "assets/photos/forest-path.jpg?v=ba837981",
+  "thumb": "assets/photos/small/forest-path.jpg?v=ba837981",
+  "caption": "",
+  "w": 1123,
+  "h": 2000,
+  "alt": "A gravel path winding between tall conifers in a shaded forest"
+ },
+ {
+  "src": "assets/photos/hillside.jpg?v=7a3d2900",
+  "thumb": "assets/photos/small/hillside.jpg?v=7a3d2900",
+  "caption": "",
+  "w": 2000,
+  "h": 1123,
+  "alt": "Sunlit green hillside under heavy cloud, with a small house among the trees"
+ },
+ {
+  "src": "assets/photos/hydrangea-cottage.jpg?v=402f353d",
+  "thumb": "assets/photos/small/hydrangea-cottage.jpg?v=402f353d",
+  "caption": "",
+  "w": 2000,
+  "h": 1123,
+  "alt": "An ivy-covered cottage surrounded by blue and pink hydrangeas at the edge of a forest"
+ },
+ {
+  "src": "assets/photos/wet-hedge.jpg?v=3713671d",
+  "thumb": "assets/photos/small/wet-hedge.jpg?v=3713671d",
+  "caption": "",
+  "w": 2000,
+  "h": 1333,
+  "alt": "Close-up of rain-wet hedge leaves, with soft light at the far end"
+ },
+ {
+  "src": "assets/photos/climbing-vine.jpg?v=9f7fb315",
+  "thumb": "assets/photos/small/climbing-vine.jpg?v=9f7fb315",
+  "caption": "",
+  "w": 1123,
+  "h": 2000,
+  "alt": "A vine with glossy leaves climbing a dark mossy rock"
+ },
+ {
+  "src": "assets/photos/woodland-road.jpg?v=3f7b4a4d",
+  "thumb": "assets/photos/small/woodland-road.jpg?v=3f7b4a4d",
+  "caption": "",
+  "w": 2000,
+  "h": 1123,
+  "alt": "A narrow road curving through dense green woodland past a pedestrian warning sign"
+ },
+ {
+  "src": "assets/photos/cathedral-organ.jpg?v=a089d44d",
+  "thumb": "assets/photos/small/cathedral-organ.jpg?v=a089d44d",
+  "caption": "",
+  "w": 2000,
+  "h": 1194,
+  "alt": "A gilded pipe organ glowing in a dark cathedral, with a brass cross in the foreground"
+ },
+ {
+  "src": "assets/photos/red-camera.jpg?v=1904822d",
+  "thumb": "assets/photos/small/red-camera.jpg?v=1904822d",
+  "caption": "",
+  "w": 2000,
+  "h": 1123,
+  "alt": "A hand holding a small red compact camera above grey water"
  }
 ]
