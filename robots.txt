@@ -21,3 +21,6 @@ User-agent: ImagesiftBot
 Disallow: /
 
 Sitemap: https://epeacockvfx.com/sitemap.xml
+
+User-agent: *
+Disallow: /photo-originals/

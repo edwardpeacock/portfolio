@@ -7,6 +7,7 @@ on:
     branches: [main]
     paths:
       - "assets/photos/**"
+      - "photo-originals/**"
       - "tools/build_photos.py"
   workflow_dispatch:
 

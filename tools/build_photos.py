@@ -29,6 +29,7 @@ DIR = os.path.join(ROOT, "assets", "photos")
 SMALL = os.path.join(DIR, "small")
 ORDER = os.path.join(DIR, "order.txt")
 OUT = os.path.join(DIR, "photos.json")
+ORIG = os.path.join(ROOT, "photo-originals")   # untouched camera files, same names as the web photos (details are read from these)
 EXTS = (".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp", ".tif", ".tiff")
 FULL, THUMB = 2000, 900
 DEFAULT_CAMERA = "Canon EOS M50"
@@ -122,6 +123,19 @@ def main():
         except Exception as e:  # a broken upload shouldn't stop the others
             print("skipped", f, "-", e, file=sys.stderr)
     present = set(names.values())
+
+    # Details from the matching original in photo-originals/ (e.g. photo-originals/jellyfish.jpg)
+    if os.path.isdir(ORIG):
+        for f in os.listdir(ORIG):
+            n = web_name(f)
+            if n in present and n not in FOUND:
+                try:
+                    with Image.open(os.path.join(ORIG, f)) as im:
+                        found = read_exif(im)
+                    if found:
+                        FOUND[n] = found
+                except Exception as e:
+                    print("couldn't read", f, "-", e, file=sys.stderr)
 
     # Read order.txt (accept the original upload name too, e.g. "IMG_1234.HEIC" -> img-1234.jpg)
     entries, seen = [], set()

@@ -26,3 +26,7 @@
 # The photo list changes whenever photos are added, so always check for a newer copy
 /assets/photos/photos.json
   Cache-Control: no-cache
+
+# Original camera files: only used to read photo details, never shown on the site — keep them out of search engines
+/photo-originals/*
+  X-Robots-Tag: noindex, nofollow
