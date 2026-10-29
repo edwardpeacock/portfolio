@@ -6,9 +6,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "A glowing purple jellyfish trailing its frilled arms against a black background",
+  "location": "The Deep, Hull",
   "camera": "Canon EOS M50",
   "date": "10 April 2026",
-  "location": "Location TBC",
   "settings": "28mm · f/5.6 · 1/100s · ISO 12800"
  },
  {
@@ -18,9 +18,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "Two tealight candles burning in the dark",
+  "location": "Manchester Cathedral",
   "camera": "Canon EOS M50",
   "date": "26 August 2026",
-  "location": "Location TBC",
   "settings": "55mm · f/5.6 · 1/125s · ISO 500"
  },
  {
@@ -30,9 +30,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "Small shaded lamps glowing along dark carved choir stalls",
+  "location": "Manchester Cathedral",
   "camera": "Canon EOS M50",
   "date": "26 August 2026",
-  "location": "Location TBC",
   "settings": "55mm · f/5.6 · 1/100s · ISO 500"
  },
  {
@@ -42,9 +42,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "A woman in a trench coat walking past graffiti-covered shop shutters",
+  "location": "Manchester",
   "camera": "Canon EOS M50",
   "date": "24 August 2026",
-  "location": "Location TBC",
   "settings": "35mm · f/8 · 1/200s · ISO 160"
  },
  {
@@ -54,9 +54,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "Glass towers at Canary Wharf rising into a blue sky",
+  "location": "Canary Wharf",
   "camera": "Canon EOS M50",
   "date": "15 September 2025",
-  "location": "Location TBC",
   "settings": "18mm · f/5.6 · 1/250s · ISO 100"
  },
  {
@@ -66,9 +66,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "A weathered concrete wall covered in graffiti tags",
+  "location": "Manchester",
   "camera": "Canon EOS M50",
   "date": "26 August 2026",
-  "location": "Location TBC",
   "settings": "27mm · f/4 · 1/500s · ISO 100"
  },
  {
@@ -78,9 +78,9 @@
   "w": 1123,
   "h": 2000,
   "alt": "A gravel path winding between tall conifers in a shaded forest",
+  "location": "Aira Force, Lake District",
   "camera": "Canon EOS M50",
   "date": "29 July 2026",
-  "location": "Location TBC",
   "settings": "18mm · f/5.6 · 1/100s · ISO 640"
  },
  {
@@ -90,9 +90,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "Sunlit green hillside under heavy cloud, with a small house among the trees",
+  "location": "Gummer's How, Lake District",
   "camera": "Canon EOS M50",
   "date": "26 July 2026",
-  "location": "Location TBC",
   "settings": "35mm · f/5 · 1/1000s · ISO 100"
  },
  {
@@ -102,9 +102,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "An ivy-covered cottage surrounded by blue and pink hydrangeas at the edge of a forest",
+  "location": "Windermere, Lake District",
   "camera": "Canon EOS M50",
   "date": "28 July 2026",
-  "location": "Location TBC",
   "settings": "28mm · f/5.6 · 1/125s · ISO 125"
  },
  {
@@ -114,9 +114,9 @@
   "w": 2000,
   "h": 1333,
   "alt": "Close-up of rain-wet hedge leaves, with soft light at the far end",
+  "location": "North Greenwich",
   "camera": "Canon EOS M50",
   "date": "26 September 2024",
-  "location": "Location TBC",
   "settings": "26mm · f/4 · 1/4000s · ISO 12800"
  },
  {
@@ -126,9 +126,9 @@
   "w": 1123,
   "h": 2000,
   "alt": "A vine with glossy leaves climbing a dark mossy rock",
+  "location": "The Deep, Hull",
   "camera": "Canon EOS M50",
   "date": "10 April 2026",
-  "location": "Location TBC",
   "settings": "55mm · f/5.6 · 1/100s · ISO 2500"
  },
  {
@@ -138,9 +138,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "A narrow road curving through dense green woodland past a pedestrian warning sign",
+  "location": "Ambleside, Lake District",
   "camera": "Canon EOS M50",
   "date": "27 July 2026",
-  "location": "Location TBC",
   "settings": "18mm · f/5.6 · 1/100s · ISO 200"
  },
  {
@@ -150,9 +150,9 @@
   "w": 2000,
   "h": 1194,
   "alt": "A gilded pipe organ glowing in a dark cathedral, with a brass cross in the foreground",
+  "location": "Manchester Cathedral",
   "camera": "Canon EOS M50",
   "date": "26 August 2026",
-  "location": "Location TBC",
   "settings": "24mm · f/4 · 1/125s · ISO 250"
  },
  {
@@ -162,9 +162,9 @@
   "w": 2000,
   "h": 1123,
   "alt": "A hand holding a small red compact camera above grey water",
+  "location": "Windermere, Lake District",
   "camera": "Canon EOS M50",
   "date": "26 July 2026",
-  "location": "Location TBC",
   "settings": "55mm · f/5.6 · 1/400s · ISO 100"
  }
 ]

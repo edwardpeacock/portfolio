@@ -2,17 +2,17 @@
 # Type the place after the | and save. Leave it blank to show "Location TBC".
 # Example:  jellyfish.jpg | London Aquarium
 
-jellyfish.jpg |              # glowing purple jellyfish
-tealights.jpg |              # two tealight candles
-choir-stall-lamps.jpg |      # little lamps along dark choir stalls
-shutters-graffiti.jpg |      # graffiti shutters, woman in a trench coat
-canary-wharf.jpg |           # glass towers with the Citi building
-graffiti-wall.jpg |          # graffiti on a weathered concrete wall
-forest-path.jpg |            # path through tall pine trees (upright)
-hillside.jpg |               # green hillside under cloud
-hydrangea-cottage.jpg |      # cottage with hydrangeas
-wet-hedge.jpg |              # close-up of a wet hedge
-climbing-vine.jpg |          # vine on a dark rock (upright)
-woodland-road.jpg |          # road through woods with a 20 sign
-cathedral-organ.jpg |        # gold organ pipes in a cathedral
-red-camera.jpg |             # hand holding a red camera
+jellyfish.jpg | The Deep, Hull                  # glowing purple jellyfish
+tealights.jpg | Manchester Cathedral            # two tealight candles
+choir-stall-lamps.jpg | Manchester Cathedral    # little lamps along dark choir stalls
+shutters-graffiti.jpg | Manchester              # graffiti shutters, woman in a trench coat
+canary-wharf.jpg | Canary Wharf                 # glass towers with the Citi building
+graffiti-wall.jpg | Manchester                  # graffiti on a weathered concrete wall
+forest-path.jpg | Aira Force, Lake District     # path through tall pine trees (upright)
+hillside.jpg | Gummer's How, Lake District      # green hillside under cloud
+hydrangea-cottage.jpg | Windermere, Lake District# cottage with hydrangeas
+wet-hedge.jpg | North Greenwich                 # close-up of a wet hedge
+climbing-vine.jpg | The Deep, Hull              # vine on a dark rock (upright)
+woodland-road.jpg | Ambleside, Lake District    # road through woods with a 20 sign
+cathedral-organ.jpg | Manchester Cathedral      # gold organ pipes in a cathedral
+red-camera.jpg | Windermere, Lake District      # hand holding a red camera
