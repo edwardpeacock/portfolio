@@ -404,3 +404,6 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
   .photo button,.photo.tall button{aspect-ratio:auto;height:100%}
   .photo.tall img{object-position:50% 70%}
 }
+/* Upright photos: three rows tall on computers, so they're barely cropped */
+@media(min-width:761px){.photo.tall{grid-row:span 3}.photo.tall img{object-position:50% 50%}}
+@media(max-width:760px){.photo.tall button{aspect-ratio:9/16}}

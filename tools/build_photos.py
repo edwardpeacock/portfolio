@@ -15,7 +15,7 @@ order.txt format: one photo per line, top = first on the page. Add a caption aft
     jellyfish.jpg | London Aquarium, 2026
 Lines starting with # are notes. Delete a line (or the photo) to remove it from the page.
 """
-import json, os, re, sys
+import hashlib, json, os, re, sys
 from PIL import Image, ImageOps
 
 try:  # iPhone photos
@@ -113,16 +113,17 @@ def main():
     old = {}
     if os.path.exists(OUT):
         try:
-            old = {d["src"]: d.get("alt", "") for d in json.load(open(OUT, encoding="utf-8"))}
+            old = {d["src"].split("?")[0]: d.get("alt", "") for d in json.load(open(OUT, encoding="utf-8"))}
         except Exception:
             pass
     data = []
     for n, c in entries:
         with Image.open(os.path.join(DIR, n)) as im:
             w, h = im.size
-        d = {"src": f"assets/photos/{n}", "thumb": f"assets/photos/small/{n}", "caption": c, "w": w, "h": h}
-        if old.get(d["src"]):
-            d["alt"] = old[d["src"]]
+        v = hashlib.md5(open(os.path.join(DIR, n), "rb").read()).hexdigest()[:8]   # changes whenever the photo is replaced
+        d = {"src": f"assets/photos/{n}?v={v}", "thumb": f"assets/photos/small/{n}?v={v}", "caption": c, "w": w, "h": h}
+        if old.get(f"assets/photos/{n}"):
+            d["alt"] = old[f"assets/photos/{n}"]
         data.append(d)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1, ensure_ascii=False)
