@@ -14,6 +14,25 @@
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   grid.innerHTML = list.map((p, i) => `<figure class="photo${p.h > p.w ? " tall" : ""}" data-photo="${esc(p.src.split("/").pop().split("?")[0].replace(/\.jpg$/, ""))}"><button type="button" data-i="${i}" aria-label="Open photo${p.caption ? ": " + esc(p.caption) : ""}"><img src="${esc(small(p))}" srcset="${esc(small(p))} 900w, ${esc(p.src)} 2000w" sizes="${i === 0 ? "(max-width:760px) 100vw, 66vw" : "(max-width:760px) 100vw, 33vw"}" alt="${esc(p.alt || p.caption || "Photograph by Edward Peacock")}" loading="lazy" decoding="async"></button>${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ""}</figure>`).join("");
 
+  // Phone (upright) gallery: some photos get a full row; the rest go two per row. Tall photos are paired with each other
+  // and small ones with each other, so the grid has no holes. Other screens keep the normal order.
+  const WIDE = ["tealights", "shutters-graffiti", "graffiti-wall", "hillside", "woodland-road", "cathedral-organ"];
+  const figs = [...grid.children];
+  figs.forEach((f, i) => { if (i === 0 || i === figs.length - 1 || WIDE.includes(f.dataset.photo)) f.classList.add("wide-phone"); });
+  const portraitPhone = matchMedia("(max-width:760px) and (orientation:portrait)");
+  const layoutPhone = () => {
+    figs.forEach(f => { f.style.order = ""; f.classList.remove("solo-phone"); });
+    if (!portraitPhone.matches) return;
+    let o = 0; const wait = { tall: [], small: [] };
+    figs.forEach(f => {
+      if (f.classList.contains("wide-phone")) { f.style.order = o++; return; }
+      const q = wait[f.classList.contains("tall") ? "tall" : "small"]; q.push(f);
+      if (q.length === 2) { q.forEach(x => x.style.order = o++); q.length = 0; }
+    });
+    [...wait.tall, ...wait.small].forEach(f => { f.classList.add("solo-phone"); f.style.order = o++; });   // an odd one out gets a full row
+  };
+  layoutPhone(); portraitPhone.addEventListener("change", layoutPhone);
+
   let box = null, cur = 0, opener = null;
   const show = i => {
     cur = (i + list.length) % list.length;
@@ -45,7 +64,7 @@
   let z = 1, tx = 0, ty = 0;
   const apply = () => { const im = box && box.querySelector(".pv-frame img"); if (im) { im.style.transform = z > 1 ? `translate(${tx}px,${ty}px) scale(${z})` : ""; box.classList.toggle("pv-zoomed", z > 1); } };
   function resetZoom() { z = 1; tx = 0; ty = 0; apply(); }
-  const phone = () => matchMedia("(max-width:760px)").matches;
+  const phone = () => matchMedia("(max-width:760px), (orientation:landscape) and (max-height:500px)").matches;   // phones, either way up
   const touchSetup = () => {
     const frame = box.querySelector(".pv-frame");
     let start = null, pinch = null, lastTap = 0;

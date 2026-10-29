@@ -80,3 +80,7 @@ body.scrolled #site-header{border-bottom-color:#262626}
 /* Footer: four columns (Email, Socials, Location, Availability) */
 .ft-cols{grid-template-columns:repeat(4,minmax(0,auto))}
 @media(max-width:560px){.ft-cols{grid-template-columns:1fr 1fr}.ft-col:first-child,.ft-col:last-child{grid-column:auto}.ft-col:first-child{grid-column:1/-1}}
+
+/* Same as the other pages: menu links that are phone-only stay hidden on computers; selected text is white */
+@media(min-width:761px){nav a.nav-phone{display:none}}
+::selection{background:#f4f4f2;color:#050505}
