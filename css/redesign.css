@@ -407,3 +407,9 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 /* Upright photos: three rows tall on computers, so they're barely cropped */
 @media(min-width:761px){.photo.tall{grid-row:span 3}.photo.tall img{object-position:50% 50%}}
 @media(max-width:760px){.photo.tall button{aspect-ratio:9/16}}
+/* v91 Photography: size the grid rows from the section's own width (the old rule measured the wrong box on wide screens,
+   which squashed the tiles and cropped the sides), and never crop a photo: it always shows whole inside its tile */
+.photo-section{container-type:inline-size}
+@media(min-width:761px){.photo-grid{container-type:normal;grid-auto-rows:calc((100cqw - 3rem) / 3 * 9 / 16)}}
+.photo button{background:transparent}
+.photo img,.photo.tall img{object-fit:contain;object-position:50% 50%}
