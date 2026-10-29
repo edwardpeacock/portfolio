@@ -11,7 +11,7 @@
   if (count) count.textContent = `${list.length} ${list.length === 1 ? "photo" : "photos"}`;
   const small = p => p.thumb || p.src.replace(/([^/]+)$/, "small/$1");   // grid-size copy (900px) of each photo
   const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  grid.innerHTML = list.map((p, i) => `<figure class="photo${p.h > p.w ? " tall" : ""}"><button type="button" data-i="${i}" aria-label="Open photo${p.caption ? ": " + esc(p.caption) : ""}"><img src="${esc(small(p))}" srcset="${esc(small(p))} 900w, ${esc(p.src)} 2000w" sizes="${i === 0 ? "(max-width:760px) 100vw, 66vw" : "(max-width:760px) 100vw, 33vw"}" alt="${esc(p.alt || p.caption || "Photograph by Edward Peacock")}" loading="lazy" decoding="async"></button>${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ""}</figure>`).join("");
+  grid.innerHTML = list.map((p, i) => `<figure class="photo${p.h > p.w ? " tall" : ""}" data-photo="${esc(p.src.split("/").pop().split("?")[0].replace(/\.jpg$/, ""))}"><button type="button" data-i="${i}" aria-label="Open photo${p.caption ? ": " + esc(p.caption) : ""}"><img src="${esc(small(p))}" srcset="${esc(small(p))} 900w, ${esc(p.src)} 2000w" sizes="${i === 0 ? "(max-width:760px) 100vw, 66vw" : "(max-width:760px) 100vw, 33vw"}" alt="${esc(p.alt || p.caption || "Photograph by Edward Peacock")}" loading="lazy" decoding="async"></button>${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ""}</figure>`).join("");
 
   let box = null, cur = 0, opener = null;
   const show = i => {

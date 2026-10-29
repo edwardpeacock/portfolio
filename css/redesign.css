@@ -413,3 +413,5 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 @media(min-width:761px){.photo-grid{container-type:normal;grid-auto-rows:calc((100cqw - 3rem) / 3 * 9 / 16)}}
 .photo button{background:transparent}
 .photo img,.photo.tall img{object-fit:contain;object-position:50% 50%}
+/* The wet hedge photo is a little squarer than the others: fill its tile (trimming a sliver top and bottom) so its edges line up */
+.photo[data-photo="wet-hedge"] img{object-fit:cover}
