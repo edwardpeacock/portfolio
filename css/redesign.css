@@ -415,3 +415,10 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
 .photo img,.photo.tall img{object-fit:contain;object-position:50% 50%}
 /* The wet hedge photo is a little squarer than the others: fill its tile (trimming a sliver top and bottom) so its edges line up */
 .photo[data-photo="wet-hedge"] img{object-fit:cover}
+/* Full-screen photo: camera, settings, place and date in the bottom-left corner of the photo */
+.pv-frame{position:relative;display:flex;max-width:100%;max-height:100%}
+.pv-meta{position:absolute;left:0;bottom:0;margin:0;padding:2.2rem 1rem .8rem;display:flex;flex-direction:column;gap:.15rem;
+  font:400 .8rem/1.35 var(--body);color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.7);pointer-events:none;
+  background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.45));border-bottom-left-radius:0;max-width:100%}
+.pv-meta .pv-cam{color:#fff;font-weight:500}
+@media(max-width:760px){.pv-meta{font-size:.72rem;padding:1.6rem .7rem .6rem}}

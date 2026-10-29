@@ -20,6 +20,12 @@
     box.querySelector("img").src = p.src;
     box.querySelector("img").alt = p.alt || p.caption || "Photograph by Edward Peacock";
     box.querySelector(".pv-cap").textContent = p.caption || "";
+    // Photo details, bottom-left corner of the photo (full-screen view only)
+    const line1 = [p.camera, p.settings].filter(Boolean).join(" · ");
+    const line2 = [p.location, p.date].filter(Boolean).join(" · ");
+    const meta = box.querySelector(".pv-meta");
+    meta.innerHTML = (line1 ? `<span class="pv-cam">${esc(line1)}</span>` : "") + (line2 ? `<span>${esc(line2)}</span>` : "");
+    meta.hidden = !(line1 || line2);
   };
   const close = () => { if (!box) return; box.remove(); box = null; document.removeEventListener("keydown", key); document.documentElement.style.overflow = ""; if (opener) opener.focus(); };
   const key = e => { if (e.key === "Escape") close(); else if (e.key === "ArrowRight") show(cur + 1); else if (e.key === "ArrowLeft") show(cur - 1); };
@@ -27,7 +33,7 @@
     opener = btn;
     box = document.createElement("div");
     box.className = "pv"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Photo");
-    box.innerHTML = `<figure class="pv-fig"><img alt=""><figcaption class="pv-cap"></figcaption></figure>
+    box.innerHTML = `<figure class="pv-fig"><div class="pv-frame"><img alt=""><p class="pv-meta"></p></div><figcaption class="pv-cap"></figcaption></figure>
       <button type="button" class="pv-close" aria-label="Close">&times;</button>
       ${list.length > 1 ? `<button type="button" class="pv-nav pv-prev" aria-label="Previous photo">&#8249;</button><button type="button" class="pv-nav pv-next" aria-label="Next photo">&#8250;</button>` : ""}`;
     box.addEventListener("click", e => {

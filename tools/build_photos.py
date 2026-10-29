@@ -31,6 +31,41 @@ ORDER = os.path.join(DIR, "order.txt")
 OUT = os.path.join(DIR, "photos.json")
 EXTS = (".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp", ".tif", ".tiff")
 FULL, THUMB = 2000, 900
+DEFAULT_CAMERA = "Canon EOS M50"
+PLACEHOLDER = {"date": "Date TBC", "location": "Location TBC"}
+META = ("camera", "date", "location", "settings")   # shown in the bottom-left corner of the full-screen viewer
+FOUND = {}   # photo name -> details read from the original file's EXIF this run (before it is stripped)
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+
+def read_exif(im):
+    """Camera, date taken and exposure settings from a photo's EXIF (the web copy keeps none of this)."""
+    out = {}
+    try:
+        ex = im.getexif()
+        sub = ex.get_ifd(0x8769)  # Exif sub-IFD: exposure details and date taken
+    except Exception:
+        return out
+    make, model = str(ex.get(0x010F, "")).strip(" \x00"), str(ex.get(0x0110, "")).strip(" \x00")
+    if model:
+        out["camera"] = model if model.lower().startswith(make.split(" ")[0].lower()) or not make else f"{make.split(' ')[0].title()} {model}"
+    dt = str(sub.get(0x9003) or ex.get(0x0132) or "")
+    m = re.match(r"(\d{4}):(\d{2}):(\d{2})", dt)
+    if m and m.group(1) != "0000":
+        out["date"] = f"{int(m.group(3))} {MONTHS[int(m.group(2)) - 1]} {m.group(1)}"
+    bits = []
+    try:
+        if sub.get(0x920A): bits.append(f"{float(sub[0x920A]):g}mm")
+        if sub.get(0x829D): bits.append(f"f/{float(sub[0x829D]):g}")
+        if sub.get(0x829A):
+            t = float(sub[0x829A])
+            bits.append(f"1/{round(1 / t)}s" if 0 < t < 1 else f"{t:g}s")
+        if sub.get(0x8827): bits.append(f"ISO {int(sub[0x8827] if not isinstance(sub[0x8827], tuple) else sub[0x8827][0])}")
+    except Exception:
+        pass
+    if bits:
+        out["settings"] = " · ".join(bits)
+    return out
 
 HEADER = """# Photography on the Work page — one photo per line, top = shown first.
 # Add a caption after a | if you like, e.g.:  jellyfish.jpg | London Aquarium, 2026
@@ -58,6 +93,9 @@ def process(fn):
     dst = os.path.join(DIR, name)
     if src != dst or needs_work(src):
         with Image.open(src) as im:
+            found = read_exif(im)
+            if found:
+                FOUND[name] = found
             im = ImageOps.exif_transpose(im).convert("RGB")
             im.thumbnail((FULL, FULL), Image.LANCZOS)
             im.save(dst + ".tmp", "JPEG", quality=86, optimize=True, progressive=True)  # no metadata kept
@@ -113,7 +151,7 @@ def main():
     old = {}
     if os.path.exists(OUT):
         try:
-            old = {d["src"].split("?")[0]: d.get("alt", "") for d in json.load(open(OUT, encoding="utf-8"))}
+            old = {d["src"].split("?")[0]: d for d in json.load(open(OUT, encoding="utf-8"))}
         except Exception:
             pass
     data = []
@@ -122,8 +160,14 @@ def main():
             w, h = im.size
         v = hashlib.md5(open(os.path.join(DIR, n), "rb").read()).hexdigest()[:8]   # changes whenever the photo is replaced
         d = {"src": f"assets/photos/{n}?v={v}", "thumb": f"assets/photos/small/{n}?v={v}", "caption": c, "w": w, "h": h}
-        if old.get(f"assets/photos/{n}"):
-            d["alt"] = old[f"assets/photos/{n}"]
+        prev = old.get(f"assets/photos/{n}", {})
+        if prev.get("alt"):
+            d["alt"] = prev["alt"]
+        # Photo details: what was read from a newly uploaded original wins, then anything already filled in, then defaults
+        for k in META:
+            val = FOUND.get(n, {}).get(k) or prev.get(k) or (DEFAULT_CAMERA if k == "camera" else PLACEHOLDER.get(k, ""))
+            if val:
+                d[k] = val
         data.append(d)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1, ensure_ascii=False)
