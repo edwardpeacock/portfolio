@@ -460,3 +460,32 @@ h1,.work-page .hero h1,.split-right h1,#project header.wrap h1{font-weight:500;l
   .pv.pv-tall{align-items:flex-start;padding-top:4rem}
   .pv.pv-tall .pv-fig img{max-height:calc(100svh - 23rem)}
 }
+
+/* v100 */
+/* Photo viewer: "3 / 14" counter — top left on computers, beside Info on phones */
+.pv-count{margin:0;font:400 .9rem/1 var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.pv-count-desk{position:absolute;top:1.65rem;left:1.6rem}
+.pv-count-phone,.pv-row{display:none}
+@media(max-width:760px){
+  .pv-count-desk{display:none}
+  .pv-row{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem}
+  .pv-row .pv-info-btn{margin-top:0}
+  .pv-count-phone{display:block}
+  /* pinch / double-tap zoom on phones */
+  .pv-frame{overflow:hidden;touch-action:none}
+  .pv-frame img{transition:transform .2s ease!important;transform-origin:center}
+  .pv.pv-zoomed .pv-frame img{transition:none!important}
+  .pv{touch-action:pan-y}
+}
+/* Phone grid: two photos per row, lead photo full width, upright photos two rows tall */
+@media(max-width:760px){
+  .photo-grid{columns:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;grid-auto-flow:row dense;
+    grid-auto-rows:calc((100cqw - .6rem) / 2 * 9 / 16)}
+  .photo,.photo.tall{margin:0;height:100%;grid-row:auto}
+  .photo:first-child{grid-column:span 2;grid-row:span 2}
+  .photo.tall{grid-row:span 3}
+  .photo button,.photo.tall button{aspect-ratio:auto;height:100%}
+}
+/* Menu: Showreel and Photography links are phone-only */
+@media(min-width:761px){nav a.nav-phone{display:none}}
+@media(max-width:760px){.photo:last-child{grid-column:span 2;grid-row:span 2}}
