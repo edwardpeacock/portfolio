@@ -5,7 +5,7 @@ window.SITE = {
   place: "United Kingdom",
   emailParts: ["epeacockvfx", "gmail.com"],   // your email, split so bots reading the page source can't harvest it (joined back together in the browser)
   showreel: "https://vimeo.com/1228910959",   // any Vimeo link (private links with a hash work too)
-  showreelLoop: "assets/showreel-loop.mp4",   // silent looping clip shown on the home page; clicking play opens the Vimeo showreel above
+  showreelLoop: "assets/showreel-loop.mp4?v=4",   // silent looping clip shown on the home page; clicking play opens the Vimeo showreel above
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/edwardpeacock/" },
     { label: "Instagram", url: "https://www.instagram.com/epeacock.vfx/" }
